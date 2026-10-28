@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>这本书该读哪些章节 · 按你的项目定制</title>
+<style>
+  :root{
+    --bg:#f7f8fa; --card:#fff; --ink:#1a1d23; --ink2:#4a5058; --ink3:#858b94;
+    --line:#e4e7ec; --brand:#0f6e56; --brand-bg:#e7f6f0; --warn:#b45309;
+    --warn-bg:#fdf4e7; --danger:#c0392b; --danger-bg:#fdecea;
+    --blue:#185fa5; --blue-bg:#eaf2ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:15px/1.85 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+  .wrap{max-width:920px;margin:0 auto;padding:40px 24px 100px}
+  header{border-bottom:1px solid var(--line);padding-bottom:24px;margin-bottom:28px}
+  .kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);font-weight:600}
+  h1{font-size:26px;line-height:1.4;margin:10px 0 10px}
+  .src{font-size:13px;color:var(--ink3);margin:0 0 14px}
+  .lede{color:var(--ink2);margin:0;max-width:760px}
+  h2{font-size:20px;margin:48px 0 6px;padding-top:20px;border-top:1px solid var(--line)}
+  h2:first-of-type{border-top:0;padding-top:0}
+  h3{font-size:16px;margin:26px 0 8px}
+  p{margin:0 0 13px}
+  ul,ol{padding-left:22px;margin:0 0 14px}
+  li{margin:6px 0;color:var(--ink2)}
+  li strong{color:var(--ink)}
+  code{font:12.5px/1.6 ui-monospace,Consolas,monospace;background:#eef2ed;padding:2px 5px;border-radius:4px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 24px;margin:16px 0}
+  .card.tight{padding:16px 20px}
+  table.t{width:100%;border-collapse:collapse;font-size:13.5px;background:var(--card);
+          border-radius:10px;overflow:hidden;margin:14px 0}
+  table.t th{text-align:left;background:#fafbfc;color:var(--ink3);font-size:12px;letter-spacing:.04em;
+             padding:10px 12px;border-bottom:1px solid var(--line);font-weight:600}
+  table.t td{padding:10px 12px;border-bottom:1px solid #f0f2f5;vertical-align:top;color:var(--ink2)}
+  table.t tr:last-child td{border-bottom:0}
+  table.t td b{color:var(--ink)}
+  .callout{border-radius:10px;padding:14px 18px;margin:15px 0;border-left:3px solid;font-size:14px}
+  .callout .t{font-weight:600;display:block;margin-bottom:4px}
+  .callout.info{background:var(--brand-bg);border-color:#4fb08c;color:#0b5c43}
+  .callout.warn{background:var(--warn-bg);border-color:#e0a33e;color:#6b3f05}
+  .callout.danger{background:var(--danger-bg);border-color:#e07a6e;color:#7d2418}
+  .callout.key{background:var(--blue-bg);border-color:#7eaaf5;color:#12457f}
+  .why{background:#f7f9f6;border:1px dashed #c3d3c9;border-radius:8px;padding:13px 18px;margin:12px 0;
+       font-size:14px;color:var(--ink2)}
+  .why b{color:var(--brand)}
+  .why .h{color:var(--brand);font-weight:600;display:block;margin-bottom:5px;font-size:13px;letter-spacing:.06em}
+  /* 章节条目 */
+  .ch{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--brand);
+      border-radius:0 12px 12px 0;padding:16px 20px;margin:14px 0}
+  .ch.skip{background:#fbfbfc;border-left-color:#c9ced6}
+  .ch.later{border-left-color:var(--warn)}
+  .ch.need{border-left-color:var(--danger)}
+  .ch .num{font:12px/1 ui-monospace,Consolas,monospace;color:var(--ink3)}
+  .ch .name{font-size:15.5px;font-weight:600;margin:2px 0 4px}
+  .ch .pg{font:12px/1 ui-monospace,Consolas,monospace;color:var(--ink3);margin-bottom:8px}
+  .ch .row{display:flex;gap:8px;margin:5px 0;font-size:13.5px;color:var(--ink2);line-height:1.7}
+  .ch .row .k{flex:0 0 62px;color:var(--ink3);font-size:12.5px;padding-top:2px}
+  .ch .row .v{flex:1}
+  .tag{display:inline-block;font:11.5px/1.6 ui-monospace,Consolas,monospace;padding:2px 8px;border-radius:4px;
+       margin-right:6px;background:var(--brand-bg);color:var(--brand)}
+  .tag.w{background:var(--warn-bg);color:var(--warn)}
+  .tag.d{background:var(--danger-bg);color:var(--danger)}
+  .tag.g{background:#f1f2f4;color:var(--ink3)}
+  footer{margin-top:50px;padding-top:20px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink3)}
+  @media(max-width:640px){
+    .wrap{padding:28px 16px 70px} h1{font-size:22px}
+    .ch .row{flex-direction:column;gap:0} .ch .row .k{flex:none}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">Reading Roadmap · 按你的项目定制</div>
+  <h1>这本书 11 章，你现在该读哪几章</h1>
+  <p class="src">Algorithmic Trading and Quantitative Strategies · Velu, Hardy, Nehren · 全书 pp.1–397</p>
+  <p class="lede">不是按书的顺序读，而是<b>按你项目正在卡住的地方读</b>。下面把 11 章拆成四档：立刻读、稍后读、按需查、可以先跳过。每条都写清了“跟你哪一步有关”和“读的时候盯什么”。</p>
+</header>
+
+<div class="card">
+  <h3 style="margin-top:0">先对齐：我按这些信息给你排的优先级</h3>
+  <table class="t">
+    <tr><td style="width:34%"><b>标的与数据</b></td><td>沪深 300 成分，Qlib 研究复权口径 + Wind 补充（成交笔数、小单主动买卖、新闻）</td></tr>
+    <tr><td><b>特征</b></td><td>Alpha158 价量因子 + 三个 DBD 切割因子（20 日回看，前后 25% 分组相减）</td></tr>
+    <tr><td><b>模型</b></td><td>LightGBM，横截面打分</td></tr>
+    <tr><td><b>验证</b></td><td>滚动前进（5 年训 / 1 年验 / 1 年测），E0 / E1 / E2 三层对照，配对块 bootstrap</td></tr>
+    <tr><td><b>组合</b></td><td>月度调仓、top 50、买千五卖千五费率</td></tr>
+    <tr><td><b>已做过精讲的</b></td><td>第 1 章（交易基础）、5.7 节（回测与数据窥探）</td></tr>
+  </table>
+</div>
+
+<div class="callout key">
+  <span class="t">一句话结论</span>
+  全书约 <b>11 章、60 多个小节</b>，跟你项目强相关的只有 <b>9 个小节</b>，加起来约 <b>70 页</b>。<br>
+  其中最该先读的是 <b>5.10</b>（量、波动等外在信号）和 <b>5.12</b>（成交笔数 / 单笔规模）——这两节<b>直接对着你的切割因子和 Wind 新数据</b>，几乎是你现在在做的那件事的理论版。<br><br>
+  整本 <b>Part IV（执行算法，第 8–10 章）和 Part V（第 11 章）</b>是做日内执行和柜台系统的人看的，你做横截面选股，<b>短期可以整块跳过</b>。
+</div>
+
+<h2>第一档：立刻读（直接对着你手上的活）</h2>
+
+<div class="ch need">
+  <div class="num">Chapter 5 · §5.10</div>
+  <div class="name">Extraneous Signals: Trading Volume, Volatility, etc.</div>
+  <div class="pg">pp.189–198　·　含 5.10.1 Filter Rules Based on Return and Volume（p.191）、5.10.2 Illustrative Example（p.193）</div>
+  <div class="row"><div class="k">为什么是它</div><div class="v"><b>你的切割因子在书里的正式名字就叫"外在信号"。</b>它讲的就是一件事：光看价格不够，把<b>成交量、波动率</b>这类外部变量<b>加进</b>规则里，能带来多少增量、怎么加。<br>5.10.1 的"基于收益与成交量的过滤规则"几乎是你 cut_reversal / cut_active 思路的教科书版本。</div></div>
+  <div class="row"><div class="k">盯什么</div><div class="v">它<b>怎么定义"把信号加进去"</b>的组合方式、以及它<b>怎么检验"加了有没有用"</b>。这两点可以直接抄进你的 E1 vs E0 对照设计里。</div></div>
+  <div class="row"><div class="k">优先级</div><div class="v"><span class="tag d">最高</span>建议第一个读</div></div>
+</div>
+
+<div class="ch need">
+  <div class="num">Chapter 5 · §5.12</div>
+  <div class="name">Other Topics: Trade Size, etc.</div>
+  <div class="pg">pp.202–204</div>
+  <div class="row"><div class="k">为什么是它</div><div class="v"><b>这是全书唯一正面讲"单笔成交规模"的地方。</b>你从 Wind 拉 <code>dealnum</code>（成交笔数）、构造"笔均成交额"，动机和用途在这一节能找到理论依据——为什么"一笔平均多大"是有信息的，它跟主力 / 散户行为怎么挂钩。</div></div>
+  <div class="row"><div class="k">盯什么</div><div class="v">它讨论的<b>"一笔的平均规模"能识别什么</b>。你可以直接拿来写你手册里"为什么需要 Wind 原始成交笔数"那一段的理由。</div></div>
+  <div class="row"><div class="k">优先级</div><div class="v"><span class="tag d">最高</span>和你新增数据直接对口</div></div>
+</div>
+
+<div class="ch need">
+  <div class="num">Chapter 5 · §5.13</div>
+  <div class="name">Machine Learning Methods in Trading</div>
+  <div class="pg">pp.204–207</div>
+  <div class="row"><div class="k">为什么是它</div><div class="v">你用的是 LightGBM。这一节是全书为数不多正面讲 ML 方法用在交易的地方，跟 4.6.3 是一对。</div></div>
+  <div class="row"><div class="k">盯什么</div><div class="v">它提醒的 ML 特有陷阱——<b>过拟合、特征选择本身造成的选择偏差</b>。这正是你 158 因子 + 切割因子叠加时最该警惕的。</div></div>
+</div>
+
+<div class="ch need">
+  <div class="num">Chapter 4 · §4.6.3</div>
+  <div class="name">Multiple Indicators and Boosting Methods</div>
+  <div class="pg">pp.152–154（属 §4.6 Analytics from Machine Learning Literature）</div>
+  <div class="row"><div class="k">为什么是它</div><div class="v"><b>你的 Alpha158 就是"多个指标"，你的模型就是 boosting。</b>这一节讲的正是"怎么用一堆弱指标合成一个可用信号"。</div></div>
+  <div class="row"><div class="k">盯什么</div><div class="v">它对<b>指标之间高度相关</b>的处理建议。你 E2 用"剔除 158 解释后的残差"，本质上就是在处理这个问题。</div></div>
+</div>
+
+<div class="ch need">
+  <div class="num">Chapter 6 · §6.5</div>
+  <div class="name">Transaction Costs, Shorting and Liquidity Constraints</div>
+  <div class="pg">pp.239–242</div>
+  <div class="row"><div class="k">为什么是它</div><div class="v">你跑的是月度 top 50、双边千五到千五的费率，报的是费用后 CAGR。<b>这一节把"成本、做空限制、流动性约束"放到组合层面讲</b>，正好解释为什么 RankIC 好看不等于能赚钱。</div></div>
+  <div class="row"><div class="k">盯什么</div><div class="v">流动性与交易成本怎么<b>写进组合优化</b>。你现在的 simulator 是"拒绝 |收益|≥9.5% 的交易"，可以在这里找到更规范的写法。</div></div>
+</div>
+
+<div class="ch need">
+  <div class="num">Chapter 7 · §7.1–7.3</div>
+  <div class="name">News Analytics: Automated News Analysis and Market Sentiment</div>
+  <div class="pg">pp.251–266　·　7.1 含行为金融与认知偏差，7.2 自动新闻分析与情绪，7.3 在交易中的应用</div>
+  <div class="row"><div class="k">为什么是它</div><div class="v">你的项目包里有 <code>prepare_news_export.py</code> 和 <code>score_news.py</code>（FinBERT 类中文金融情绪模型）。<b>这一整章是你新闻支线的完整理论背景。</b></div></div>
+  <div class="row"><div class="k">盯什么</div><div class="v"><b>7.3 里的"应用"</b>——它怎么把情绪分数变成可交易的信号。特别是它怎么处理<b>新闻时间戳</b>（这正是你 PIT 防泄漏最头疼的一环）。</div></div>
+</div>
+
+<div class="ch need">
+  <div class="num">Chapter 5 · §5.2</div>
+  <div class="name">Evaluation of Strategies: Various Measures</div>
+  <div class="pg">pp.160–161</div>
+  <div class="row"><div class="k">为什么是它</div><div class="v"><b>只有两页，但极划算。</b>你现在基本只用 RankIC 一个口径。这一节列出了一整套评价维度和它们的适用条件。</div></div>
+  <div class="row"><div class="k">盯什么</div><div class="v">哪些指标是<b> redundant 的重复口径</b>。答辩时老师很可能问"为什么只用 RankIC"，这两页就是答案。</div></div>
+</div>
+
+<h2>第二档：稍后读（打方法论地基）</h2>
+
+<div class="ch later">
+  <div class="num">Chapter 1 · §1.4</div>
+  <div class="name">Taxonomy of Data Used in Algorithmic Trading</div>
+  <div class="pg">pp.26–43　·　1.4.1 参考数据 / 1.4.2 市场数据 / 1.4.3 市场数据衍生统计 / 1.4.4 基本面与其他数据</div>
+  <div class="row"><div class="k">为什么是它</div><div class="v"><b>你的"切割因子"和"笔均成交额"，按这本书的分类都属于 1.4.3「市场数据衍生统计」。</b>读它能帮你把新增数据<b>归到正确的类别</b>，写进手册时也说得清。</div></div>
+  <div class="row"><div class="k">盯什么</div><div class="v">1.4.2 里对<b>时间戳</b>的区分。<code>published_at</code> vs <code>available_at</code> 的分野在这里就有雏形。</div></div>
+</div>
+
+<div class="ch later">
+  <div class="num">Chapter 5 · §5.9</div>
+  <div class="name">Cross-Sectional Momentum Strategies</div>
+  <div class="pg">pp.184–188</div>
+  <div class="row"><div class="k">为什么是它</div><div class="v"><b>你是横截面选股，这一节是横截面策略的标准写法。</b>它和你的 top 50 月度调仓是同一类问题。</div></div>
+  <div class="row"><div class="k">盯什么</div><div class="v">它对<b>回看窗口与持有期</b>的处理。你之前问过"158 因子是不是只适合短期"，这里能找到可参考的设定。</div></div>
+</div>
+
+<div class="ch later">
+  <div class="num">Chapter 3 · §3.2</div>
+  <div class="name">Dimension-Reduction Methods</div>
+  <div class="pg">pp.99–104</div>
+  <div class="row"><div class="k">为什么是它</div><div class="v">158 个因子塞进模型，本质是高维。<b>降维思路直接对应你"残差化"之外的另一条路</b>（PCA 等）。</div></div>
+  <div class="row"><div class="k">盯什么</div><div class="v">降维和<b>取残差</b>两种做法各自的代价。你 E2 用的是残差，知道另一条路的存在，答辩才立得住。</div></div>
+</div>
+
+<div class="ch later">
+  <div class="num">Chapter 6 · §6.2.1 / §6.4</div>
+  <div class="name">Portfolio Allocation Using Regularization　/　Portfolio Tracking and Rebalancing</div>
+  <div class="pg">pp.230–235　/　pp.236–239</div>
+  <div class="row"><div class="k">为什么是它</div><div class="v">你的组合层现在是简单 top 50 等权。<b>这两节是"要不要做得更细"的参考。</b>6.4 的跟踪与再平衡直接对着你月度调仓那一步。</div></div>
+  <div class="row"><div class="k">盯什么</div><div class="v">6.2.1 的<b>正则化视角</b>——它解释了为什么"简单等权常常打不过复杂优化"，这是你可以拿来为简单方案辩护的论据。</div></div>
+</div>
+
+<div class="ch later">
+  <div class="num">Chapter 9 · §9.3 / §9.8</div>
+  <div class="name">Modeling Transaction Costs　/　Empirical Estimation of Transaction Costs</div>
+  <div class="pg">pp.315–318　/　pp.327–334</div>
+  <div class="row"><div class="k">为什么是它</div><div class="v">你现在的成本是<b>拍死的常数</b>（千五 / 千五）。这两节讲怎么把成本<b>估出来</b>，以及实证上典型成本是多少。</div></div>
+  <div class="row"><div class="k">盯什么</div><div class="v">9.8.1 综述里的<b>经验数值</b>。你可以拿它给你的费率假设做个外部校验，答辩时很有说服力。</div></div>
+</div>
+
+<h2>第三档：遇到具体问题时再查</h2>
+
+<table class="t">
+  <tr><th style="width:30%">章节</th><th style="width:38%">什么时候回来查</th><th>一句说明</th></tr>
+  <tr>
+    <td><b>§2.7</b> Unit Root 检验<br><span style="color:var(--ink3);font-size:12px">pp.77–78</span></td>
+    <td>被问"你的标签序列平稳吗"</td>
+    <td>收益率序列一般平稳，但你要能说出检验的名字。</td>
+  </tr>
+  <tr>
+    <td><b>§3.4</b> Co-Integration<br><span style="color:var(--ink3);font-size:12px">pp.106–110</span></td>
+    <td>想加"配对交易"类信号时</td>
+    <td>协整思路，与 5.8 Pairs Trading 配套。</td>
+  </tr>
+  <tr>
+    <td><b>§4.3</b> Volume-Volatility 关系<br><span style="color:var(--ink3);font-size:12px">pp.131–134</span></td>
+    <td>想给"切割"找更强的微观机理</td>
+    <td>量价波动三者关系的模型，跟振幅类因子同源。</td>
+  </tr>
+  <tr>
+    <td><b>§4.2</b> Regime Switching<br><span style="color:var(--ink3);font-size:12px">pp.128–131</span></td>
+    <td>发现策略在某些年份系统性失效</td>
+    <td>市场状态切换，可以解释"切割因子在某段没用"。</td>
+  </tr>
+  <tr>
+    <td><b>§8.1</b> Normalizing Analytics<br><span style="color:var(--ink3);font-size:12px">pp.271–283</span></td>
+    <td>要做<b>跨股票可比</b>的微观指标时</td>
+    <td>ADV 归一化、时间尺度归一化——你做笔均成交额时<b>很可能需要</b>，建议先看标题。</td>
+  </tr>
+</table>
+
+<h2>第四档：这个项目可以先跳过</h2>
+
+<div class="why">
+  <span class="h">跳过的理由很简单：它们解决的是"怎么把一笔已经决定好的交易执行掉"，而你的问题还在"选哪些股"</span>
+  全书 Part IV（执行算法）和 Part V（技术栈）加起来约 <b>130 页</b>，占三分之一。在你完成当前的因子研究之前，读它们的边际收益很低。
+</div>
+
+<table class="t">
+  <tr><th style="width:34%">章节</th><th>为什么可以先跳过</th></tr>
+  <tr><td><b>Ch 8</b> Modeling Trade Data<br><span style="color:var(--ink3);font-size:12px">pp.271–311（除 8.1）</span></td><td>限价簿、Hawkes 过程、隐藏流动性——都是<b>日内/毫秒级</b>才有意义。你做月度调仓，订单簿动力学用不上。</td></tr>
+  <tr><td><b>Ch 9</b> Market Impact Models<br><span style="color:var(--ink3);font-size:12px">pp.313–334（除 9.3 / 9.8）</span></td><td>冲击成本建模主要针对<b>大单拆分</b>。你 top 50 分散持仓，单票冲击有限。但 9.3 / 9.8 建议看。</td></tr>
+  <tr><td><b>Ch 10</b> Execution Strategies<br><span style="color:var(--ink3);font-size:12px">pp.335–380</span></td><td>VWAP / TWAP / 智能路由，是<b>券商执行柜台</b>的活。</td></tr>
+  <tr><td><b>Ch 11</b> The Technology Stack<br><span style="color:var(--ink3);font-size:12px">pp.383–397</span></td><td>撮合引擎、延迟、监管报备——你做学术研究用不到。</td></tr>
+</table>
+
+<div class="callout info">
+  <span class="t">一个例外</span>
+  如果你之后真要把策略<b>上线</b>或做<b>实盘可行性</b>分析，<b>Ch 10 的 §10.1</b>（Execution Benchmarks: Practitioner's View，pp.336–344）值得回头看——它讲的是实盘用什么基准衡量执行好坏，跟你"回测数字能不能兑现"直接相关。
+</div>
+
+<h2>建议的阅读顺序</h2>
+
+<div class="card">
+  <ol style="margin-bottom:0">
+    <li><b>先读 §5.10 + §5.12（约 15 页）</b>　—— 立刻能用在你的切割因子和新数据上，读完当天就能改手册。</li>
+    <li><b>再读 §5.2 + §5.13 + §4.6.3（约 10 页）</b>　—— 补齐"怎么评价"和"为什么用 boosting"的口径。</li>
+    <li><b>然后 §6.5 + §9.3 + §9.8（约 20 页）</b>　—— 把成本和流动性的论证做扎实，这是答辩最容易被打的地方。</li>
+    <li><b>再是 Ch 7 的 §7.1–7.3（约 16 页）</b>　—— 如果你的新闻支线要正式写进论文，这一章是必读背景。</li>
+    <li><b>最后按需查第三档</b>　—— 遇到具体问题再回来，不用通读。</li>
+  </ol>
+</div>
+
+<div class="callout warn">
+  <span class="t">两条阅读提醒</span>
+  <b>① 别按书的页码顺序读。</b>这本书是按"执行链条"排的：数据 → 模型 → 策略 → 组合 → 执行 → 技术。你的兴趣集中在中段（模型与策略），两头都偏。<br><br>
+  <b>② 遇到公式不要硬啃，先问它服务于哪个决策。</b>这本书的公式大多有明确的用途指向（这句因子怎么构造、这个检验拒不拒绝）。<b>知道了用途，公式往往就是一层纸。</b>就像我们刚啃完的 5.7 那六个公式——难点从来不在数学，在符号和动机。
+</div>
+
+<h2>全书 11 章一览</h2>
+
+<table class="t">
+  <tr><th style="width:8%">章</th><th style="width:34%">标题</th><th style="width:14%">优先级</th><th>跟你项目的关系</th></tr>
+  <tr><td><b>1</b></td><td>Trading Fundamentals</td><td><span class="tag g">已精讲</span></td><td>§1.4 数据分类值得回查</td></tr>
+  <tr><td><b>2</b></td><td>Univariate Time Series Models</td><td><span class="tag g">按需</span></td><td>仅 §2.7 平稳性可能用到</td></tr>
+  <tr><td><b>3</b></td><td>Multivariate Time Series Models</td><td><span class="tag w">稍后</span></td><td>§3.2 降维、§3.4 协整</td></tr>
+  <tr><td><b>4</b></td><td>Advanced Topics</td><td><span class="tag d">部分立刻读</span></td><td><b>§4.6.3 boosting 必读</b>；§4.2 / §4.3 按需</td></tr>
+  <tr><td><b>5</b></td><td>Statistical Trading Strategies and Back-Testing</td><td><span class="tag d">立刻读</span></td><td><b>核心章节</b>：§5.2 / §5.10 / §5.12 / §5.13；§5.7 已精讲</td></tr>
+  <tr><td><b>6</b></td><td>Dynamic Portfolio Management</td><td><span class="tag d">部分立刻读</span></td><td><b>§6.5 必读</b>；§6.2.1 / §6.4 稍后</td></tr>
+  <tr><td><b>7</b></td><td>News Analytics</td><td><span class="tag d">立刻读</span></td><td>你新闻支线的完整背景</td></tr>
+  <tr><td><b>8</b></td><td>Modeling Trade Data</td><td><span class="tag g">跳过</span></td><td>仅 §8.1 归一化可能有用</td></tr>
+  <tr><td><b>9</b></td><td>Market Impact Models</td><td><span class="tag w">挑着读</span></td><td>§9.3 / §9.8 成本相关，建议看</td></tr>
+  <tr><td><b>10</b></td><td>Execution Strategies</td><td><span class="tag g">跳过</span></td><td>§10.1 上线时再看</td></tr>
+  <tr><td><b>11</b></td><td>The Technology Stack</td><td><span class="tag g">跳过</span></td><td>—</td></tr>
+</table>
+
+<footer>
+  依据 Velu / Hardy / Nehren《Algorithmic Trading and Quantitative Strategies》正文目录（pp.1–397）整理。<br>
+  优先级按你当前的 Qlib × Alpha158 × 切割因子项目映射，随项目推进可随时调整。
+</footer>
+
+</div>
+</body>
+</html>

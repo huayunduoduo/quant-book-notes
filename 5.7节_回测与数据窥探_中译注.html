@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>5.7 回测与数据窥探 · 中译注</title>
+<style>
+  :root{
+    --bg:#f7f8fa; --card:#fff; --ink:#1a1d23; --ink2:#4a5058; --ink3:#858b94;
+    --line:#e4e7ec; --brand:#0f6e56; --brand-bg:#e7f6f0; --warn:#b45309;
+    --warn-bg:#fdf4e7; --danger:#c0392b; --danger-bg:#fdecea;
+    --blue:#185fa5; --blue-bg:#eaf2ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:15px/1.85 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+  .wrap{max-width:900px;margin:0 auto;padding:40px 24px 90px}
+  header{border-bottom:1px solid var(--line);padding-bottom:24px;margin-bottom:30px}
+  .kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);font-weight:600}
+  h1{font-size:26px;line-height:1.4;margin:10px 0 10px}
+  .src{font-size:13px;color:var(--ink3);margin:0 0 14px}
+  .lede{color:var(--ink2);margin:0;max-width:720px}
+  .meta{margin-top:16px;display:flex;gap:8px;flex-wrap:wrap}
+  .tag{font-size:12px;padding:3px 11px;border-radius:20px;background:var(--brand-bg);color:var(--brand)}
+  .tag.gray{background:#f2f4f7;color:var(--ink2)}
+  h2{font-size:19px;margin:42px 0 6px;padding-top:16px;border-top:1px solid var(--line)}
+  h2:first-of-type{border-top:0}
+  h2 .sec{font:12px/1.4 ui-monospace,Consolas,monospace;color:var(--brand);background:var(--brand-bg);
+          padding:4px 8px;border-radius:5px;margin-right:10px;vertical-align:middle}
+  h3{font-size:16px;margin:26px 0 8px}
+  p{margin:0 0 13px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 24px;margin:16px 0}
+  .zh{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--brand);
+      border-radius:0 10px 10px 0;padding:16px 20px;margin:14px 0}
+  .zh .pnum{font:11px/1 ui-monospace,Consolas,monospace;color:var(--brand);
+            background:var(--brand-bg);padding:3px 7px;border-radius:4px;display:inline-block;margin-bottom:8px}
+  .zh p:last-child{margin-bottom:0}
+  .note{background:#f7f9f6;border:1px dashed #c3d3c9;border-radius:8px;padding:12px 16px;
+        margin:10px 0 0;font-size:13.5px;color:var(--ink2)}
+  .note b{color:var(--brand)}
+  .callout{border-radius:10px;padding:14px 18px;margin:15px 0;border-left:3px solid;font-size:14px}
+  .callout .t{font-weight:700;display:block;margin-bottom:4px}
+  .callout.info{background:var(--brand-bg);border-color:#4fb08c;color:#0b5c43}
+  .callout.warn{background:var(--warn-bg);border-color:#e0a33e;color:#6b3f05}
+  .callout.danger{background:var(--danger-bg);border-color:#e07a6e;color:#7d2418}
+  .callout.key{background:var(--blue-bg);border-color:#7eaaf5;color:#12457f}
+  .fml{background:#f4f8f2;border:1px solid #cfe0d5;border-radius:8px;padding:14px 18px;margin:13px 0;
+       font:14px/2.1 "Cambria Math",Cambria,Georgia,serif;overflow-x:auto}
+  .fml .no{font:11px/1 ui-monospace,Consolas,monospace;color:var(--brand);margin-right:8px}
+  .fml .cap{display:block;font:12.5px/1.6 inherit;font-family:inherit;color:var(--ink3);margin-top:6px}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px;background:var(--card)}
+  th{text-align:left;background:#fafbfc;color:var(--ink3);font-size:12px;letter-spacing:.04em;
+     padding:10px 13px;border-bottom:1px solid var(--line)}
+  td{padding:10px 13px;border-bottom:1px solid #f0f2f5;vertical-align:top}
+  tr:last-child td{border-bottom:0}
+  td:first-child{font-weight:600;white-space:nowrap}
+  ul,ol{padding-left:22px;margin:0 0 14px}
+  li{margin:6px 0;color:var(--ink2)}
+  li strong{color:var(--ink)}
+  code{font:12.5px/1.6 ui-monospace,Consolas,monospace;background:#eef2ed;padding:2px 5px;border-radius:4px}
+  .en{color:var(--ink3);font-size:13px;font-style:italic}
+  .ref{font-size:13px;color:var(--ink2)}
+  .ref li{margin:4px 0}
+  footer{margin-top:56px;padding-top:22px;border-top:1px solid var(--line);color:var(--ink3);font-size:12.5px}
+  @media(max-width:640px){h1{font-size:22px}.wrap{padding:28px 16px 60px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">Section 5.7 · 中译注</div>
+  <h1>回测与数据窥探<br>样本内与样本外绩效评估</h1>
+  <p class="src">原书 5.7 Back-Testing and Data Snooping: In-Sample and Out-of-Sample Performance Evaluation · pp.171–173</p>
+  <p class="lede">这一节回答一个让人不舒服的问题：<strong>你在同一份数据上试了一百个规则，挑出最漂亮的那个——它到底是真有用，还是只是运气最好的那个？</strong></p>
+  <div class="meta">
+    <span class="tag">White 的 Reality Check</span>
+    <span class="tag">Hansen 的 SPA</span>
+    <span class="tag">FWE vs FDR</span>
+    <span class="tag gray">公式 5.27–5.32</span>
+  </div>
+</header>
+
+<div class="callout key">
+  <span class="t">为什么要读这一节</span>
+  你项目里 E0 / E1 / E2 三个模型在同一批数据上比较，本质上就是<b>多重检验</b>。而你手册里那句"仍需考虑研究选择和多重比较"，指的就是这一节讲的东西。<b>书里给的正是治这个问题的标准工具。</b>
+</div>
+
+<h2><span class="sec">第一段</span>技术规则曾"证明有效"，然后被证伪</h2>
+
+<div class="zh">
+  <span class="pnum">p.171</span>
+  <p>随着 Brock、Lakonishok 与 LeBaron（1992）那篇关于技术规则的论文发表，主流金融学界开始认真研究这类规则的性质。所考察的规则，大多是<strong>移动均线</strong>和<strong>交易区间突破</strong>的变体。</p>
+  <p>把这些规则用在 <strong>1897 至 1986 年的道琼斯指数</strong>上，结果显示技术策略表现良好，且结果与常见的基准模型都不一致——包括随机游走、AR(1)、GARCH-M 和指数 GARCH。此外<strong>买入信号普遍比卖出信号表现更好</strong>。这些规则的 p 值是通过 bootstrap 方法估计的。</p>
+  <p>但 <strong>Ready（2002）</strong>指出：Brock 等人的移动均线规则在扣除交易成本后看起来仍然成功，其实是<strong>数据窥探造成的假象</strong>。规则在 1986 年之后表现很差，而且 1987–2000 年间，<strong>策略建议"空仓"的那些日子，平均收益反而更高</strong>。因此技术规则的绩效必须被审慎评估。</p>
+  <div class="note"><b>注解 ·</b> 这一段的杀伤力在最后一句：策略让你别买的时候，市场涨得更多。<b>这不是"策略失效"，这是"策略一直是反的"</b>——典型的过拟合症状。注意时间切分：1897–1986 是样本内，1987–2000 是样本外，表现直接崩掉。</div>
+</div>
+
+<h2><span class="sec">第二段</span>数据窥探的根源与幸存者偏差</h2>
+
+<div class="zh">
+  <span class="pnum">p.171–172</span>
+  <p><strong>数据窥探（data snooping）指的是：同一份数据既用来选模型，又用来验证模型。</strong>这样得到的显著性结果，可能纯粹来自运气。正如 Sullivan、Timmermann 与 White（1999）所指出的，数据窥探还可能来自<strong>幸存者偏差</strong>——因为只有成功的规则才会被拿去复现。</p>
+  <p>因此，要研究窥探偏差，<strong>必须把几乎全部的规则宇宙都纳入考察</strong>，只挑少数几个是看不出问题的。</p>
+  <div class="note"><b>注解 ·</b> 这是全节最该抄下来的一句：<b>"同一份数据既用来选模型又用来验证模型"就是数据窥探的定义。</b>你项目里"滚动前进、每年重新训练、只用样本外年份评价"，正是为了躲开这个陷阱。别忘了：你在 2017–2020 上反复调参，那段时间就已经从样本外退化成样本内了。</div>
+</div>
+
+<h2><span class="sec">第三段</span>White 的 Reality Check（真实检验）</h2>
+
+<div class="zh">
+  <span class="pnum">p.172</span>
+  <p>建议采用 <strong>White（1999）</strong>研究的 bootstrap 程序来检验数据窥探偏差。偏差主要来自<strong>在同一批数据上套用大量交易规则</strong>，于是纯凭运气也能撞出一些显著结果。</p>
+  <p>设有 <em>l</em> 个待考察的交易规则，在随后的 <em>n</em> 个时期上验证，定义：</p>
+</div>
+
+<div class="fml">
+  <span class="no">(5.27)</span> f̄ = (1/n) · Σ<sub>j=1..n</sub> f̂<sub>t+j</sub>
+  <span class="cap">f̂<sub>t+j</sub> = 第 t+j 期观察到的绩效度量，仅基于截至 t 的数据算得</span>
+</div>
+
+<div class="fml">
+  <span class="no">(5.28)</span> f<sub>k,t+j</sub> = ln(1 + r<sub>t+j</sub> · s<sub>k</sub>) − ln(1 + r<sub>t+j</sub> · s<sub>0</sub>)
+  <span class="cap">r<sub>t+j</sub> = 收益率；s<sub>k</sub> 与 s<sub>0</sub> = 第 k 个规则与基准规则的信号函数</span>
+</div>
+
+<div class="zh">
+  <p>基准（benchmark）规则可以取三种仓位：<strong>做多、做空、空仓</strong>，分别取值 1、−1、0。信号函数当然只能基于<strong>截至 t 时刻</strong>可得的数据与信息。</p>
+  <p>检验的原假设是：<strong>最好的那条技术规则，并不比基准规则更好</strong>——</p>
+</div>
+
+<div class="fml">
+  <span class="no">(5.29)</span> H<sub>0</sub> : max<sub>k=1..l</sub> E[f<sub>k</sub>] ≤ f<sub>0</sub>
+  <span class="cap">拒绝 H₀ 才能确立"最优技术规则确实优于基准"。同样的假设也可以对夏普比率（风险调整后收益）来提。</span>
+</div>
+
+<div class="zh">
+  <p>H₀ 的 p 值通过 bootstrap 重抽样获得。设由重抽样得到 B 个 f<sub>k</sub> 的值，记为 f*<sub>k,i</sub>（i = 1,2,…,B），构造统计量：</p>
+</div>
+
+<div class="fml">
+  <span class="no">(5.30)</span> v<sub>l</sub> = max<sub>k=1..l</sub> (√n · f̄<sub>k</sub>)
+</div>
+<div class="fml">
+  <span class="no">(5.31)</span> v*<sub>l,i</sub> = max<sub>k=1..l</sub> (√n · (f̄*<sub>k,i</sub> − f̄<sub>k</sub>))
+  <span class="cap">把真实的 v<sub>l</sub> 与重抽样得到的 v*<sub>l,i</sub> 分布比较，就得到 p 值。</span>
+</div>
+
+<div class="zh">
+  <p>Sullivan 等人（1999）考察了 <strong>l = 7846</strong> 条交易规则，覆盖得相当彻底；基准规则设为"<strong>始终空仓</strong>"。</p>
+  <p>两种方法得到的 p 值——<strong>bootstrap 重抽样法与传统名义法</strong>——在样本外时期上差异相当大。不过，确实仍有<strong>少数规则在平均收益和夏普比率两方面都跑赢了基准</strong>。</p>
+  <p>上述检验有两个主要缺点：<strong>其一，检验偏保守</strong>，当规则宇宙里塞进大量表现很差的模型时，检验功效会下降；<strong>其二，除了"表现最好的那一个"，它无法识别出其他显著的模型。</strong></p>
+  <div class="note"><b>注解 ·</b> 注意 (5.30)(5.31) 在比什么：<b>不是在比"某个规则好不好"，而是在比"所有规则里最好的那个，能不能好到不像是运气"。</b>这正是多重检验的核心——你把 7846 个里挑最好的，当然一定好看；问题是它比"运气能产生的最好结果"好多少。</div>
+</div>
+
+<h2><span class="sec">第四段</span>逐步 SPA 检验：一次不只挑一个</h2>
+
+<div class="zh">
+  <span class="pnum">p.173</span>
+  <p><strong>Hsu、Hsu 与 Kuan（2010）</strong>对 <strong>Hansen（2005）</strong>提出的<strong>优越预测能力检验（Superior Predictive Ability, SPA）</strong>做了逐步化（stepwise）改进，并采纳了 <strong>Romano 与 Wolf（2005）</strong>的修正方案。检验统计量为：</p>
+</div>
+
+<div class="fml">
+  <span class="no">(5.32)</span> SPA<sub>l</sub> = max( 0 , max<sub>k=1..l</sub> (√n · f̄<sub>k</sub>) )
+  <span class="cap">临界值由重抽样决定</span>
+</div>
+
+<div class="zh">
+  <p>具体步骤如下：</p>
+  <ol>
+    <li><strong>(a)</strong> 把 f<sub>k</sub> 按<strong>从大到小</strong>排序。</li>
+    <li><strong>(b)</strong> 若最优模型 k 的 √n·f̄<sub>k</sub> 大于临界值，则<strong>拒绝</strong>它；若没有模型被拒绝，则停止；否则进入下一步。</li>
+    <li><strong>(c)</strong> 剔除已被拒绝模型的 f<sub>k</sub>，<strong>重新生成临界值</strong>。再做检验；若没有模型被拒绝则结束，否则进入下一步。</li>
+    <li><strong>(d)</strong> 重复 (c)，直到再没有模型能被拒绝为止。</li>
+  </ol>
+  <p>(5.29) 中的假设是<strong>联合假设</strong>，因此这类检验要用 <strong>族错误率（Family Wise Error Rate, FWE）</strong>来评判——即"<strong>至少错误拒绝了一个正确的原假设</strong>"的概率。</p>
+  <p>Hsu 等人考察了<strong>滤波规则</strong>和<strong>移动均线规则</strong>两类技术规则，用在多个市场指数和 ETF 上。确实有若干规则带来了<strong>平均收益的显著提升，夏普比率也表现不俗</strong>。</p>
+  <div class="note"><b>注解 ·</b> SPA 相比 White 的进步在<b>逐步剔除</b>：White 只回答"最好的那个真不真"，SPA 能一轮一轮往下筛，<b>给出一串显著模型</b>。而每剔除一个就重算临界值，是因为"剩余候选变少了，运气能造成的最好成绩也随之下降"——临界值必须跟着收紧。</div>
+</div>
+
+<h2><span class="sec">第五段</span>FDR 视角：技术规则最终被判了死刑</h2>
+
+<div class="zh">
+  <span class="pnum">p.173</span>
+  <p><strong>Bajgrowicz 与 Scaillet（2012）</strong>采用<strong>错误发现率（False Discovery Rate, FDR）</strong>的概念，得出了与 Ready（2002）<strong>一致的负面结论</strong>。FDR 在共同基金绩效领域由 Barras、Scaillet 与 Wermers（2010）做了详细研究。</p>
+  <p>上面最后讨论的那种方法，只能告诉你"某条规则在扣除了数据窥探之后是否跑赢基准"，<strong>却给不出关于其他策略的任何信息</strong>。但现实中，投资者是<strong>同时参考多条规则</strong>的信号，而这些规则在概念上和经验上<strong>都不是相互独立的</strong>。</p>
+  <p>FDR 方法通过<strong>容忍一定数量的错误发现</strong>，既考虑了规则之间的依赖性，又能<strong>提供一组高绩效规则</strong>（而不是只给一个）。</p>
+  <p>Bajgrowicz 与 Scaillet 还处理了这些规则的<strong>持续性</strong>问题，为每一个交易信号配上了<strong>贴近现实的交易成本</strong>。</p>
+  <p>他们基于<strong>道琼斯工业指数 1897–1996 年的日频数据</strong>，主要发现是：</p>
+</div>
+
+<div class="callout danger">
+  <span class="t">原书引述</span>
+  "我们无法选出这样一些规则：它们的表现<strong>既能持续，又不被交易成本抵消</strong>。"
+  <br><br>他们的结论是：<strong>"……投资者应当对任何一个投资网站上都能看到的那些常见技术指标保持警惕……"</strong>
+  <br><br>不过他们也承认：<strong>"……我们的结果对于其他市场、其他频率或更精密的规则下是否存在盈利策略，说不上什么。"</strong>
+  <br><br>——而这些警告，<strong>似乎并没有妨碍技术规则在实务中被继续使用。</strong>
+</div>
+
+<h2>三个方法一图看懂</h2>
+
+<table>
+  <tr>
+    <td>White (1999)<br>Reality Check</td>
+    <td>只问：<b>最好的那一个真不真</b></td>
+    <td>保守；塞进一堆烂模型会损失功效；只认第一名</td>
+  </tr>
+  <tr>
+    <td>Hansen (2005)<br>Hsu et al. (2010) SPA</td>
+    <td><b>逐个往下筛</b>，每剔除一个重算临界值</td>
+    <td>能给出一串显著模型；用 FWE 控制"至少错杀一个"的概率</td>
+  </tr>
+  <tr>
+    <td>Bajgrowicz & Scaillet (2012)<br>FDR</td>
+    <td><b>容忍一定比例的假阳性</b>，换取更大检出面</td>
+    <td>能处理规则之间的相关性；结论最负面</td>
+  </tr>
+</table>
+
+<div class="callout warn">
+  <span class="t">FWE 和 FDR 的区别，一句话讲清</span>
+  · <b>FWE</b>：我要保证"<b>一个假阳性都不要有</b>"。代价是极其保守，容易漏掉真东西。<br>
+  · <b>FDR</b>：我允许发现里头有 5% 是假的，但<b>剩下的 95% 得是真的</b>。检出面大得多。<br><br>
+  类比：FWE 像"宁可错放一百，不可错抓一个"；FDR 像"抓一百个人，我能接受里面混进五个无辜的"。
+</div>
+
+<h2>这一节对你项目的四个直接启示</h2>
+
+<div class="card">
+  <ol>
+    <li><strong>你已经在做"样本外"，但还在做"多重比较"。</strong>滚动前进解决了"同一份数据既选又验"的问题；但 E0/E1/E2（以及可能的 E3/E4）横向一比，就产生多重检验问题。<b>书里这三个方法正是为此设计的。</b></li>
+    <li><strong>你手册里那句"仍需考虑研究选择和多重比较"，出处就在这里。</strong>你现在有配对 bootstrap 的置信区间，但那是<b>针对单个增量</b>的；如果同时检验多个因子、多个变体，需要的是 White/SPA/FDR 这类<b>联合检验</b>。</li>
+    <li><strong>"最漂亮的那个"最该被怀疑。</strong>书里 7846 条规则里挑最好的，名义 p 值和 bootstrap p 值差得很远。你项目里如果试过多种子、多参数、多特征组合，然后只报最好的一组——<b>那就是数据窥探</b>。</li>
+    <li><strong>成本是最后的照妖镜。</strong>Bajgrowicz 与 Scaillet 的关键一步是"给每个信号配上现实交易成本"，结论立刻反转。<b>你的费用后 CAGR 一定要和 RankIC 一起报</b>——这正是书里反复强调的做法。</li>
+  </ol>
+</div>
+
+<h2>关键文献（照着查原文）</h2>
+<ul class="ref">
+  <li>Brock, Lakonishok & LeBaron (1992) —— 技术规则有效性的开山实证，道指 1897–1986</li>
+  <li>Ready (2002) —— 指出上述结果部分源于数据窥探</li>
+  <li>White (1999) —— Reality Check，bootstrap 多重检验的奠基方法</li>
+  <li>Sullivan, Timmermann & White (1999) —— 7846 条规则的实证，样本外检验</li>
+  <li>Hansen (2005) —— SPA 检验；Romano & Wolf (2005) —— 逐步修正</li>
+  <li>Hsu, Hsu & Kuan (2010) —— 逐步 SPA，用于指数与 ETF</li>
+  <li>Barras, Scaillet & Wermers (2010) —— FDR 在共同基金绩效中的应用</li>
+  <li>Bajgrowicz & Scaillet (2012) —— FDR + 现实交易成本，结论最负面</li>
+</ul>
+
+<div class="callout info">
+  <span class="t">一句话总结这一节</span>
+  <b>在一百个规则里挑出最好看的那个，它好看是必然的；真正的检验是拿它去比"纯靠运气能撞出的最好成绩"，而且扣完成本再说话。</b>
+</div>
+
+<footer>
+  本页为 5.7 节的学习用中文译注（含本人注解），供个人研读对照，不替代原书，也不构成完整翻译。<br>
+  原书：Algorithmic Trading and Quantitative Strategies（Velu, Hardy, Nehren, CRC Press 2020）· pp.171–173 · 建议配合正版阅读。
+</footer>
+
+</div>
+</body>
+</html>

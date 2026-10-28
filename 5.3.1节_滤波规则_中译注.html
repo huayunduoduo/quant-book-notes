@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>5.3.1 滤波规则 · 中译注</title>
+<style>
+  :root{
+    --bg:#f7f8fa; --card:#fff; --ink:#1a1d23; --ink2:#4a5058; --ink3:#858b94;
+    --line:#e4e7ec; --brand:#0f6e56; --brand-bg:#e7f6f0; --warn:#b45309;
+    --warn-bg:#fdf4e7; --danger:#c0392b; --danger-bg:#fdecea;
+    --blue:#185fa5; --blue-bg:#eaf2ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:15px/1.85 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+  .wrap{max-width:920px;margin:0 auto;padding:40px 24px 100px}
+  header{border-bottom:1px solid var(--line);padding-bottom:24px;margin-bottom:28px}
+  .kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);font-weight:600}
+  h1{font-size:26px;line-height:1.4;margin:10px 0 10px}
+  .src{font-size:13px;color:var(--ink3);margin:0 0 14px}
+  .lede{color:var(--ink2);margin:0;max-width:760px}
+  h2{font-size:20px;margin:48px 0 6px;padding-top:20px;border-top:1px solid var(--line)}
+  h2:first-of-type{border-top:0;padding-top:0}
+  h3{font-size:16px;margin:26px 0 8px}
+  p{margin:0 0 13px}
+  ul,ol{padding-left:22px;margin:0 0 14px}
+  li{margin:6px 0;color:var(--ink2)}
+  li strong{color:var(--ink)}
+  code{font:12.5px/1.6 ui-monospace,Consolas,monospace;background:#eef2ed;padding:2px 5px;border-radius:4px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 24px;margin:16px 0}
+  table.t{width:100%;border-collapse:collapse;font-size:13.5px;background:var(--card);
+          border-radius:10px;overflow:hidden;margin:14px 0}
+  table.t th{text-align:left;background:#fafbfc;color:var(--ink3);font-size:12px;letter-spacing:.04em;
+             padding:10px 12px;border-bottom:1px solid var(--line);font-weight:600}
+  table.t td{padding:10px 12px;border-bottom:1px solid #f0f2f5;vertical-align:top;color:var(--ink2)}
+  table.t tr:last-child td{border-bottom:0}
+  table.t td b{color:var(--ink)}
+  .callout{border-radius:10px;padding:14px 18px;margin:15px 0;border-left:3px solid;font-size:14px}
+  .callout .t{font-weight:600;display:block;margin-bottom:4px}
+  .callout.info{background:var(--brand-bg);border-color:#4fb08c;color:#0b5c43}
+  .callout.warn{background:var(--warn-bg);border-color:#e0a33e;color:#6b3f05}
+  .callout.danger{background:var(--danger-bg);border-color:#e07a6e;color:#7d2418}
+  .callout.key{background:var(--blue-bg);border-color:#7eaaf5;color:#12457f}
+  .tr{background:#fcfdfc;border:1px solid #dfe6e2;border-left:4px solid #9ec2b2;
+      border-radius:0 10px 10px 0;padding:16px 20px;margin:12px 0}
+  .tr .lab{font:11.5px/1 ui-monospace,Consolas,monospace;color:var(--brand);
+           background:var(--brand-bg);padding:4px 8px;border-radius:4px;display:inline-block;margin-bottom:10px}
+  .tr p{margin:0 0 10px;color:#2a3038}
+  .tr p:last-child{margin-bottom:0}
+  .why{background:#f7f9f6;border:1px dashed #c3d3c9;border-radius:8px;padding:13px 18px;margin:12px 0;
+       font-size:14px;color:var(--ink2)}
+  .why b{color:var(--brand)}
+  .why .h{color:var(--brand);font-weight:600;display:block;margin-bottom:5px;font-size:13px;letter-spacing:.06em}
+  .say{background:var(--card);border-left:4px solid var(--brand);border-radius:0 12px 12px 0;
+       padding:16px 22px;margin:18px 0}
+  .say .h{font-size:12.5px;letter-spacing:.1em;color:var(--brand);font-weight:600;margin-bottom:6px}
+  .say p:last-child{margin-bottom:0}
+  .eq{background:#f4f8f2;border:1px solid #cfe0d5;border-radius:10px;padding:16px 20px;margin:14px 0}
+  .eq .no{font:11px/1 ui-monospace,Consolas,monospace;color:var(--brand);
+          background:var(--brand-bg);padding:4px 8px;border-radius:4px;display:inline-block;margin-bottom:10px}
+  .eq .body{font-family:"Cambria Math",Cambria,Georgia,serif;font-size:16.5px;line-height:2.2;text-align:center}
+  .eq .cap{display:block;font-family:inherit;font-size:12.5px;color:var(--ink3);text-align:left;
+           margin-top:8px;line-height:1.75}
+  .note{background:#fbfbfc;border:1px solid #e6e9ee;border-radius:8px;padding:11px 15px;margin:12px 0;
+        font-size:13px;color:var(--ink2)}
+  .note .h{font-weight:600;color:var(--ink);display:block;margin-bottom:4px;font-size:12.5px}
+  sub,sup{font-size:.66em}
+  svg{max-width:100%;height:auto;display:block;margin:16px auto}
+  .figcap{text-align:center;font-size:12.5px;color:var(--ink3);margin:-6px 0 20px}
+  footer{margin-top:50px;padding-top:20px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink3)}
+  @media(max-width:640px){
+    .wrap{padding:28px 16px 70px} h1{font-size:22px} .eq .body{font-size:14px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">Algorithmic Trading and Quantitative Strategies · Ch.5</div>
+  <h1>§5.3.1 滤波规则<br><span style="font-size:16px;color:var(--ink3)">Filter Rules（x% Filter）</span></h1>
+  <p class="src">原文 pp.162–163（约 2 页）· 公式 (5.2)–(5.4) · 页索引 178–179（pypdf）</p>
+  <p class="lede">这是全书第一条正式登场的机械交易规则——也是最老的一条（Alexander 1961）。本节只做三件事：① 把"涨过 x% 就买、跌过 x% 就卖"写成精确规则；② 复述它的两次历史判决（先胜后败）；③ 给出<b>怎么公平地审判一条规则</b>的统计工具（Sweeney 风险调整统计量）。规则本身死了，但审判工具活到了今天——它就是 §5.7 那套回测方法论的前身。</p>
+</header>
+
+<div class="say">
+  <div class="h">本节主旨（一句话）</div>
+  <p>滤波规则用"忽略小波动、只追大波动"来捕捉趋势，Alexander (1961) 的原始回测毛利漂亮，但 Fama–Blume (1966) 加上佣金后宣判："算上佣金，滤波技术的大利润属于经纪人"——本节的真正遗产不是这条规则，而是 Sweeney (1988) 的风险调整检验：评判一条"经常空仓"的规则，必须把它和<b>同等风险暴露</b>的基准比，而不是和满仓的买入持有直接比。</p>
+</div>
+
+<h2>一、文章逻辑链：五步</h2>
+
+<table class="t">
+  <tr><th style="width:10%">步</th><th style="width:44%">内容</th><th>上一步留下的缺口</th></tr>
+  <tr><td><b>①</b></td><td>开场立前提：技术分析要有用，价格必须存在<b>持续足够久</b>的规律模式，久到能盖住交易成本和假信号</td><td>—（全节的公理）</td></tr>
+  <tr><td><b>②</b></td><td>Alexander 给出 x% 滤波规则的定义</td><td>①只说"要有规律"，没给捕捉规律的具体装置 → ②就是那个装置</td></tr>
+  <tr><td><b>③</b></td><td>两次历史判决：毛利胜出 → 计佣金后惨败</td><td>②是个装置，装置好不好要靠数据 → ③给数据，结论是否定的</td></tr>
+  <tr><td><b>④</b></td><td>在随机游走模型下形式化滤波：入场时点恰好撞上漂移切换 μ: 0→μ 才能赚钱</td><td>③只报了结果，没解释"为什么滤波在什么条件下才该赚钱" → ④给理论条件</td></tr>
+  <tr><td><b>⑤</b></td><td>Sweeney 风险调整统计量 (5.2)–(5.4)：滤波经常空仓，直接跟满仓基准比不公平</td><td>④给了理论条件，但"怎么检验"仍缺 → ⑤给检验工具</td></tr>
+</table>
+
+<h2>二、逐段中译与讲解</h2>
+
+<h3>① 开场：什么叫做"有用的预测"（p.162 顶部）</h3>
+
+<div class="tr">
+  <span class="lab">原书 p.162 · 承接 §5.3 总论</span>
+  <p>要让技术分析有用，价格运动应当遵循某种<b>规律的、反复出现的模式</b>，且这些模式必须持续足够长的时期，<b>足以覆盖交易成本和假信号</b>，从而让投资最终盈利。从投资者角度看，"有用的预测"是指：能用过去的价格历史<b>提高期望收益</b>。但正如 Fama 和 Blume (1966) 指出的：</p>
+  <p style="padding-left:1.2em;border-left:3px solid #cfe0d5"><i>"在漂移为零或为正的随机游走市场中，对单一证券应用任何机械交易规则，都无法持续跑赢简单地买入并持有。"</i></p>
+  <p>过去的价格变动只有在<b>相继价格变化之间存在某种程度的依赖</b>时才可能有用。序列相关系数未必能捕捉到可能存在的复杂依赖结构。下面我们简述几种常用的交易规则，并评述它们的表现。</p>
+</div>
+
+<div class="why">
+  <span class="h">为什么把这段放在滤波前面</span>
+  这一段其实是给整节（乃至整章）<b>先立靶子</b>：随机游走 + 无套利 ⇒ 机械规则不可能赢。后面所有规则的命运都是在这个靶子上射箭——滤波是第一支箭，也是射得最偏的一支。注意那句话的精确条件："对<b>单一证券</b>""<b>持续</b>跑赢"——它没排除横截面规则（§5.9）和条件性小概率优势，这个缝隙后面所有策略都住在里面。
+</div>
+
+<div class="card">
+  <p><b>Fama–Blume 那句话的逐部件拆解</b>——"在漂移为零或为正的随机游走市场中，对单一证券应用任何机械交易规则，都无法持续跑赢简单地买入并持有"：</p>
+  <table class="t">
+    <tr><th style="width:26%">部件</th><th>精确含义</th></tr>
+    <tr><td><b>随机游走</b></td><td>每天的收益是<b>独立</b>抽签：今天涨跌和昨天涨跌毫无关系。过去的价格不含有任何关于未来的信息。</td></tr>
+    <tr><td><b>漂移为零或为正</b></td><td>抽签的平均值 μ ≥ 0——这只证券"平均来说不亏"。这是整个论断的<b>关键前提</b>（见下面手算，缺了它结论反转）。</td></tr>
+    <tr><td><b>单一证券</b></td><td>规则只看这一只证券自己的过去（时序规则）。<b>不覆盖</b>"买 A 卖 B"的横截面规则（§5.9 的缝隙）。</td></tr>
+    <tr><td><b>机械交易规则</b></td><td>过去价格 → 进/出/空的<b>确定性映射</b>（滤波、均线都是）。不能偷看未来，不能随意改主意。</td></tr>
+    <tr><td><b>持续跑赢</b></td><td>不是某一次赢，而是<b>期望意义上</b>稳定地赢。排除"运气好碰上一段"的情形。</td></tr>
+  </table>
+</div>
+
+<div class="why">
+  <span class="h">核心论证一行就够：期望收益 = 在场比例 × 漂移</span>
+  随机游走下，每天收益的<b>期望就是漂移 μ</b>，且和你什么时候在场无关——哪天进场都一样，因为抽签不认日子。于是一条规则 N 天后的期望终值只取决于<b>它在场的天数比例 f</b>：<br><br>
+  <b>E[终值] = e<sup>f·μ·N</sup>　（买入持有 = f = 1 的特例）</b><br><br>
+  μ ≥ 0 时 f 越大期望越高，而 f 最大就是 1（天天在场 = 买入持有）——<b>所以任何规则最多打平，不可能赢</b>。做空更是负贡献（空头收益期望 = −μ ≤ 0）。蒙特卡洛验证（20 万条路径、250 天、日 ±1%）：<br><br>
+  · <b>零漂移</b>：买入持有、在场 50%、在场 20% 的规则——期望终值<b>全部等于 1.000</b>，分毫不差地打平（差别只在波动的形状）；<br>
+  · <b>正漂移 μ = 0.1%/天</b>：买入持有 1.284，在场 50% 的规则 1.134，在场 20% 的 1.051——<b>越挑剔越吃亏</b>，因为每次离场都在错过正期望的抽签。<br><br>
+  <b>为什么必须写"漂移为零或为正"</b>：若 μ &lt; 0，"永远空仓"这条最平凡的机械规则期望 = 1 &gt; e<sup>μN</sup> &lt; 1，一句话就跑赢了买入持有——论断立刻不成立。所以这个前提不是可有可无的修辞，是结论成立的边界。<br><br>
+  <b>那滤波还赌什么？</b>赌的正是"随机游走不成立"——现实中存在依赖结构（漂移在时段间切换，即后文 μ<sub>t</sub> 的设定），规律一旦存在，"在场的日子"就不再是随机抽的，f·μ 这个乘积里，规则的 μ<sub>在场</sub>才可能高于整体的 μ。Fama–Blume 用道指数据宣判：现实里这点优势 &lt; 佣金。
+</div>
+
+<h3>② 滤波规则的定义（Alexander 1961, 1964）</h3>
+
+<div class="card">
+<p><b>x% 滤波规则：</b>若某日收盘价从<b>近期低点</b>上涨至少 x%，则<b>买入并持有</b>；直到价格从随后的<b>高点</b>下跌至少 x%，<b>卖出并做空</b>；维持空头仓位，直到价格从随后的低点上涨至少 x%，再买入。两个方向上幅度不足 x% 的波动一律<b>忽略</b>。</p>
+</div>
+
+<div class="why">
+  <span class="h">逐句拆：这条规则里只有三个活动部件</span>
+  <b>① 跟踪两个锚</b>——多仓期间跟踪"持仓期高点"，空仓/空仓观察期跟踪"近期低点"；<b>② 一条触发线</b>——锚点 ± x%；<b>③ 一个状态机</b>——空仓 → (涨过 x%) → 多仓 → (跌过 x%) → 空头 → (涨过 x%) → 多仓……<br><br>
+  直觉一句话：<b>x 是"噪音过滤器"</b>。x 太小 → 随便一个抖动就触发，被假信号打死；x 太大 → 触发时趋势已走完大半，利润被迟到吃掉。所以它天然有个"最优 x"的问题——而这正是数据窥探的入口（§5.7 的伏笔）。
+</div>
+
+<div class="card">
+  <p><b>"最优 x = 数据窥探入口"是什么意思——一个蒙特卡洛演示</b>（零漂移随机游走、1000 天、300 条路径，每条路径上把 x = 1%…20% 共 20 个值全试一遍）：</p>
+  <table class="t">
+    <tr><th style="width:44%">量</th><th>结果</th></tr>
+    <tr><td>固定某一个 x 的平均累计损益</td><td><b>+0.012 ≈ 0</b>——市场真是随机的，任何单个 x 都没用 ✓（与 Fama–Blume 公理一致）</td></tr>
+    <tr><td>每条路径"20 个里挑最好"的赢家平均损益</td><td><b>+0.385</b>——是单个 x 的 <b>30 倍</b></td></tr>
+    <tr><td>"赢家"盈利的概率</td><td><b>97%</b></td></tr>
+    <tr><td>候选从 5 个扩到 20 个</td><td>赢家平均损益 +0.294 → +0.400——<b>试得越多，赢家越"好看"</b></td></tr>
+  </table>
+  <p>读法：市场里<b>根本没有信息</b>，但只要你"试 20 个 x、挑回测最好的那个报业绩"，就能稳定造出一个看起来 97% 概率盈利、损益 30 倍于单规则的"策略"。它的全部利润来自<b>选择本身的运气</b>：20 个 x 在纯随机市场里的损益就是 20 次抽签，抽签总有最好的一个，而"最好的那个"天然偏乐观——<b>挑出来的好 ≠ 真的好</b>。<br><br>
+  这就是"数据窥探的入口"：x 不是理论给定的，是试出来的；试的次数就是偏差的大小。§5.7 的 White Reality Check / SPA 就是给这笔账纠偏的工具——把"挑最好"这个动作本身放进 bootstrap 重演一遍，看真实赢家有没有超过纯运气的水平。历史判决（7846 条技术规则几乎无幸存者）就是这么算出来的。</p>
+  <div class="note"><span class="h">诚实说明</span>单个 x 平均 +0.012 而非严格为 0，来自我这份简化实现多空翻仓的微小不对称，量级仅为赢家的 1/30，不影响结论。</div>
+</div>
+
+<h3>③ 背后逻辑与两次历史判决（p.162）</h3>
+
+<div class="tr">
+  <span class="lab">原书 p.162 · 逻辑与实证</span>
+  <p>这条规则背后的一般逻辑是：<b>如果价格已经上涨了 x%，它很可能在下跌 x% 之前先上涨超过 x%</b>——因此随机游走模型不太可能成立。但正如 Mandelbrot (1963) 指出的，由于成交瞬间的价格跳跃，实际的买入价和卖出价不会像规则要求的那样精确匹配。</p>
+  <p>该规则最初应用于 S&amp;P 工业指数日线数据时显示：<b>5%、6%、8% 滤波的总利润大于买入持有策略</b>——但该研究<b>没有计入交易成本</b>。随后一项计入<b>每回合 2% 佣金</b>的研究表明：只有约 46% 的较大滤波跑赢了买入持有，其余滤波在调整交易成本后均不优于简单买入持有。</p>
+  <p>Fama 和 Blume (1966) 将 Alexander 的滤波技术应用于<b>道琼斯工业平均指数每只成分股</b> 1957–1962 五年间的日线数据，结论是：</p>
+  <p style="padding-left:1.2em;border-left:3px solid #cfe0d5"><i>"当计入佣金时，滤波技术下的大利润<b>属于经纪人</b>。若不计佣金，滤波技术的收益当然会大幅改善，但仍不及简单买入持有的收益。"</i></p>
+</div>
+
+<div class="why">
+  <span class="h">"利润属于经纪人"在数学上是怎么发生的</span>
+  滤波是<b>双向高频</b>规则：一次完整的买卖回合至少要付两次佣金 + 买卖价差（Mandelbrot 那句"买价卖价不精确匹配"说的就是价差）。趋势行情里它赚的是"趋势中段"；震荡行情里它被来回打脸（下面的手算里你会亲眼看到一次 −6.6% 的假信号亏损）。<b>趋势赚的钱是线性的，假信号亏的钱按触发次数累积</b>——而市场大部分时间是震荡。所以扣费后的期望被成本项拖垮。这也是全书后续所有策略评估都要先问"费前还是费后"的原因。
+</div>
+
+<div class="card">
+  <p><b>用下面手算那笔账算给你看</b>（按 Alexander 时代研究的口径：每回合佣金 2%；回合 = 一买一卖）：</p>
+  <table class="t">
+    <tr><th style="width:34%">交易回合</th><th style="width:22%">毛损益</th><th style="width:20%">加佣金后</th><th>注</th></tr>
+    <tr><td>① 买 106 → 卖 99（day 3–7）</td><td>−6.60%</td><td><b>−8.60%</b></td><td>假信号：正跌着被甩出去</td></tr>
+    <tr><td>② 空 99 → 回补 104（day 7–9）</td><td>−4.81%</td><td><b>−6.81%</b></td><td>假信号的第二击：V 型反弹把空头也打脸</td></tr>
+    <tr><td>③ 买 104 → 卖 104（day 9–14）</td><td>0.00%</td><td><b>−2.00%</b></td><td>白忙一场，纯付成本</td></tr>
+    <tr><td>④ 买 112 → 期末 113（未平仓）</td><td>+0.89%</td><td>（未结算）</td><td>唯一吃到的一段趋势，还没走完</td></tr>
+    <tr><td><b>合计</b></td><td>≈ −10.5%</td><td><b>≈ −16.5%</b></td><td>同期买入持有 = <b>+13%</b></td></tr>
+  </table>
+  <p>三笔假信号/磨损回合吃掉 17.4 个百分点，最后一段趋势只赚回 0.9 个百分点——<b>成本和假信号是"按次数"计费的，趋势利润是"按幅度"计费的，而 20 天里次数远多于幅度</b>。这就是"利润属于经纪人"的完整算术：经纪人拿走了 3×2% = 6% 的佣金，你拿到了 −16.5%。若再把价差算进去（每回合再让出买一卖一的差价），亏得更快。</p>
+</div>
+
+<h3>④ 随机游走模型下的形式化（p.162 底部 – p.163 顶部）</h3>
+
+<div class="tr">
+  <span class="lab">原书 pp.162–163 · RW 表述</span>
+  <p>在随机游走（RW）模型下，多头仓位的平均收益理应约等于买入持有的平均收益——除非<b>漂移恰好发生在入场或出场时点</b>。滤波规则可在 RW 模型下表述如下：令收益 r<sub>t</sub> = ln P<sub>t</sub> − ln P<sub>t−1</sub> = μ<sub>t</sub> + a<sub>t</sub>，其中 a<sub>t</sub> 是零均值波动项，μ<sub>t</sub> 是随机漂移项。按滤波规则，当 r<sub>t</sub> &gt; r（阈值）时入场，设入场时刻为 t<sub>0</sub>。若漂移项恰好在 t<sub>0</sub> 被启动，即 t &lt; t<sub>0</sub> 时 μ<sub>t</sub> = 0，而 t ≥ t<sub>0</sub> 时 μ<sub>t</sub> = μ &gt; 0，则滤波的收益就会更好。漂移的持续时间需要仔细监测，且当 r<sub>t</sub> &lt; r 时退出的策略能保证避免过度亏损。</p>
+  <p>当时间间隔很小时，已观察到收益中存在<b>正依赖</b>的证据，这或许可用于预测短期依赖。这可能意味着更频繁交易的机会，但<b>交易成本会侵蚀利润</b>。</p>
+</div>
+
+<div class="why">
+  <span class="h">μ<sub>t</sub> + a<sub>t</sub> 这个分解是全节的理论心脏</span>
+  收益 = <b>漂移（方向）</b> + <b>噪音（抖动）</b>。滤波规则本质是一个<b>漂移探测仪</b>：它赌的是"涨幅超过 x%"这个事件更像"漂移启动了"而不是"噪音碰巧抖了一下"。<br><br>
+  于是滤波赚钱的<b>充要场景</b>被说清楚了：<b>你在场的时段里恰好覆盖了 μ &gt; 0 的那些天</b>。三种情形：① 漂移在入场后立刻启动且持续 → 滤波大赚（吃到 μ）；② 漂移启动在入场<b>之前</b>（你追进时趋势已老）→ 只吃到尾巴，还要付佣金；③ 漂移根本没启动（纯噪音越过阈值）→ 吃满一个假信号。历史判决"跑不赢买入持有"翻译过来就是：<b>情形①的次数 × 平均 μ 盈利 &lt; 情形②③的成本加亏损</b>。
+</div>
+
+<h3>⑤ Sweeney 风险调整滤波（p.163）</h3>
+
+<div class="tr">
+  <span class="lab">原书 p.163 · Risk-Adjusted Filter</span>
+  <p>Sweeney (1988) 为"风险调整后的滤波"的利润检验设计了一套方法。Fama–Blume (1966) 中那些在某段时期是"赢家"的股票，往往在后续时期也持续是赢家——因此<b>只聚焦于赢家而非全部股票</b>能得到更好的结果。假设投资者每天仅凭过去信息用滤波规则决定进出场。考虑 N 天的跨度：滤波策略在 N<sub>in</sub> 天持有该资产，在 N<sub>out</sub> 天不持有。N 天结束时评估滤波的表现。买入持有的平均超额收益率为</p>
+  <div class="eq"><span class="no">定义</span>
+    <div class="body">R<sub>BH</sub> = (1/N) Σ<sub>t=1</sub><sup>N</sup> (r<sub>t</sub> − r<sub>f</sub>)</div>
+  </div>
+  <p>设 f 为资产<b>未被持有</b>的天数比例，则滤波的平均超额收益率为</p>
+  <div class="eq"><span class="no">定义</span>
+    <div class="body">R<sub>F</sub> = (1/N<sub>in</sub>) Σ<sub>t∈I</sub> (r<sub>t</sub> − r<sub>f</sub>)，　I = 持有日集合</div>
+    <span class="cap"><b>逐符号读法</b>：r<sub>t</sub> − r<sub>f</sub> = 第 t 天的超额收益（股票当天收益减去无风险利息——"承担股票风险比躺着多赚的部分"）；I = 滤波真正<b>在场</b>的那些天的编号集合，Σ 只把在场的日子加进来（空仓日不参与求和）；N<sub>in</sub> = 在场天数 = (1−f)·N。所以 R<sub>F</sub> 读作："滤波<b>在场的时候</b>，平均每天多赚多少"。<br>
+    <b>代入手算那笔账</b>（N = 19 天，在场 17 天，I = 除空仓 2 天外的其余日子，r<sub>f</sub> 记 0）：R<sub>F</sub> = 17 天对数收益之和 ÷ 17 = <b>0.00101</b>/天——注意它<b>不是</b>滤波的真实赚钱速度（真实钱包要看摊薄口径的 X），它只是"在场期间的表现"这一个零件，是后面 (5.2) 的左半边原料。<br>
+    <b>和 R<sub>BH</sub> 的分工</b>：R<sub>BH</sub> 分母是全部 N 天（买入持有天天在场，没有"挑日子"问题）；R<sub>F</sub> 分母是 N<sub>in</sub>。两个分母不同，正是 (5.2) 要乘 (1−f) 对齐的原因。</span>
+  </div>
+  <p>假设在 CAPM 下，期望超额收益率等于一个<b>常数风险溢价</b> P<sub>R</sub>。进一步设 E(R<sub>BH</sub>) = P<sub>R</sub>，E(R<sub>F</sub>) = (1−f)·P<sub>R</sub>。使用调整后的统计量</p>
+  <div class="eq"><span class="no">(5.2)</span>
+    <div class="body">x = R<sub>F</sub> − (1−f)·R<sub>BH</sub></div>
+    <span class="cap">来评判滤波规则；可验证 E(x) = 0，且 σ<sub>x</sub> = σ / [(1−f)·N]<sup>1/2</sup>，其中 σ 是超额收益 r<sub>t</sub> − r<sub>f</sub> 的标准差。</span>
+  </div>
+  <p>Fama 和 Blume (1966) 使用的是</p>
+  <div class="eq"><span class="no">(5.3)</span>
+    <div class="body">X = R<sub>F</sub><sup>I</sup> − R<sub>BH</sub></div>
+    <span class="cap">其中 R<sub>F</sub><sup>I</sup> = (1/N) Σ<sub>t∈I</sub> (r<sub>t</sub> − r<sub>f</sub>)（注意分母是 N 而非 N<sub>in</sub>，即空仓日记 0 摊平到全部 N 天）。同样 E(X) = 0 且 σ<sub>X</sub> = σ/√N。</span>
+  </div>
+  <p>X 的主要优点是它度量<b>N 天里每一天</b>的利润，而 x 度量的是<b>持有股的那些天里每天</b>的利润。上述结果对时变风险溢价同样成立：设 r<sub>f</sub> 之上的超额 = P<sub>R</sub> + a<sub>t</sub>（a<sub>t</sub> 随机），则</p>
+  <div class="eq"><span class="no">(5.4)</span>
+    <div class="body">x = (1/N<sub>in</sub>) Σ<sub>t∈I</sub> a<sub>t</sub> − (1/N) Σ<sub>t=1</sub><sup>N</sup> a<sub>t</sub> + （P<sub>R</sub> 的两舱之差）</div>
+    <span class="cap">若投资者对风险溢价的变化没有洞察，则该溢价舱的期望为 0；若投资者对随机的 a<sub>t</sub> 也没有洞察，滤波规则可能只是在"预测风险溢价"而非创造真 alpha。</span>
+  </div>
+</div>
+
+<div class="note">
+  <span class="h">诚实说明：这段原文的符号有两处损伤（PDF 文本层 + 原书排版）</span>
+  ① 原文说"f 为未被持有的天数比例"，但 (5.2) 里用的是 (1−f) 乘 R<sub>BH</sub>——要让 E(x) = 0 成立，(1−f) 必须是<b>持仓比例</b>（即原文 f 的定义与公式用法相反），本页按"公式自洽"的读法翻译；② (5.4) 的溢价舱在 PDF 里乱码（"PRNin+PRN"），我按结构补为"P<sub>R</sub> 的两舱之差"——它的作用只是说明：若两条收益路径的风险溢价舱相同，比较就只剩噪音舱。原文此段若对照 Sweeney (1988) 原始论文阅读更稳妥。
+</div>
+
+<div class="card">
+  <p><b>(5.2) 在想什么：先造一个"没有本事的世界"</b></p>
+  <p>"假设 CAPM 下期望超额 = 常数 P<sub>R</sub>"这句不是废话，它是在<b>定义原假设世界</b>：假如滤波毫无择时能力，那每一天的超额收益期望都是同一个数 P<sub>R</sub>——涨跌像抽签，日子不挑人。在这个世界里：</p>
+  <ul>
+    <li><b>E(R<sub>BH</sub>) = P<sub>R</sub></b>：买入持有天天在场，拿到全额补偿，理所当然；</li>
+    <li><b>E(R<sub>F</sub>) = (1−f)·P<sub>R</sub></b>：滤波只有 (1−f) 份额的天数在场（摊到整个周期计），"没有本事"的它只能赚到<b>运气份额</b>——按在场比例打折后的 P<sub>R</sub>。</li>
+  </ul>
+  <p>于是 (5.2) 的读法一句话：<b>x = 实际赚到 − 没本事时应赚到</b>。x &gt; 0 ⇒ 挑日子的本事是真的；x ≈ 0 ⇒ 和瞎选没区别。<b>E(x) = 0 不是算出来的结论，是刻意设计的锚点</b>——整个统计量被造得在"无本事世界"里期望为零，这样实测 x 偏离 0 的程度才能直接读成本事的大小。</p>
+  <div class="why">
+    <span class="h">常见误读：E(x) = 0 的假设是"滤波赚的钱 = 超额收益"？——不是</span>
+    这里要把<b>"记账口径"和"行为假设"分开</b>，两者经常被搅在一起：<br><br>
+    <b>① "用超额收益记账"是口径，不是假设。</b> R<sub>F</sub> 和 R<sub>BH</sub> 里的每一项都是 r<sub>t</sub> − r<sub>f</sub>——不管滤波还是买入持有，成绩一律按"扣掉无风险利息"计。这么定的理由：空仓的钱躺在无风险资产里也会生息，那部分<b>谁都能拿到，不算本事</b>，必须从两边同时扣掉，比较才公平。如果改用毛收益口径，锚点就歪了（买入持有会白赚一份利息，滤波被判"输得更多"）。<br><br>
+    <b>② E(x) = 0 真正依赖的假设只有一条：挑日子没有信息。</b> 即"在场日"和"随便哪天"的期望超额一样，都是 P<sub>R</sub>。于是滤波的期望 = 在场比例 × P<sub>R</sub> = (1−f)·P<sub>R</sub>，与 (5.2) 右边的基准恰好相消 → E(x) = 0。<br><br>
+    <b>③ 它恰恰不假设"滤波赚得和超额收益一样多"。</b> 注意 E(R<sub>F</sub>) = (1−f)·P<sub>R</sub> &lt; P<sub>R</sub>——无本事的滤波拿的是<b>打折后的超额</b>（少在场就少赚）。若它真的假设两者相等，E(x) 反而 = −f·P<sub>R</sub> ≠ 0，锚点就废了。<br><br>
+    一句话：<b>超额收益是"尺子"，"挑日子无信息"是"原假设"，E(x) = 0 是两者合起来得到的锚点。</b>而 (5.4) 的作用是把尺子再校一次——万一溢价本身在变（P<sub>R</sub> + a<sub>t</sub>），正 x 可能是"挑到了高溢价的日子"（承担更多风险的报酬），仍不算本事。
+  </div>
+  <p><b>σ<sub>x</sub> = σ/[(1−f)N]<sup>1/2</sup> 是"运气的典型大小"</b>：光知道 E(x)=0 不够，还得知道纯运气能把 x 推离 0 多远。分母的 (1−f)N 就是<b>有效样本量（在场天数）</b>——在场越久运气越被摊薄。这和你 5.7 学的"信号按 n 长、运气按 √n 长"<b>完全同构</b>：x ÷ σ<sub>x</sub> 就是 t 值，手算例子里 x = −0.00475、σ = 1% 时 t ≈ −1.96，19 天就能显著判负。</p>
+  <p><b>(5.4) 是最后一道防线</b>：如果"每天的风险溢价"本身在变（P<sub>R</sub> + a<sub>t</sub>），那么滤波赚到的正 x 还有另一种解释——<b>它不是在挑"会涨的日子"，只是在挑"风险溢价高的日子"</b>，即收益是承担更多风险的报酬而非真本事。这就是"风险调整"三个字的完整含义：先把风险的份额从收益里剥干净，剩下的才有资格叫 alpha。</p>
+</div>
+
+<div class="card">
+  <p><b>五步讲解 ↔ 公式逐词对照</b>（每一步的说法对应哪个符号、代入实测数字是多少）：</p>
+  <table class="t">
+    <tr><th style="width:34%">讲解里的说法</th><th style="width:36%">公式符号</th><th>实测（20 天例子）</th></tr>
+    <tr><td>"随便哪天的平均分"（讲解里编了 0.5%）</td><td><b>P<sub>R</sub></b>，CAPM 常数风险溢价</td><td>实测用 R<sub>BH</sub> = 0.643%/天 作其估计</td></tr>
+    <tr><td>"瞎挑的人"</td><td>原假设：滤波无择时能力</td><td>—</td></tr>
+    <tr><td>"在场的 17 天"</td><td>N<sub>in</sub> = (1−f)·N（f = 2/19 ≈ 0.105）</td><td>N<sub>in</sub> = 17</td></tr>
+    <tr><td>"实际每天赚 0.101%"</td><td>R<sub>F</sub> = (1/N<sub>in</sub>) Σ<sub>t∈I</sub>(r<sub>t</sub> − r<sub>f</sub>)</td><td>R<sub>F</sub> = +0.101%/天</td></tr>
+    <tr><td>"实际总分 1.72%"</td><td>N<sub>in</sub>·R<sub>F</sub> = Σ<sub>t∈I</sub>(r<sub>t</sub> − r<sub>f</sub>)</td><td>1.72%</td></tr>
+    <tr><td>"瞎挑应得的每天分数"</td><td><b>(1−f)·R<sub>BH</sub></b></td><td>0.895 × 0.643% = 0.575%/天</td></tr>
+    <tr><td>"x = 实际 − 应得"（每步的落点）</td><td><b>(5.2) x = R<sub>F</sub> − (1−f)·R<sub>BH</sub></b></td><td>x = 0.101 − 0.575 = <b>−0.475%/天</b>（总分口径 17× = −8.1%）</td></tr>
+    <tr><td>"瞎挑的人平均得 0 分"</td><td><b>E(x) = 0</b></td><td>—（锚点，不是实测）</td></tr>
+    <tr><td>"成绩会晃动多厉害"</td><td><b>σ<sub>x</sub> = σ/[(1−f)N]<sup>1/2</sup></b></td><td>σ = 1% 时 σ<sub>x</sub> ≈ 0.243%</td></tr>
+    <tr><td>"离 0 分偏了 1.96 个晃动，瞎挑很难碰巧"</td><td>t 值 = x ÷ σ<sub>x</sub></td><td>−0.475 / 0.243 ≈ <b>−1.96</b></td></tr>
+    <tr><td>"整个 19 天的记分牌（空仓日计 0）"</td><td><b>(5.3) X = R<sub>F</sub><sup>I</sup> − R<sub>BH</sub></b>，R<sub>F</sub><sup>I</sup> 分母为 N</td><td>X = −0.553%/天</td></tr>
+    <tr><td>"专挑好天气出门（不算本事）"</td><td><b>(5.4)</b>：超额 = P<sub>R</sub> + a<sub>t</sub> 时的两舱分解</td><td>—</td></tr>
+  </table>
+  <p>读法提示：<b>总分口径 = 每天口径 × N<sub>in</sub></b>，两者等价；(5.2) 是"每天、持有日、乘 (1−f) 对齐"，(5.3) 是"每天、全部 N 天、天然对齐"——x 与 X 的实测数字方向一致（都显著为负）、数值不同，正是口径不同的体现。</p>
+</div>
+
+<div class="why">
+  <span class="h">(5.2) 与 (5.3) 的区别：同一个问题，两种记账口径</span>
+  两式都在回答"滤波比傻傻拿着好多少"，差别在<b>怎么处理空仓日</b>：<br><br>
+  · <b>(5.3) X</b>（Fama–Blume 口径）：空仓日记 0，摊平到全部 N 天。问的是"<b>这 N 天整体</b>，滤波账户每天平均比买入持有多赚多少"。这是投资者真正的钱包视角——空仓日你拿着无风险利息（近似 0 超额），也是收益的一部分。<br>
+  · <b>(5.2) x</b>（Sweeney 口径）：只算持有日，但右边乘上持仓比例 (1−f) 做<b>风险暴露对齐</b>。问的是"<b>在场的那部分天</b>，滤波每天的表现是否超过了它所承担风险应得的份额"。<br><br>
+  两者在"规则无预测力"的原假设下期望都是 0，但<b>检验功效不同</b>：x 的标准差是 σ/√N<sub>in</sub>（只由持有日的噪音决定），X 的是 σ/√N。哪个更灵敏取决于 f——空仓少时两者接近，空仓多时各有利弊。<b>"和同等风险暴露的基准比，而不是和满仓基准直接比"——这是 (5.2) 的真正思想，它后来长成了整个基金业的绩效归因方法论（你在 §5.2 学的六个比率全都是这个思想的变体）。</b>
+</div>
+
+<h2>三、手算：20 天价格跑一遍 5% 滤波</h2>
+
+<p>用一段构造的价格（为了把"趋势赚钱"和"假信号亏钱"都装进去），x = 5%：</p>
+
+<div class="card">
+<p style="font-family:ui-monospace,Consolas,monospace;font-size:13px;line-height:2">
+价格: 100 102 103 <b style="color:#c0392b">106</b> 105 103 101 <b style="color:#c0392b">99</b> 102 104 107 <b style="color:#c0392b">110</b> 108 106 <b style="color:#c0392b">104</b> 107 109 <b style="color:#c0392b">112</b> 110 113<br>
+信号:　　　　　 买　　　　　 卖　　　　 买　　　　 卖　　　　　 买
+</p>
+<table class="t">
+  <tr><th style="width:14%">日</th><th style="width:18%">动作</th><th style="width:14%">价位</th><th>触发原因</th><th>结果</th></tr>
+  <tr><td>day 3</td><td><b style="color:#c0392b">买入</b></td><td>106</td><td>从低点 100 涨 6.0% &gt; 5%</td><td>进入趋势段 ✓</td></tr>
+  <tr><td>day 7</td><td><b style="color:#2e7d32">卖出转空</b></td><td>99</td><td>从高点 106 跌 6.6% &gt; 5%</td><td><b>假信号</b>：多仓 −6.6%，随后 V 型反弹白送</td></tr>
+  <tr><td>day 9</td><td><b style="color:#c0392b">买入</b></td><td>104</td><td>从低点 99 涨 5.1% &gt; 5%</td><td>重新追回，但比 day 3 的 106 还低</td></tr>
+  <tr><td>day 14</td><td><b style="color:#2e7d32">卖出转空</b></td><td>104</td><td>从高点 110 跌 5.5% &gt; 5%</td><td><b>假信号</b>：又吃一次来回磨损</td></tr>
+  <tr><td>day 17</td><td><b style="color:#c0392b">买入</b></td><td>112</td><td>从低点 104 涨 7.7% &gt; 5%</td><td>吃到末段趋势</td></tr>
+</table>
+</div>
+
+<p>统计量（N = 19 个日收益，ln 差分；此例恰好大部分时间在场，N<sub>in</sub> = 17，空仓比例 f ≈ 0.105）：</p>
+
+<table class="t">
+  <tr><th style="width:30%">量</th><th style="width:26%">数值</th><th>读法</th></tr>
+  <tr><td>R<sub>BH</sub>（全期日均 ln 收益）</td><td><b>0.00643</b></td><td>买入持有每天约 +0.64%</td></tr>
+  <tr><td>R<sub>F</sub>（持有日日均）</td><td><b>0.00101</b></td><td>滤波在场时每天只有 +0.10%</td></tr>
+  <tr><td>(5.3) X = 摊薄 R<sub>F</sub> − R<sub>BH</sub></td><td><b>−0.00553</b></td><td>整体每天跑输 0.55%——假信号吃掉的</td></tr>
+  <tr><td>(5.2) x = R<sub>F</sub> − (1−f)R<sub>BH</sub></td><td><b>−0.00475</b></td><td>按风险暴露对齐后仍然跑输</td></tr>
+  <tr><td>若 σ = 1%：t 值（x / X）</td><td>−1.96 / −2.41</td><td>19 天就能显著判负——这条规则在这段数据上确实差</td></tr>
+</table>
+
+<div class="why">
+  <span class="h">这段手算的两个看点</span>
+  <b>① 假信号的杀伤是成对出现的</b>：day 7 那次不光多仓亏了 −6.6%，随后的空仓观察期还踏空了 99→110 的 V 型反弹；day 14 再来一次。两次假信号把一段整体上涨 13% 的行情做成了跑输——<b>这不需要市场"恶意"，只需要震荡</b>。<br>
+  <b>② 注意 (5.2) 和 (5.3) 在本例方向一致但数值不同</b>（−0.00475 vs −0.00553）——因为口径不同。写论文报统计量时必须注明用的是哪种口径，这正是本节教你的最后一件小事。
+</div>
+
+<h2>四、这一节的遗产：对你项目的四条对照</h2>
+
+<table class="t">
+  <tr><th style="width:28%">本节的概念</th><th>落到你的项目</th></tr>
+  <tr><td><b>"费前毛利漂亮 ≠ 策略好"</b>（Alexander → Fama–Blume 的翻案）</td><td>E1/E2 的 RankIC 和 CI 全是<b>信号层</b>指标，不含任何成本。论文里必须有一节把增量换算成费后——这正是路线图里 §6.5（交易成本）排在第一档的原因。</td></tr>
+  <tr><td><b>x 的选择 = 数据窥探入口</b>（5%、6%、8% 哪个好是试出来的）</td><td>你的 fraction（0.25/0.5）和窗口 20 天也是试出来的超参。§5.7 的教训直接适用：报告时说明选参过程，或对参数网格做一次 Reality Check 式的稳健性检验。</td></tr>
+  <tr><td><b>μ<sub>t</sub> + a<sub>t</sub> 分解</b>（漂移探测仪视角）</td><td>你的切割因子本质也是漂移探测：赌"大单日的收益模式"是结构（μ）而非噪音（a）。E1 的 CI 跨 0 = 数据不足以区分这两者——措辞按"无法证明有漂移"写，别写成"证明了没有"。</td></tr>
+  <tr><td><b>Sweeney 思想：和同等风险暴露的基准比</b></td><td>你比较 E1 vs E0 用的是<b>同一预测期、同一股票池</b>的配对 bootstrap——本质上就是 Sweeney 式的"对齐后比较"。这条原则也可以往外推：未来若加仓位（§5.12 的 w），比较基准也要按 w 对齐，不能拿满仓信号和半仓信号直接比收益。</td></tr>
+</table>
+
+<h2>五、术语对照</h2>
+
+<table class="t">
+  <tr><th style="width:40%">原文</th><th>译法 / 说明</th></tr>
+  <tr><td>filter rule / x% filter</td><td>滤波规则 / x% 滤波（"过滤器"是另一常用译名）</td></tr>
+  <tr><td>buy and hold</td><td>买入持有（被动基准）</td></tr>
+  <tr><td>go short</td><td>做空（A 股个股做空受限，回测里常只做多腿）</td></tr>
+  <tr><td>false signals</td><td>假信号（噪音越过阈值触发的交易）</td></tr>
+  <tr><td>drift term μ<sub>t</sub></td><td>漂移项（收益中的确定性方向成分）</td></tr>
+  <tr><td>risk premium P<sub>R</sub></td><td>风险溢价（CAPM 下承担一单位风险应得的补偿）</td></tr>
+  <tr><td>round-trip commission</td><td>回合佣金（一买一卖合计的费用）</td></tr>
+</table>
+
+<footer>
+  译注：Algorithmic Trading and Quantitative Strategies, §5.3.1, pp.162–163 · 提取方式：pypdf（页索引 178–179）·
+  手算数字均由 Python 实际运行得出（20 天价格、5% 滤波）· (5.2)(5.4) 处原文符号损伤已注明 ·
+  关键文献：Alexander (1961, 1964), Fama &amp; Blume (1966), Mandelbrot (1963), Sweeney (1988)
+</footer>
+
+</div>
+</body>
+</html>

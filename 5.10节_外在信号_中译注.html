@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>5.10 外在信号 · 中译注与小白版讲解</title>
+<style>
+  :root{
+    --bg:#f7f8fa; --card:#fff; --ink:#1a1d23; --ink2:#4a5058; --ink3:#858b94;
+    --line:#e4e7ec; --brand:#0f6e56; --brand-bg:#e7f6f0; --warn:#b45309;
+    --warn-bg:#fdf4e7; --danger:#c0392b; --danger-bg:#fdecea;
+    --blue:#185fa5; --blue-bg:#eaf2ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:15px/1.85 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+  .wrap{max-width:920px;margin:0 auto;padding:40px 24px 100px}
+  header{border-bottom:1px solid var(--line);padding-bottom:24px;margin-bottom:28px}
+  .kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);font-weight:600}
+  h1{font-size:26px;line-height:1.4;margin:10px 0 10px}
+  .src{font-size:13px;color:var(--ink3);margin:0 0 14px}
+  .lede{color:var(--ink2);margin:0;max-width:760px}
+  h2{font-size:20px;margin:48px 0 6px;padding-top:20px;border-top:1px solid var(--line)}
+  h2:first-of-type{border-top:0;padding-top:0}
+  h3{font-size:16px;margin:26px 0 8px}
+  h4{font-size:14.5px;margin:20px 0 6px;color:var(--brand)}
+  p{margin:0 0 13px}
+  ul,ol{padding-left:22px;margin:0 0 14px}
+  li{margin:6px 0;color:var(--ink2)}
+  li strong{color:var(--ink)}
+  code{font:12.5px/1.6 ui-monospace,Consolas,monospace;background:#eef2ed;padding:2px 5px;border-radius:4px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 24px;margin:16px 0}
+  .card.tight{padding:16px 20px}
+  table.t{width:100%;border-collapse:collapse;font-size:13.5px;background:var(--card);
+          border-radius:10px;overflow:hidden;margin:14px 0}
+  table.t th{text-align:left;background:#fafbfc;color:var(--ink3);font-size:12px;letter-spacing:.04em;
+             padding:10px 12px;border-bottom:1px solid var(--line);font-weight:600}
+  table.t td{padding:10px 12px;border-bottom:1px solid #f0f2f5;vertical-align:top;color:var(--ink2)}
+  table.t tr:last-child td{border-bottom:0}
+  table.t td b{color:var(--ink)}
+  .callout{border-radius:10px;padding:14px 18px;margin:15px 0;border-left:3px solid;font-size:14px}
+  .callout .t{font-weight:600;display:block;margin-bottom:4px}
+  .callout.info{background:var(--brand-bg);border-color:#4fb08c;color:#0b5c43}
+  .callout.warn{background:var(--warn-bg);border-color:#e0a33e;color:#6b3f05}
+  .callout.danger{background:var(--danger-bg);border-color:#e07a6e;color:#7d2418}
+  .callout.key{background:var(--blue-bg);border-color:#7eaaf5;color:#12457f}
+  /* 译文块 */
+  .tr{background:#fcfdfc;border:1px solid #dfe6e2;border-left:4px solid #9ec2b2;
+      border-radius:0 10px 10px 0;padding:16px 20px;margin:12px 0}
+  .tr .lab{font:11.5px/1 ui-monospace,Consolas,monospace;color:var(--brand);
+           background:var(--brand-bg);padding:4px 8px;border-radius:4px;display:inline-block;margin-bottom:10px}
+  .tr p{margin:0 0 10px;color:#2a3038}
+  .tr p:last-child{margin-bottom:0}
+  .why{background:#f7f9f6;border:1px dashed #c3d3c9;border-radius:8px;padding:13px 18px;margin:12px 0;
+       font-size:14px;color:var(--ink2)}
+  .why b{color:var(--brand)}
+  .why .h{color:var(--brand);font-weight:600;display:block;margin-bottom:5px;font-size:13px;letter-spacing:.06em}
+  .say{background:var(--card);border-left:4px solid var(--brand);border-radius:0 12px 12px 0;
+       padding:16px 22px;margin:18px 0}
+  .say .h{font-size:12.5px;letter-spacing:.1em;color:var(--brand);font-weight:600;margin-bottom:6px}
+  .say p:last-child{margin-bottom:0}
+  /* 公式卡 */
+  .eq{background:#f4f8f2;border:1px solid #cfe0d5;border-radius:10px;padding:16px 20px;margin:14px 0}
+  .eq .no{font:11px/1 ui-monospace,Consolas,monospace;color:var(--brand);
+          background:var(--brand-bg);padding:4px 8px;border-radius:4px;display:inline-block;margin-bottom:10px}
+  .eq .body{font-family:"Cambria Math",Cambria,Georgia,serif;font-size:16.5px;line-height:2.2;text-align:center}
+  .eq .cap{display:block;font-family:inherit;font-size:12.5px;color:var(--ink3);text-align:left;
+           margin-top:8px;line-height:1.75}
+  sub,sup{font-size:.66em}
+  svg{max-width:100%;height:auto;display:block;margin:16px auto}
+  .figcap{text-align:center;font-size:12.5px;color:var(--ink3);margin:-6px 0 20px}
+  .term{font-size:13.5px}
+  .term td:first-child{width:150px;font-weight:600;color:var(--ink)}
+  footer{margin-top:50px;padding-top:20px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink3)}
+  @media(max-width:640px){
+    .wrap{padding:28px 16px 70px} h1{font-size:22px} .eq .body{font-size:14px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">Section 5.10 · 中译注 + 小白版讲解</div>
+  <h1>外在信号：成交量、波动率等</h1>
+  <p class="src">Velu, Hardy, Nehren《Algorithmic Trading and Quantitative Strategies》· pp.189–198 · 公式 (5.44)–(5.53)</p>
+  <p class="lede">这一节回答一个很朴素的问题：<b>光看价格够不够？</b>作者的答案是不够——成交量里还有一层信息。全文逐段译出，公式逐个讲成人话，最后落成 7 条<b>你能直接改代码</b>的建议。</p>
+</header>
+
+<h2>零、先摆清楚你自己的东西（读译文之前必看）</h2>
+
+<h3>你的因子到底是怎么算出来的</h3>
+
+<p>唯一的定义在 <code>research/features.py</code> 的 <code>cut()</code> 里，全文只有 6 行：</p>
+
+<div class="tr">
+  <span class="lab">research/features.py · 第 4–9 行</span>
+  <p style="font-family:ui-monospace,Consolas,monospace;font-size:12.5px;line-height:1.9">
+    def cut(a, b, fraction=.5, aggregation='sum'):<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;order = np.argsort(a, kind='stable')&nbsp;&nbsp;&nbsp;<span style="color:#858b94"># ① 按 a 把 20 天排序</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;k = int(len(a) * fraction)&nbsp;&nbsp;&nbsp;<span style="color:#858b94"># ② 每组取 k 天</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;fn = np.sum if aggregation=='sum' else np.mean<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;return fn(b[order[-k:]]) - fn(b[order[:k]])&nbsp;&nbsp;&nbsp;<span style="color:#858b94"># ③ 高组 − 低组</span>
+  </p>
+</div>
+
+<p>向量化版本在第 37–40 行，逻辑完全一致，<b>相减就在第 40 行</b>：</p>
+
+<div class="tr">
+  <span class="lab">research/features.py · 第 40 行</span>
+  <p style="font-family:ui-monospace,Consolas,monospace;font-size:12.5px">
+    v = fn(ordered[:, -k:], axis=1) - fn(ordered[:, :k], axis=1)
+  </p>
+</div>
+
+<p>四个输入的含义：<code>a</code> = 排序键（拿什么把 20 天排队），<code>b</code> = 被平均/求和的量，<code>fraction</code> = 每组占比，<code>aggregation</code> = 组内怎么汇总。三个因子的取值：</p>
+
+<table class="t">
+  <tr><th style="width:20%">因子</th><th style="width:26%">排序键 a</th><th style="width:24%">被减的量 b</th><th style="width:16%">分位</th><th>汇总</th></tr>
+  <tr>
+    <td><b>cut_amplitude</b><br><span style="font-size:12px;color:var(--ink3)">features.py:24</span></td>
+    <td><b>收盘价</b> c</td>
+    <td><b>振幅</b> amp = high/low − 1</td>
+    <td>.25 → 各 5 天</td>
+    <td>mean</td>
+  </tr>
+  <tr>
+    <td><b>cut_reversal</b><br><span style="font-size:12px;color:var(--ink3)">features.py:25</span></td>
+    <td><b>笔均成交额</b> avg_trade_amount</td>
+    <td><b>当日收益</b> r</td>
+    <td>.5 → 各 10 天</td>
+    <td>sum</td>
+  </tr>
+  <tr>
+    <td><b>cut_active</b><br><span style="font-size:12px;color:var(--ink3)">features.py:30（需 Wind 数据）</span></td>
+    <td>收益 r 或 收盘价 c</td>
+    <td><b>小单主动买卖比率</b> ratio</td>
+    <td>.25 → 各 5 天</td>
+    <td>mean</td>
+  </tr>
+</table>
+
+<div class="callout info">
+  <span class="t">一句话概括你现在在做什么</span>
+  对每一天的每一个股票，回看 20 天，<b>按 a 排队，把"排队最靠前那撮的 b"减去"排队最靠后那撮的 b"</b>，得到一个数，这个数就是喂给 LightGBM 的新特征。<br><br>
+  它测的是：<b>b 在 a 的两个极端上有多大差别。</b>它隐含的假设是 <b>b 随 a 单调变化</b>——a 越高 b 越往一个方向走。
+</div>
+
+<h3>"相减"其实有两处，别混了</h3>
+
+<table class="t">
+  <tr><th style="width:14%"></th><th style="width:30%">第 ① 处：cut() 里的组间相减</th><th>第 ② 处：residualize 里的"实际 − 预测"</th></tr>
+  <tr>
+    <td><b>在哪</b></td>
+    <td><code>features.py:9</code> / <code>features.py:40</code></td>
+    <td><code>preprocess.py</code> 的 <code>residualize()</code>，由 <code>run_research.py:72</code> 调用</td>
+  </tr>
+  <tr>
+    <td><b>减什么</b></td>
+    <td>20 天窗口内，<b>a 最高组的 b</b> 减 <b>a 最低组的 b</b></td>
+    <td><b>切割因子的实际值</b> 减 <b>用 158 个基线因子在同一天横截面回归出来的预测值</b></td>
+  </tr>
+  <tr>
+    <td><b>目的</b></td>
+    <td>构造"切割因子"这个特征本身</td>
+    <td>把切割因子里<b>能被 158 解释的部分挖掉</b>，只留它独有的部分 → 这就是 E2 用的 <code>resid_*</code></td>
+  </tr>
+  <tr>
+    <td><b>这一节要你改的是</b></td>
+    <td><b style="color:var(--danger)">✓ 就是这里</b></td>
+    <td>不动。这是你实验设计的一部分，不是因子构造问题</td>
+  </tr>
+</table>
+
+<div class="callout warn">
+  <span class="t">这解释了 E1 与 E2 的差别</span>
+  <b>E1</b> 用的是<b>第 ① 处</b>的原始切割因子 <code>cut_*</code>。<br>
+  <b>E2</b> 用的是第 ① 处做完、再经过<b>第 ② 处</b>剥离后的 <code>resid_cut_*</code>。<br><br>
+  所以 E2 的区间之所以那么窄，是因为<b>剥离之后剩下的东西本来就很小</b>——它回答的是"158 解释不了的那一点点，还有没有用"。<b>这是两处相减叠加的结果，不要误读成"切割因子本身如何如何"。</b>
+</div>
+
+<h3>它就是研报里的 M 因子——但你有两处偏离了原版</h3>
+
+<p>研报（开源证券金工）的 M 因子构造：<b>按"当天成交金额"给过去 20 天上色，红色 10 天（金额最高）的涨跌幅之和 = M_high，蓝色 10 天（金额最低）= M_low，M = M_high − M_low，作反向指标。</b>逐项对回你的代码：</p>
+
+<table class="t">
+  <tr><th style="width:34%">研报的 M</th><th>你的代码</th><th style="width:14%">是否一致</th></tr>
+  <tr><td>窗口：过去 20 个交易日</td><td><code>features.py:34</code> <code>sliding_window_view(…, 20)</code></td><td>✓</td></tr>
+  <tr><td>排序键：<b>当天成交金额</b></td><td><code>features.py:25</code> 排序键 = <b>笔均成交额 avg_trade_amount</b></td><td><b style="color:var(--danger)">✗ 不同</b></td></tr>
+  <tr><td>切法：红 10 天 / 蓝 10 天</td><td><code>frac=.5</code> → k = 10</td><td>✓</td></tr>
+  <tr><td>M_high / M_low = 组内<b>涨跌幅之和</b></td><td><code>agg='sum'</code>，b = 当日收益 r</td><td>✓</td></tr>
+  <tr><td>M = M_high − M_low</td><td><code>features.py:40</code> <code>fn(ordered[:,-k:]) - fn(ordered[:,:k])</code></td><td>✓</td></tr>
+  <tr><td>样本：<b>全 A</b></td><td><b>沪深 300</b></td><td><b style="color:var(--danger)">✗ 不同</b></td></tr>
+</table>
+
+<div class="callout danger">
+  <span class="t">截图那张表里，结论取决于"跟谁比"</span>
+  研报给的四个 RankIC：<b>Ret20 −0.061</b>（不切割）、<b>M_high −0.082</b>、<b>M_low +0.018</b>、<b>M −0.070</b>。<br><br>
+  <b>基准一：M vs Ret20（切割 vs 不切割）</b> → −0.070 优于 −0.061。<b>研报主张成立：切割确实比直接用原因子更强。</b><br><br>
+  <b>基准二：M vs M_high（相减 vs 只用大单日）</b> → −0.070 弱于 −0.082。<b>相减稀释了最强的零件。</b>机理见下方「相减的代数」——用研报自己的数字可以反推：<b>M_high 与 M_low 在横截面上几乎不相关（ρ≈0）</b>，相减让分子只多了 0.018、分母却膨胀了 √2，净效应是 IC 从 0.082 稀释到 0.070。<br><br>
+  <b>我上一条只说了基准二，没说基准一——那是拿错了参照系。</b>研报的主张是"切割优于不切割"，截图表格支持这一点。<b>基准二只是顺带暴露的一个可优化点，不能据此说研报失败。</b>
+</div>
+
+<div class="callout warn">
+  <span class="t">因此"研报有效、你没测出"，有三个候选解释，按验证成本排序</span>
+  <b>① 排序键不同</b>（成交金额 vs 笔均成交额）——<b>研报原版你其实还没跑过。</b>在 <code>features.py:25</code> 旁边加一行即可：<br>
+  <span style="font-family:ui-monospace,Consolas,monospace;font-size:12.5px">sources['cut_reversal_amt'] = (g.amount, r, .5, 'sum')</span><br>
+  跑一遍 E1'，与笔均额版对照。<b>这一步成本最低，先做。</b><br><br>
+  <b>② 样本不同</b>（全 A vs 沪深 300）——文献明说效应在小市值更强。按市值分三档复测，或换中证 500/1000。<br><br>
+  <b>③ 口径不同</b>（研报单因子全历史 RankIC、无多重检验校正 vs 你的配对增量 + 块 bootstrap + 与 158 对照）——你的口径更严，"测不出"可能恰恰是严谨的结果。<b>这不该被当成失败，而是答辩时的正面论据。</b><br><br>
+  <b>顺序：先 ①，再 ②，③ 写进论文而不是改代码。</b>
+</div>
+
+<h3>"切割"的精确含义：给窗口里的每一天重新赋权</h3>
+
+<p>你说得对——<b>目的就是切割，不是造一个更强的单调信号。</b>把这件事说精确：</p>
+
+<div class="tr">
+  <span class="lab">切割前</span>
+  <p style="font-family:ui-monospace,Consolas,monospace;font-size:13px">Ret20 = r<sub>1</sub> + r<sub>2</sub> + … + r<sub>20</sub>　　（<b>每一天权重都是 +1</b>）</p>
+</div>
+
+<div class="tr">
+  <span class="lab">切割后</span>
+  <p style="font-family:ui-monospace,Consolas,monospace;font-size:13px">M = M_high − M_low　　（<b>金额最高的 10 天权重 +1，最低的 10 天权重 −1</b>）</p>
+</div>
+
+<div class="callout key">
+  <span class="t">所以"切割"本质上就是换了一套权重</span>
+  窗口还是那 20 天，收益还是那些收益，<b>变的只是"每天算几分"。</b><br><br>
+  · <b>不切割</b>：权重 (+1, +1, …, +1) —— 默认 20 天<b>同等重要、方向一致</b><br>
+  · <b>切割</b>：权重 (+1…+1, −1…−1) —— 默认<b>大单日和小单日"说话方向相反"</b><br><br>
+  <b>研报真正的发现不是 M 这个数，而是：同一个 Ret20，在大单日是强反转（−0.082），在小单日竟然是动量（+0.018）。</b>也就是说，<b>原因子把两种性质相反的东西加在一起了</b>——这就是"切割"的价值：揭示并处理<b>异质性</b>。
+</div>
+
+<div class="callout key">
+  <span class="t">相减的代数：分子叠加，分母膨胀</span>
+  任何切割因子都可以写成 <b>F = w₁·S₁ + w₂·S₂ + … + w<sub>k</sub>·S<sub>k</sub></b>（S<sub>j</sub> = 第 j 档的收益之和，w<sub>j</sub> = 你给的权重）。它的 IC 近似是：<br><br>
+  <p style="font-family:ui-monospace,Consolas,monospace;font-size:13.5px;text-align:center;margin:8px 0">IC(F) ≈ <b>分子：各档信息按权重叠加</b> ÷ <b>分母：组合后的波动 σ(F)</b></p>
+  <b>「相减」到底赚还是亏，全看这两个量的拉扯。</b>拿研报的 M = M_high − M_low 验算（设两档波动相近，σ<sub>H</sub>≈σ<sub>L</sub>=σ）：<br><br>
+  · <b>分子</b>：IC(M_high) = −0.082、IC(M_low) = +0.018，两者<b>异号</b>，相减后<b>同向叠加</b>：|−0.082| + |+0.018| = <b>0.100</b>（分子变大了 ✓）<br>
+  · <b>分母</b>：σ(M_high − M_low) = σ·√(2(1−ρ))，ρ 是两档的横截面相关。分子分母都涨，谁涨得多？<br>
+  · <b>用实测值 −0.070 反推 ρ</b>：0.100 / √(2(1−ρ)) = 0.070 → √(2(1−ρ)) ≈ 1.43 ≈ √2 → <b>ρ ≈ 0</b><br><br>
+  <b>结论：M_high 与 M_low 在横截面上几乎不相关。</b>（合理：哪些天是大单日因股而异、因窗口而异，两只股票的大单日集合几乎没有系统性重叠。）于是相减的账是：分子 +0.018，分母 ×1.414 → <b>0.082 被稀释成 0.070</b>。<br><br>
+  <b>什么情况下相减才有利？</b>① 两档高度相关（ρ 高 → 分母几乎不膨胀，分子白赚）；② 另一头本身很强（分子加得多）。研报的数据两条都不满足。<b>我此前在此写过"高度相关、方差大降"，方向说反了——若真高度相关，相减后 IC 应显著强于 0.082，与实测矛盾。特此更正。</b>
+</div>
+
+<div class="callout danger">
+  <span class="t">⚠ 必须先澄清：我前面把两个"V 形"混着说了，它们纵轴完全不同</span>
+  你问得对：<b>5.10 原文那个 V 形说的是"波动率 vs 成交量"，跟我后来讲的"IC 曲线形状"不是同一个东西。</b>我上一段里直接说"若真实形状是 V 形 → (+1,−1) 抵消"，是把两者混为一谈了。拆开：<br><br>
+  <table class="t">
+    <tr><th style="width:16%"></th><th style="width:20%">横轴</th><th style="width:24%">纵轴</th><th>回答的问题</th><th style="width:20%">出处</th></tr>
+    <tr>
+      <td><b>波动 V 形</b></td><td>成交量 / 额分档</td>
+      <td>该档收益的<b>波动幅度</b> σ(S<sub>j</sub>)（或 |收益| 均值）<br><span style="color:var(--muted)">不带正负号</span></td>
+      <td>这一档"<b>动静有多大</b>"</td>
+      <td>5.10 原文<br>Karpoff / Tauchen–Pitts</td>
+    </tr>
+    <tr>
+      <td><b>IC 曲线</b></td><td>排序键分档</td>
+      <td>该档收益和的 <b>RankIC</b><br><span style="color:var(--muted)">带正负号</span></td>
+      <td>这一档"<b>能不能预测未来、往哪个方向</b>"</td>
+      <td><b>必须自己测</b><br>原文不提供</td>
+    </tr>
+  </table>
+  <b>它们各自作用在 IC 的哪一半上？</b>回到 IC(F) = Cov(F, y) / σ(F)：<br><br>
+  · <b>分子</b> Cov(F, y) = Σ w<sub>j</sub>·Cov(S<sub>j</sub>, y) —— 由 <b>IC 曲线</b>（符号与强度）控制<br>
+  · <b>分母</b> σ(F) —— 由 <b>各档自身波动 σ(S<sub>j</sub>) 与档间相关</b> 控制；<b>波动 V 形在这里起作用</b><br><br>
+  <b>最关键的一句话：波动 V 形不能推出 IC 曲线的形状。</b>原文说"两头波动大"只是说<b>两头热闹、有事件发生</b>，但热闹不等于能预测——量极大时可能是流动性冲击、纯噪声。<b>方向（反转还是动量）必须自己测 IC，文献给不了。</b>
+</div>
+
+<div class="why">
+  <span class="h">那它们到底有没有联系？有——但不是"抵消"，是"稀释"</span>
+  两者唯一的真实联系也落在<b>分母</b>上：<b>若波动真是 V 形（两头 σ 大、中间安静），而 (+1, −1) 恰好把权重全部压在两头 → σ(F) 膨胀到最大 → IC 被稀释。</b><br><br>
+  这与上一节的 ρ≈0 是<b>两个不同来源、同一个后果</b>：ρ≈0 是"档间不相关"撑大分母，波动 V 形是"各档自身波动不均"撑大分母。<b>两者都让"相减"吃亏，但都不是"抵消"。</b><br><br>
+  <b>所以我上次的措辞要这样修正：</b><br>
+  · <b>"抵消"</b>（分子层面、符号相反的信息被减掉）<b>只在 IC 曲线两头同号时才成立</b>——波动不分正负，永远谈不上抵消。<br>
+  · <b>波动 V 形造成的是"稀释"</b>（分母层面），方向仍然正确，只是被压小了。<br><br>
+  既然切割 = 选一套权重，问题就是"正确权重是什么"。而正确权重要同时兼顾分子与分母：<br><br>
+  · <b>IC 单调</b>（低档正、高档负，或反过来）→ (+1, −1) 方向正确，研报的 M 属于这种（+0.018 与 −0.082 异号）<br>
+  · <b>IC 两头同号</b>（两头都强且同向、中间 ≈0）→ (+1, −1) 会<b>抵消</b>；应改成两头同号、中间置 0，如 (+1, 0, +1)<br>
+  · <b>IC 只有一头有值</b> → 别相减，直接用那一头<br><br>
+  <b>完整的最优权重其实是一条公式</b>（兼顾符号与波动）：<b>w<sub>j</sub> ∝ IC<sub>j</sub> / σ<sub>j</sub>²</b>（各档独立时的近似；考虑档间相关的完整形式是 w ∝ Σ⁻¹·IC）。<br>
+  <b>推论：诊断要画两条线，不能只画一条——IC 曲线（管分子）+ 每档波动曲线（管分母），两者相除才是权重。</b>
+</div>
+
+<div class="callout warn">
+  <span class="t">把诊断升级：不要只看"每档的未来收益"，要看"每档收益的预测力"</span>
+  正确的做法（对每一天、每只股票）：<br>
+  <b>①</b> 在 20 日窗口内，按排序键 <code>a</code> 分成 5–10 档<br>
+  <b>②</b> 分别算<b>每一档内部的收益之和</b>（就是 5–10 个"迷你 M"）<br>
+  <b>③</b> <b>对每一档单独横截面算 IC</b>（或对未来收益做回归取系数）<br>
+  <b>④</b> <b>同时算每一档收益和的横截面标准差 σ<sub>j</sub></b>（这一步别省，管的是分母）<br>
+  <b>⑤</b> 画两条线：IC 曲线 + σ 曲线。<b>最优权重 w<sub>j</sub> ∝ IC<sub>j</sub> / σ<sub>j</sub>²</b> —— 这就是你要的权重形状<br><br>
+  判读（<b>符号看 IC 曲线，大小看 σ 曲线</b>）：<br>
+  · <b>σ 曲线呈 V 形</b>（两头波动大）→ 印证原文的波动 V 形；但这只说明两头热闹，<b>方向仍以 IC 曲线为准</b><br>
+  · <b>单调</b>（低档正、高档负，或整条反过来）→ 阶梯权重 (+1, −1) 方向正确，研报的切法成立，别改<br>
+  · <b>两头同号、中间 ≈0</b>（∪ 形或 ∩ 形）→ (+1, −1) 会让两头抵消；改成两头同号、中间置 0，如 (+1, 0, +1)<br>
+  · <b>只有一头有值、另一头平</b> → 别相减，直接用那一头<br><br>
+  <b>这一步做完，你就知道该不该相减、该怎么相减，而不用猜。</b>
+</div>
+
+<div class="callout info">
+  <span class="t">这也重新定位了你的 E1 实验</span>
+  你的 E0 基线里本来就有未切割的动量/反转类特征（<code>features.py:18–19</code> 的 <code>MOM{n}</code>，含 <code>MOM20</code>）。<br><br>
+  所以 <b>E1 − E0 的增量，测的正是"切割 vs 不切割"</b>——<b>这恰好就是研报主张的直接检验。</b>设计是对的。<br><br>
+  那么 E1 测不出来，含义就很明确：<b>在沪深 300 这个样本上、在你的口径下，"按笔均成交额切割 Ret20"相对你已有的动量特征没有增量。</b>这不等于研报错，也不等于你的因子错，而是<b>样本与口径的差异</b>。<b>这个负结果本身就值得写进论文。</b>
+</div>
+
+<h3>现在的结果是什么样</h3>
+
+<table class="t">
+  <tr><th style="width:22%"></th><th>mean_delta</th><th>95% 区间</th><th>n</th><th>怎么读</th></tr>
+  <tr>
+    <td><b>E1_raw_cut</b></td>
+    <td>−0.001297</td><td>[−0.006907, +0.003756]</td><td>856</td>
+    <td>区间宽且跨 0：<b>连方向都说不清</b></td>
+  </tr>
+  <tr>
+    <td><b>E2_residual_cut</b></td>
+    <td>−0.000251</td><td>[−0.001474, +0.000592]</td><td>856</td>
+    <td>区间窄但跨 0：<b>可以确定"就算有用也小到没意义"</b></td>
+  </tr>
+</table>
+
+<p>（数值来自 <code>results_research_lgb/paired_increment_test.json</code>，block=21、rep=500。）</p>
+
+<div class="callout danger">
+  <span class="t">那么这一节要你改的是哪一处？</span>
+  <b>只改第 ① 处：cut() 的构造。</b>具体是三件事：<br>
+  · <b>分位左右对称</b>（现在头尾都是同一个 k）→ 改成非对称，或先取对数<br>
+  · <b>只测单调</b>（现在只有"高组减低组"一个数）→ 补一列 <code>|x − 中位数|</code><br>
+  · <b>振幅定义太粗</b>（现在 <code>amp = high/low − 1</code>，在 <code>features.py:15</code>）→ 换成 (5.52) 那种形式<br><br>
+  <b>第 ② 处的 residualize 不要动</b>，它是你实验设计里干净的一部分。
+</div>
+
+<h2>这一节的文章逻辑（先看骨架，再看译文）</h2>
+
+<div class="say">
+  <div class="h">主旨一句话</div>
+  <p>本章 5.1–5.9 的所有策略<b>都只吃价格</b>。这一节要做的事是：<b>论证成交量（以及波动率、成交笔数）是另一路信息源，然后把它一路做到一个能直接执行的进出场规则。</b></p>
+</div>
+
+<p>它不是文献堆砌，是一条<b>一环扣一环</b>的链条。每一步都在补上一步留下的缺口：</p>
+
+<table class="t">
+  <tr><th style="width:6%">步</th><th style="width:44%">这一步做了什么</th><th>上一步留下的缺口</th></tr>
+  <tr>
+    <td><b>起点</b></td>
+    <td>本章 5.1–5.9 的所有策略（过滤规则、平滑、配对交易、横截面动量）<b>输入只有价格和收益</b></td>
+    <td>— <b>价格是全部信息吗？</b></td>
+  </tr>
+  <tr>
+    <td><b>前提</b></td>
+    <td>援引 4.3 节：若信息流无变化，则<b>成交量与收益波动不应相关</b>；若相关存在，<b>就可推断"有信息"</b>，且可利用</td>
+    <td>缺口变成：<b>谁证明了量里真有信息？</b></td>
+  </tr>
+  <tr>
+    <td><b>①</b></td>
+    <td><b>Blume–Easley–O'Hara 1994</b>：信息不是瞬间被压入价格的，成交量泄露这个过程。<b>Tauchen–Pitts 1983</b>：量与绝对收益强相关</td>
+    <td>缺口：<b>但量价的线性相关可以为零，关系是 V 形</b>。那量到底能用来干什么？</td>
+  </tr>
+  <tr>
+    <td><b>②</b></td>
+    <td><b>Campbell–Grossman–Wang 1993</b>：用成交量把价格变动<b>分成两类</b>——公开信息驱动的 vs 预期收益驱动的；<b>高量的价格变动倾向于反转</b></td>
+    <td>缺口：<b>为什么会反转？机理是什么？</b></td>
+  </tr>
+  <tr>
+    <td><b>③</b></td>
+    <td><b>Llorente 等 2002</b>：市场由<b>流动性交易者</b>与<b>投机交易者</b>构成，两类主导下收益自相关<b>符号相反</b>。式 (5.44) 用交互项给出可检验形式</td>
+    <td>缺口：<b>怎么把它变成能交易的策略？</b></td>
+  </tr>
+  <tr>
+    <td><b>④</b></td>
+    <td><b>Gervais 2001 / Conrad–Hameed–Niden 1994 / Lee–Swaminathan 2000</b>：按<b>交易活跃度分层</b>——高活跃反转、低活动量延续，<b>小市值更强</b>。式 (5.45)(5.46) 给权重</td>
+    <td>缺口：<b>这些都用日/周频"收盘价 + 期间总量"，够不够？</b></td>
+  </tr>
+  <tr>
+    <td><b>⑤</b></td>
+    <td><b>不够。</b>母单被拆成子单后总量失真，<b>必须同时看笔数与单笔规模</b>（Kyle 1985）。<b>Chan–Fong 2000</b> 实证：<b>笔数对波动的解释力优于成交量</b>。式 (5.47)(5.48)</td>
+    <td>缺口：<b>"该期待什么"有没有基准？</b></td>
+  </tr>
+  <tr>
+    <td><b>⑥</b></td>
+    <td><b>Chordia–Roll–Subrahmanyam 2002</b>：三条 stylized facts，作为<b>基准预期</b>——做出来的结果要先跟它们对得上</td>
+    <td>缺口：<b>那具体怎么落地？</b></td>
+  </tr>
+  <tr>
+    <td><b>⑦</b></td>
+    <td><b>实现一（低频）：Cooper 1999</b> 的过滤规则，式 (5.49)–(5.51)，含<b>非对称档宽</b>设计与三条结论</td>
+    <td>缺口：低频之外、中高频怎么做？</td>
+  </tr>
+  <tr>
+    <td><b>⑧</b></td>
+    <td><b>实现二（中频完整流程）：</b>国债 30 分钟数据。式 (5.52) 波动估计 → (5.53) 量分解 → 剥离日内周期 → 两个预测 → <b>Omnibus 三重条件</b></td>
+    <td>链条闭合：<b>从"价格之外有信息"一路走到"一个可执行的进出场规则"</b></td>
+  </tr>
+</table>
+
+<div class="callout key">
+  <span class="t">抓住这条链，你就知道每段译文在干嘛</span>
+  <b>前提</b>（量里有信息）→ <b>① 证明它</b> → <b>② 它能分类价格变动</b> → <b>③ 解释机理</b> → <b>④ 变成分层策略</b> → <b>⑤ 指出低频总量不够，要看笔数</b> → <b>⑥ 给基准</b> → <b>⑦⑧ 给两个可执行实现</b>。<br><br>
+  <b>你的三个因子落在第 ④ 步附近</b>（按活跃度/笔均额分层），而<b>你正在补的 Wind 数据落在第 ⑤ 步</b>。所以这一节对你不是背景知识，是<b>你当前工作的理论位置</b>。
+</div>
+
+<div class="callout key">
+  <span class="t">为什么这一节最该先读</span>
+  你的三个 DBD 切割因子（cut_amplitude / cut_reversal / cut_active）做的事情，在书里的正式名字就叫 <b>"外在信号"</b>：<b>把成交量、振幅、波动这类价格之外的东西，加进本来看价格的规则里。</b><br><br>
+  而且这一节里至少有 <b>三处</b>可以直接揪出你当前设计的问题：<b>量价关系是 V 形（非线性）</b>、<b>成交量分布右偏所以分位不该对称</b>、<b>该效应在小市值股票上更强</b>。下面逐一展开。
+</div>
+
+<h2>核心直觉：成交量不是"涨了还是跌了"，是"有没有信息进来"</h2>
+
+<p>先把这一节最重要的一张图看懂。绝大部分人默认"量大 = 要涨"，这是错的。文献的结论是反过来的：</p>
+
+<svg viewBox="0 0 680 268" width="100%" xmlns="http://www.w3.org/2000/svg" role="img" font-family="var(--font-sans)">
+<title>成交量与价格变动的 V 形关系</title>
+<desc>横轴为价格变动幅度，纵轴为成交量，两者呈 V 形：大涨大跌都放量，不动则缩量。</desc>
+<text x="40" y="28" font-size="14" font-weight="500" fill="#1a1d23">成交量对"涨还是跌"不敏感，对"动了没有"敏感</text>
+
+<path d="M90 60 L90 210 L620 210" fill="none" stroke="#888780" stroke-width="0.5"/>
+<path d="M90 210 L620 210" fill="none" stroke="#888780" stroke-width="0.5"/>
+<polyline points="90,80 222,124 311,182 355,198 399,182 487,124 620,80" fill="none" stroke="#185FA5" stroke-width="2.5"/>
+<circle cx="140" cy="92" r="5" fill="#185FA5"/>
+<circle cx="570" cy="92" r="5" fill="#185FA5"/>
+<circle cx="355" cy="198" r="5" fill="#185FA5"/>
+
+<text x="140" y="72" font-size="12" fill="#185FA5" text-anchor="middle">大跌 · 放量</text>
+<text x="570" y="72" font-size="12" fill="#185FA5" text-anchor="middle">大涨 · 放量</text>
+<text x="355" y="226" font-size="12" fill="#5F5E5A" text-anchor="middle">不动 · 缩量</text>
+
+<text x="90" y="230" font-size="12" fill="#858b94" text-anchor="middle">−6%</text>
+<text x="222" y="230" font-size="12" fill="#858b94" text-anchor="middle">−3%</text>
+<text x="355" y="230" font-size="12" fill="#A32D2D" text-anchor="middle">0</text>
+<text x="487" y="230" font-size="12" fill="#858b94" text-anchor="middle">+3%</text>
+<text x="620" y="230" font-size="12" fill="#858b94" text-anchor="middle">+6%</text>
+<text x="355" y="252" font-size="12.5" fill="#4a5058" text-anchor="middle">价格变动 r</text>
+<text x="62" y="135" font-size="12.5" fill="#4a5058" text-anchor="middle">成交量</text>
+
+<text x="40" y="264" font-size="13" fill="#1a1d23">V 形 = 非对称的非线性。"高组减低组"这种线性差法，读不出这个弯</text>
+</svg>
+<div class="figcap">量价关系的经典形态（Blume–Easley–O'Hara 1994；Tauchen–Pitts 1983）</div>
+
+<div class="why">
+  <span class="h">这条 V 形对你的因子意味着什么（最重要的一句）</span>
+  你的切割因子是<b>"取前 25% 与后 25% 两组，用它们的均值相减"</b>——这是一个<b>线性</b>操作，它默认"高值和低值对未来的影响方向相反、大小对称"。<br><br>
+  但真实的量价关系是 <b>V 形</b>：<b>极端高和极端低往往带来同一种结果</b>（都放量）。线性差分会把这两边互相抵消掉。<br><br>
+  <b>可以试的一件事</b>：除了原有的线性切割因子，再加一列 <code>|x − 中位数|</code>（偏离度）或 <code>(x − 中位数)²</code>，让模型有机会学到"离中间越远越特殊"这件事。
+</div>
+
+<div class="callout key">
+  <span class="t">还是不懂？用三个数字把整件事演一遍</span>
+  <b>先看懂那张图在画什么。</b>横轴是"这一天的涨跌幅"（−6% 大跌 → +6% 大涨），纵轴是"这一天的成交量"。曲线的意思是：<b>涨跌幅处于某个水平的日子，平均成交量是多少</b>。V 形 = 大跌的日子放量、大涨的日子也放量、不涨不跌的日子缩量。<br><br>
+  <b>类比：村里传八卦。</b>八卦越劲爆，传的人越多——<b>好事坏事都一样</b>；平平无奇的事没人传。成交量就是"传的人数"，涨跌幅就是"劲爆程度"。所以量跟"好事坏事"无关，跟"劲不劲爆"有关。<br><br>
+  <b>再看"线性差分读不出这个弯"是什么意思。</b>用三个示意数字（假设按当日成交量分三组，看未来的平均波动）：<br>
+  · 高量组 → 未来波动 2.0%<br>
+  · 中量组 → 未来波动 1.0%<br>
+  · 低量组 → 未来波动 1.9%<br><br>
+  <b>你的因子做法是"高组减低组"：2.0 − 1.9 = 0.1 ≈ 0。</b>于是你得出结论"这因子没用"。<br>
+  <b>但信息明明就在那里</b>——高量组和低量组的后续行为几乎一样，<b>唯独中间那组安静</b>。"两端相减"这个问法，把答案亲手抵消了。<br><br>
+  <b>加一列 |x − 中位数| 为什么就能救回来？</b>因为它把 V 形<b>对折</b>了：<br>
+  · 高量 → 偏离度大　· 低量 → 偏离度也大　· 中量 → 偏离度 ≈ 0<br>
+  折完之后，"偏离度"和"未来波动"变成<b>单调上升</b>的关系（1.0 → 1.5 → 1.9），普通的线性方法就能读出来了。<br><br>
+  <b>一句话：不是数据没信息，是"两端相减"这个问法只测得出单调关系，测不出 V 形。</b>
+</div>
+
+<div class="callout info">
+  <span class="t">把这句话翻译回你的代码（<code>research/features.py</code>）</span>
+  你的 <code>cut(a, b, frac, agg)</code> 实际干的事是：<br>
+  <span style="font-family:ui-monospace,Consolas,monospace;font-size:12.5px">按 <b>a</b> 把 20 天排序 → 取 a 最高的 k 天、最低的 k 天 → <b>b 的均值/和 相减</b></span><br><br>
+  具体到你三个因子：<br>
+  · <code>cut_amplitude</code>　排序键 a = <b>收盘价</b>，被减的 b = <b>振幅</b>，取 25%／25%<br>
+  · <code>cut_reversal</code>　排序键 a = <b>笔均成交额</b>，被减的 b = <b>当日收益</b>，取 50%／50%<br>
+  · <code>cut_active</code>　排序键 a = <b>收益（或收盘价）</b>，被减的 b = <b>小单主动买卖比率</b>，取 25%／25%<br><br>
+  <b>这个减法默认的假设是"单调"</b>：a 一直往上走，b 就一直往某个方向走，所以"最上面那撮"和"最下面那撮"的差就是信号。<br><br>
+  <b>于是"算出 0"有两种完全不同的原因，你从数字上分不出来：</b><br>
+  · <b>情形 A</b>：真的没关系 → 0。<b>这是真结论。</b><br>
+  · <b>情形 B</b>：有关系，但是"两头一伙、中间不一样"（V 形／U 形）→ 也算出来 0。<b>这是假的"没关系"。</b><br><br>
+  一句最朴素的类比：按房价把城市分组看某类消费，<b>最贵区 200、中间区 100、最便宜区 190</b>。"最贵 − 最便宜 = 10 ≈ 0"，你会说"房价和消费无关"——<b>但其实真正特殊的是中间区。</b><br><br>
+  <b>三个因子里风险不一样：</b><code>cut_reversal</code> 的排序键是"笔均成交额"（右偏、且按文献高低活跃是两种市场状态），<b>风险最高</b>；它还是 50%／50%，等于把窗口直接劈成两半。<code>cut_amplitude</code> 与 <code>cut_active</code> 的排序键是价格类变量，单调性相对更说得通。
+</div>
+
+<div class="callout warn">
+  <span class="t">别猜，五分钟就能验（这才是最该做的一步）</span>
+  画一张<b>"尾部分档剖面图"</b>：在每个 20 日窗口里，把排序键 <code>a</code> 分成 5 档（第 1 档最低…第 5 档最高），分别算<b>每档对应的未来收益</b>（就是你的 <code>label</code>），再对所有日期、所有股票平均。<br><br>
+  然后把这 5 个点从左到右画出来：<br>
+  · <b>一直往上／一直往下</b> → 单调，你的"两端相减"是合适的，放心。<br>
+  · <b>中间凹下去或凸起来（U 形／倒 U）</b> → 减法把信号亲手抵消了，改用 <code>|x − 中位数|</code> 或平方项。<br><br>
+  <b>更直接的一种写法：</b>把第 1 档、第 3 档、第 5 档的结果单独算出来看一眼。如果"5 档值 − 1 档值 ≈ 0"、而"3 档值"明显偏离，那八成就是情形 B。
+</div>
+
+<h2>逐段中译（pp.189–198）</h2>
+
+<h3>① 开篇：价格之外还有什么（p.189）</h3>
+
+<div class="tr">
+  <span class="lab">原书第 1 段</span>
+  <p><b>5.10 外在信号：成交量、波动率等。</b>本章迄今介绍的交易算法都聚焦于一只股票的价格与收益行为。在配对交易中，我们通过考察关联股票的价—收益行为来决定何时买入其中一只、卖出另一只。<b>但正如 4.3 节所指出的，成交量里同样存在信息。</b>那里讨论的模型把成交量与波动率联系起来。</p>
+  <p><b>如果关于某只股票的信息流没有任何变化，那么成交量与收益波动率之间就不应当存在任何相关性。</b>如果这种相关确实存在，我们就可以间接地推断"确实有信息"，并且可能想把它用于交易。</p>
+  <p>金融学中有大量文献研究<b>成交量与收益序列相关</b>之间的关系。我们简要回顾部分代表性研究，并给出一个带有若干可行算法的示例。</p>
+</div>
+
+<div class="callout info">
+  <span class="t">这段话的逻辑链条，一句话版</span>
+  <b>信息 →（同时）→ 成交量 ↑ 且 波动率 ↑</b><br><br>
+  所以反过来：<b>如果你观察到"量和波动绑在一起动"，说明有信息在进市场</b>；如果两者各走各的，说明市场很平静。<br><br>
+  这就是"外在信号"能赚钱的<b>全部理由</b>——不是因为量大就好卖，而是因为<b>量是"信息正在进入"的一个可观测代理</b>。
+</div>
+
+<h3>② 成交量的信息角色：信息不是瞬间进价格的（pp.189–190）</h3>
+
+<div class="tr">
+  <span class="lab">原书第 2 段</span>
+  <p>Blume、Easley 与 O'Hara（1994）研究成交量的信息角色。<b>如果信息没有立刻被"压入"（impounding）股价，成交量就可能提供关于某只证券收益演化过程的信息。</b>4.3 节讨论的 Tauchen 与 Pitts（1983）模型，以及配套的实证检验，清楚地记录了<b>成交量与绝对收益之间的强关系</b>。"但为何存在这种模式、甚至成交量在市场里到底怎么演化，都还不清楚。"</p>
+  <p>回想一下：该模型假定<b>信息含量同时影响收益方程与成交量方程</b>；然而<b>收益与成交量之间的相关却可以被证明为零</b>。</p>
+  <p>如果信息含量可以通过"证券价格序列 + 伴随的成交量"来研究，它可能为市场无效性提供洞见，并说明统计套利规则如何利用这种无效性——<b>尤其当存在实证上的领先—滞后关系时</b>。</p>
+  <p><b>交易者信息的质量，最好通过把"价格变动"与"成交量变动"结合起来刻画。</b>研究表明成交量与价格之间的关系呈 <b>V 形</b>，由此表明这是一种<b>非线性</b>关系。关于一只股票的<b>"坏"消息与"好"消息，都可能导致更高的成交量。</b></p>
+</div>
+
+<div class="why">
+  <span class="h">这里有个容易看懵的点</span>
+  前面说"收益与成交量的相关为零"，后面又说"关系呈 V 形"——<b>矛盾吗？不矛盾。</b><br><br>
+  · <b>线性相关为零</b>：涨得多不代表量大、跌得多也不代表量小，两者没有线性共动。<br>
+  · <b>V 形关系很强</b>：<b>不管涨还是跌，只要动得大，量就大。</b><br><br>
+  线性相关系数只能测"同向还是反向"，测不出 V。<b>这就是为什么"单纯看相关系数"会得出"量价无关"的错误结论。</b>
+</div>
+
+<h3>③ 高成交量的价格变动会反转 —— Llorente 回归（p.190）</h3>
+
+<div class="tr">
+  <span class="lab">原书第 3 段</span>
+  <p>Campbell、Grossman 与 Wang（1993）也考察成交量与收益的关系；<b>成交量信息被用来区分两类价格变动：一种是由公开信息引起的，另一种反映的是预期收益的变化。</b>他们的预测是：<b>伴随高成交量的价格变动倾向于被反转，而在低成交量的日子里这种关系可能不成立。</b></p>
+  <p>Llorente、Michaely、Saar 与 Wang（2002）扩展了这项工作，假定市场一般由<b>流动性交易者</b>与<b>投机交易者</b>构成。<b>在高成交量但属投机交易的时期，收益自相关倾向于为正；如果是流动性交易，收益自相关倾向于为负。</b>在前一种情形下，收益更不容易出现反转。</p>
+  <p>把<b>成交量换手率</b> V 定义为成交股数与流通股总数之比，对每只股票拟合如下回归模型：</p>
+</div>
+
+<div class="eq">
+  <span class="no">公式 (5.44)</span>
+  <div class="body">r<sub>t</sub> = φ<sub>0</sub> + φ<sub>1</sub> r<sub>t−1</sub> + φ<sub>2</sub> · V<sub>t−1</sub> · r<sub>t−1</sub> + a<sub>t</sub></div>
+  <span class="cap">
+    r<sub>t</sub> 第 t 期收益　·　r<sub>t−1</sub> 上一期收益　·　V<sub>t−1</sub> 上一期换手率　·　<b>V<sub>t−1</sub> · r<sub>t−1</sub> 交互项</b>　·　a<sub>t</sub> 残差
+  </span>
+</div>
+
+<div class="tr">
+  <span class="lab">原书第 3 段（续）</span>
+  <p>对于<b>投机性交易更强</b>的股票（买卖价差更大），预期 <b>φ<sub>2</sub> 为正</b>。该模型可以扩展，加入市场代理变量等其他变量。注意，<b>我们预期在不同"量—收益"情形下具有不同符号的一阶自相关，正是被 φ<sub>1</sub> 这个系数捕捉到的。</b>NYSE 与 AMEX 股票的实证结果支持上述预测。</p>
+</div>
+
+<div class="callout key">
+  <span class="t">这个交互项就是本节最值钱的一行</span>
+  不用任何复杂模型，只加一个乘法 <code>V<sub>t−1</sub> × r<sub>t−1</sub></code>，就让模型能表达：<br>
+  <b>"上一期涨了之后会怎样，取决于上一期换手了多少。"</b><br><br>
+  三种情形：<br>
+  · φ<sub>2</sub> &gt; 0（<b>投机主导</b>）→ 高换手时表现为<b>动量</b>（涨了还会涨）<br>
+  · φ<sub>2</sub> &lt; 0（<b>流动性主导</b>）→ 高换手时表现为<b>反转</b><br>
+  · V ≈ 0 → 交互项消失，只剩 φ<sub>1</sub><br><br>
+  <b>对照你的项目：</b>你的 <code>cut_reversal</code> 做的是"高活跃日与低活跃日的反转强度之差"——<b>思想完全一致，只是你用'分组相减'，书里用'交互项回归'</b>。这两者是同一件事的两种写法。
+</div>
+
+<h3>④ 按交易活跃度分层（pp.190–191）</h3>
+
+<div class="tr">
+  <span class="lab">原书第 4 段</span>
+  <p>Gervais、Kaniel 与 Mingelgrin（2001）表明，<b>在一段时期内交易异常活跃的股票，往往在随后时期经历更大的收益。</b>其解释是：更高的交易活跃度带来更高的"可见度"，进而制造出后续对该股票的需求。这种<b>用成交量的趋势来刻画反转或动量</b>的做法，也被 Conrad、Hameed 与 Niden（1994）以及 Lee 与 Swaminathan（2000）研究。</p>
+  <p>假设交易活跃度的变化用下式度量：</p>
+</div>
+
+<div class="eq">
+  <span class="no">公式 (5.45)</span>
+  <div class="body">u<sub>it</sub> = ( V<sub>it</sub> − V<sub>it−1</sub> ) / V<sub>it−1</sub></div>
+  <span class="cap">换手率的<b>环比变化率</b>。u &gt; 0 → 高交易活跃股；u &lt; 0 → 低交易活跃股</span>
+</div>
+
+<div class="eq">
+  <span class="no">公式 (5.46)</span>
+  <div class="body">w<sub>it</sub> = r<sub>it−1</sub> · ( 1 + u<sub>it−1</sub> ) ÷ Σ<sub>i=1..N<sub>p</sub></sub> [ r<sub>it−1</sub> · ( 1 + u<sub>it−1</sub> ) ]</div>
+  <span class="cap">组合权重 ∝ <b>上期收益 × (1 + 上期换手变化率)</b>　·　N<sub>p</sub> 为该组合内证券数（p = 1…4）</span>
+</div>
+
+<div class="why">
+  <span class="h">先把身份搞清楚：(5.46)–(5.48) 不是"新因子公式"，是<b>两篇论文的"研究流程"</b></span>
+  看这三条式子最容易卡住的点是：<b>以为它们是三个可以抄来用的公式。</b>不是。原书在这里是<b>复盘别人怎么做研究</b>——Lee–Swaminathan 怎么造组合、Chan–Fong 怎么证明"笔数比成交量更有信息"。<b>你要学的是"他们怎么想的"，不是这三个式子本身。</b><br><br>
+
+  <b>① (5.46) 在干嘛：把"原始分数"变成"能买的比例"（归一化）。</b><br>
+  Lee–Swaminathan 想验证"过去收益 × 交易活跃度"两个维度交叉分组后，各组表现不同。要真去"买"这组股票，就得回答一个问题：<b>每只股票占多少钱？</b><br>
+  · 先给每只股一个<b>原始分数</b>：a<sub>i</sub> = r<sub>i,t−1</sub> · (1 + u<sub>i,t−1</sub>)（上期收益 × 活跃度加成）——<b>这只是"相对强弱"，不是占比</b>；<br>
+  · 再<b>归一化</b>：每只 ÷ 全组分数之和 → 权重加起来正好 = 100%。<br>
+  <b>例子：</b>三只股票原始分数 2、3、5，合计 10 → 归一化后 20%、30%、50%。<br>
+  <b>为什么必须做这一步？因为你只有 100% 的钱。</b>原始分数只是排序，不除一下就没法变成真实的买入金额。这一步和"信号强不强"无关，<b>纯粹是会计操作</b>。<br><br>
+
+  <b>② (5.47) 在干嘛：先剥掉收益的日历效应和自相关，再看量/笔数还剩多少解释力。</b><br>
+  Chan–Fong 想比较"成交量 V"和"成交笔数 T"谁更能解释波动。<b>不能直接把它们和未来收益丢一起回归</b>——收益本身有强烈的星期效应、周一效应、自相关，不先控制住会混淆。所以他们用<b>两阶段</b>：<br>
+  · <b>上式（收益方程）</b>：用星期哑变量 D + 12 阶滞后收益，把收益的日历效应和自相关<b>先吸干</b>，剩下残差 ε；<br>
+  · <b>下式（波动方程）</b>：拿 |ε|（波动代理）去对 V 或 T 回归，看谁的 γ 更显著。<br>
+  <b>结论：笔数 T 的解释力略优于成交量 V。</b>这就是你拉 <code>dealnum</code> 的理论依据。<br><br>
+
+  <b>③ (5.48) 在干嘛：把"笔数"再拆细——按单笔规模分档、分清主动买卖、取净值。</b><br>
+  光知道"笔数多"还不够，还要知道"<b>是买方主动还是卖方主动、是大单还是小单</b>"。于是：<br>
+  · 按<b>单笔规模</b>分 5 档；<br>
+  · 每档算<b>净成交笔数 NT</b> = 买方发起笔数 − 卖方发起笔数（这就是<b>订单不平衡</b>）；<br>
+  · 用 <b>Lee–Ready 规则</b>判定每笔是谁主动：成交价 ≥ 买卖中间价 → 买方发起，否则卖方发起；<br>
+  · 把这 5 个 NT 放进收益方程右端 → <b>多数股票的 λ 显著为正：净主动买入笔数越多，收益越高。</b><br><br>
+
+  <b>④ 数据限制（截图最后那句）：</b>日线数据只有开高低收 + 成交量，<b>没有逐笔成交</b>，所以<b>没法判断每笔是谁主动发起</b>——也就<b>无法用日线复现订单不平衡</b>。要复现，得有逐笔成交 + 买卖报价数据。<br><br>
+
+  <b>和你项目的对照——这正是你 Wind 新数据要补的口子：</b><br>
+  <table class="t">
+    <tr><th style="width:34%">原书需要</th><th>你手里 / 你要拉的</th></tr>
+    <tr><td>(5.47) 的<b>成交笔数 T</b></td><td>Wind 的 <code>dealnum</code>（成交笔数）</td></tr>
+    <tr><td>(5.48) 的<b>单笔规模分档</b></td><td>你的 <code>avg_trade_amount</code> = amount ÷ dealnum（笔均成交额）</td></tr>
+    <tr><td>(5.48) 的<b>订单不平衡</b>（主动买−主动卖）</td><td>你的<b>小单主动买卖</b>数据（(买−卖)/(买+卖)）</td></tr>
+  </table>
+  <b>一句话：这一组公式在告诉你"别人怎么把成交量信息一步步拆细"——而你的 Wind 新数据，正好就是这条拆细路线在 A 股的输入。</b>
+</div>
+
+<div class="tr">
+  <span class="lab">原书第 4 段（续）</span>
+  <p>用"收益正负"与"交易活跃度正负"交叉，构造四个投资组合。实证结果证实：<b>低活跃与高活跃证券的自相关是不同的——高交易活跃的股票出现价格反转，低交易活跃的股票呈现正的自相关。</b>并且这些关系<b>在小市值公司上更强</b>。</p>
+</div>
+
+<div class="callout danger">
+  <span class="t">这里有一句可能解释你"为什么没做出增量结果"</span>
+  原文明确写道：<b>"These relationships are noted to be stronger for smaller firms."（这些关系在小市值公司上更强）</b><br><br>
+  你的样本是<b>沪深 300 成分股</b>——A 股里市值最大、机构覆盖最密、套利最充分的一档。<b>如果这类微观结构的反转/动量效应本来就主要存在于中小盘，那你在这个样本上测出"证据不足"，很可能不是因子设计的问题，而是样本选错了。</b><br><br>
+  <b>可操作的检验：</b>（1）在同一样本里按市值分三档，看效应是不是在小市值档最强；<b>（2）用中证 500 或中证 1000 跑一遍同样的 E0/E1/E2。</b>这比继续调 300 里的参数有价值得多。
+</div>
+
+<h3>⑤ 别只用"收盘价 + 当日总量"（p.191）</h3>
+
+<div class="tr">
+  <span class="lab">原书第 5 段</span>
+  <p>以上讨论针对的是低频数据。多数研究给出的是日度或周度加总数据的结果。<b>简单地使用"期末收盘价"和"该期总量"并不恰当</b>——因为交易是在交易期内的特定时点、以特定价格发生的。</p>
+  <p>高频数据的可得性，让我们得以在<b>控制订单簿失衡之后</b>，研究成交量随时间演化的影响。<b>由于母单（parent order）现在会被切成小单（child orders），因此"成交笔数"与"单笔规模"必须放在一起考虑，以替代单纯的成交量。</b>正如 Kyle（1985）所论证的，价格波动是由<b>净订单流</b>引起的。做市商倾向于从净订单流中推断信息，并据此修正报价。</p>
+</div>
+
+<div class="callout info">
+  <span class="t">这一段是你 Wind 新数据的直接背书</span>
+  书里原话：<b>"both the number of trades and size of trades need to be considered together in place of volume"</b>——必须把<b>成交笔数</b>和<b>单笔规模</b>放在一起，取代单纯的成交量。<br><br>
+  这正是你拉 <code>dealnum</code>、构造"笔均成交额"的动机。<b>你手册里那一段"为什么需要新的 Wind 数据"，可以直接引用这一句。</b>
+</div>
+
+<h3>⑥ 成交笔数比成交量更能解释波动 —— Chan &amp; Fong（pp.191–192）</h3>
+
+<div class="tr">
+  <span class="lab">原书第 6 段</span>
+  <p>Chan 与 Fong（2000）用 NYSE 约三百只股票的随机样本，对日频数据考虑如下两阶段模型：</p>
+</div>
+
+<div class="eq">
+  <span class="no">公式 (5.47) · 上式为收益方程，下式为波动方程</span>
+  <div class="body">
+    r<sub>it</sub> = Σ<sub>k=1..4</sub> δ<sub>ik</sub> D<sub>kt</sub> + Σ<sub>j=1..12</sub> φ<sub>ij</sub> r<sub>it−j</sub> + ε<sub>it</sub><br>
+    ε<sub>it</sub> = θ<sub>i0</sub> + θ<sub>im</sub> M<sub>t</sub> + Σ<sub>j=1..12</sub> θ<sub>ij</sub> |ε<sub>it−j</sub>| + γ<sub>i</sub> · ( V<sub>it</sub> 或 T<sub>it</sub> ) + η<sub>it</sub>
+  </div>
+  <span class="cap">
+    D 星期哑变量　·　M 周一指示变量　·　<b>V 成交量（股数）</b>　·　<b>T 成交笔数</b>　·　|ε| 为已实现波动的代理
+  </span>
+</div>
+
+<div class="tr">
+  <span class="lab">原书第 6 段（续）</span>
+  <p>第二个方程度量量—波动关系，结果表明：<b>成交笔数 T 的解释力略优于成交量股数 V。</b></p>
+  <p>把订单簿失衡与波动的关系纳入上式第一行，改写为：</p>
+</div>
+
+<div class="eq">
+  <span class="no">公式 (5.48)</span>
+  <div class="body">r<sub>it</sub> = Σ<sub>k=1..5</sub> δ<sub>ik</sub> D<sub>kt</sub> + Σ<sub>j=1..12</sub> φ<sub>ij</sub> r<sub>it−j</sub> + Σ<sub>h=1..5</sub> λ<sub>hi</sub> NT<sub>h,it</sub> + ε<sub>it</sub></div>
+  <span class="cap">
+    NT<sub>h,it</sub> = 第 h 个<b>单笔规模档位</b>上的<b>净成交笔数</b>（买方发起 − 卖方发起）<br>
+    主动性判定采用 <b>Lee &amp; Ready（1991）规则</b>。多数股票的 λ 为正且显著。
+  </span>
+</div>
+
+<div class="callout warn">
+  <span class="t">式 (5.48) 几乎就是你 cut_active 的教科书原型</span>
+  它做了三件事，正好对应你想做的事：<br>
+  · <b>按单笔规模分 5 档</b> ← 你要区分大单/小单<br>
+  · <b>用 Lee-Ready 规则判定主动性</b>（买方发起 vs 卖方发起）← 你的"小单主动买卖"<br>
+  · <b>取净值</b>（买方 − 卖方）← 你的"基础比率 =（小单主动买入 − 小单主动卖出）÷ 二者之和"<br><br>
+  <b>一个可以直接抄的细节：</b>文献把它放在<b>回归右端、配上周内哑变量和滞后收益</b>来控制已知效应，再看 λ 是否显著。<br>
+  你现在是直接把它当成<b>预测因子</b>塞进 LGBM。<b>两者都对，但前者更能说清"它到底有没有独立增量"——而后者恰恰是你 E2 想回答的问题。</b>
+</div>
+
+<h3>⑦ 三条基准事实（p.192）</h3>
+
+<div class="tr">
+  <span class="lab">原书第 7 段</span>
+  <p>Chordia、Roll 与 Subrahmanyam（2002）对此做了扩展，给出更全面的实证分析，得到如下可作为<b>基准预期</b>的特征事实：<br>
+  · <b>订单失衡与市场收益强相关</b>；市场下跌后失衡偏高，上涨后失衡偏低。<br>
+  · <b>流动性无法由过去的失衡预测，但可以由市场收益预测。</b><br>
+  · <b>在控制成交量与流动性之后，订单失衡仍与波动率指标强相关。</b><br>
+  这些特征事实有助于发现异象，进而设计相应的交易策略。</p>
+</div>
+
+<div class="why">
+  <span class="h">"基准预期"这个词很关键</span>
+  它的意思是：<b>你做出来的结果，要先跟这些已知事实对得上；对不上，十有八九是数据或口径出错，而不是你发现了新东西。</b><br><br>
+  对你最有用的是第二条：<b>流动性不能由"过去的失衡"预测，却可以由"过去的收益"预测</b>。这意味着——如果你发现自己的某个量能因子能预测流动性，先怀疑是不是<b>它其实只是收益的代理变量</b>。
+</div>
+
+<h3>⑧ 5.10.1 基于收益与成交量的过滤规则（pp.192–193）</h3>
+
+<div class="tr">
+  <span class="lab">原书第 8 段</span>
+  <p>5.3 节讨论的那些规则，都可以改造成<b>把成交量作为收益的权重</b>。这需要同时跟踪价格变化与成交量变化；<b>要跟踪成交量的偏离尤其麻烦</b>——它们必须按<b>日内时点</b>做恰当归一化。因此这些规则的做法是：<b>分别定义并跟踪两个量的变化，再用必要的阈值把它们组合起来。</b></p>
+  <p>Cooper（1999）基于周度收益提出四种策略，另外提出四种把收益（即价格）与成交量信息结合的策略。首先是针对第 t−1 周与第 t−2 周的收益规则：</p>
+</div>
+
+<div class="eq">
+  <span class="no">公式 (5.49) · 价格过滤器（摘其结构）</span>
+  <div class="body">
+    一阶：<b>loser<sub>k</sub></b> 若 −k·A &gt; r<sub>i,t−1</sub> ≥ −(k+1)·A　　<b>winner<sub>k</sub></b> 若 k·A ≤ r<sub>i,t−1</sub> &lt; (k+1)·A<br>
+    二阶：要求 r<sub>i,t−1</sub> 与 r<sub>i,t−2</sub> <b>同时</b>落进同一状态
+  </div>
+  <span class="cap">
+    k = 0…5 为过滤器档位　·　<b>A = 2%</b> 为滞后期收益的网格宽度　·　k=5 为两端开口的"极端档"
+  </span>
+</div>
+
+<div class="tr">
+  <span class="lab">原书第 9 段</span>
+  <p>为了考察收益反转是否与成交量有关，把<b>成交量增速</b>定义为经<b>流通股本</b>调整后的成交量百分比变化：</p>
+</div>
+
+<div class="eq">
+  <span class="no">公式 (5.50)</span>
+  <div class="body">Δv<sub>i,t</sub> = [ ( V<sub>i,t</sub> / S<sub>i,t</sub> ) − ( V<sub>i,t−1</sub> / S<sub>i,t−1</sub> ) ] ÷ ( V<sub>i,t−1</sub> / S<sub>i,t−1</sub> )</div>
+  <span class="cap">S<sub>i,t</sub> 为流通股本。<b>先除以流通股本再算变化率</b>——这一步是标准化，避免大市值股票天然量更大</span>
+</div>
+
+<div class="eq">
+  <span class="no">公式 (5.51) · 成交量过滤器</span>
+  <div class="body">
+    <b>low<sub>k</sub></b> 若 −k·B &gt; Δv<sub>i,t−1</sub> ≥ −(k+1)·B　　<b>high<sub>k</sub></b> 若 k·C ≤ Δv<sub>i,t−1</sub> &lt; (k+1)·C<br>
+    k = 5 ：Δv &lt; −5·B → low<sub>5</sub>　　Δv ≥ 5·C → high<sub>5</sub>
+  </div>
+  <span class="cap">
+    <b>B = 15%（低增速档宽）</b>　·　<b>C = 50%（高增速档宽）</b><br>
+    <b>两边不对称，原因是成交量分布是右偏的</b>。k 的具体取值可通过回测标定。
+  </span>
+</div>
+
+<div class="callout danger">
+  <span class="t">这里的"不对称"值得你立刻照做</span>
+  Cooper 把低量方向的网格宽度设成 <b>15%</b>，高量方向设成 <b>50%</b>，理由是<b>成交量分布右偏</b>。<br><br>
+  你的切割因子是<b>对称的 25% / 25%（cut_reversal 用 50% / 50%）</b>。<b>如果成交额、振幅这些变量同样是右偏的（几乎肯定如此），那么"前 25%"这一组内部其实混进了大量中等水平的日子，信息被稀释了。</b><br><br>
+  <b>建议试三种切法做对比：① 对称 25/25（你现在）；② 对数化之后再切 25/25；③ 非对称分位（如 60/80 或 70/95）。</b>这正是你 20 日窗口、"少数极端日决定整体"这个想法该有的样子。
+</div>
+
+<div class="tr">
+  <span class="lab">原书第 10 段 · Cooper (1999) 的三条结论</span>
+  <p>Cooper（1999）用大盘股数据检验了各类过滤器构造的组合的盈利性，一般结论如下：<br>
+  · <b>"赢家 + 高成交量"策略表现最好。</b><br>
+  · 以<b>连续两周下跌</b>为条件的输家组合，优于基于单周下跌的策略。<br>
+  · <b>"输家 + 低成交量"策略，比单看输家价格的策略利润更高。</b></p>
+</div>
+
+<div class="why">
+  <span class="h">这三条可以直接翻译成你的因子清单</span>
+  它们其实是三条<b>"条件化"规则</b>：<br>
+  · 涨了 + 放量 → <b>动量延续</b>（对应 Llorente 里的 φ<sub>2</sub> &gt; 0）<br>
+  · 跌了 + 缩量 → <b>继续弱</b>（比单看跌更强）<br>
+  · 跌了 + 连续两周 → <b>更强的反转</b><br><br>
+  <b>注意 Structure：</b>赢家配的是<b>高量</b>，输家配的是<b>低量</b>——<b>方向不同，配的量也相反</b>。你的 cut_active 若只是笼统地"按成交额分组"，可能把这相反的两种情况混在一起了。
+</div>
+
+<h3>⑨ 5.10.2 示例：一个可从零跑起来的量价方案（pp.193–198）</h3>
+
+<div class="tr">
+  <span class="lab">原书第 11 段</span>
+  <p>上一节讲的基于低频数据的价格过滤器与成交量过滤器，也可以扩展到高频数据。<b>成交量数据的关键问题在于如何做恰当的标准化，从而识别高频环境下的异常活跃水平。</b>必须仔细跟踪<b>日内季节性</b>以及日间成交量的整体增减，才能研究并充分利用这些偏离。</p>
+  <p>我们用 2006 年 6 月 8 日至 2013 年 8 月 29 日的<b>美国国债收益率 30 分钟数据</b>来说明实际操作中的问题（可视为中频数据）。价格 bar 包含区间内的高、低、开、收价格以及成交量。由于数据是加总的，<b>传统时间序列方法可以直接用来研究价格与成交量序列的趋势。</b>日频数据只是下午 4 点的一个快照，而当日总量是前一日以来所有 30 分钟成交量之和。</p>
+</div>
+
+<div class="eq">
+  <span class="no">公式 (5.52) · 用 bar 数据估计日内波动</span>
+  <div class="body">σ̂<sub>t,m</sub> = 0.5 · [ ln H<sub>t,m</sub> − ln L<sub>t,m</sub> ]² − 0.386 · [ ln C<sub>t,m</sub> − ln O<sub>t,m</sub> ]²</div>
+  <span class="cap">
+    H/L/C/O 为该 30 分钟 bar 的最高/最低/收盘/开盘价　·　类似 Parkinson 类极差估计量（可与 4.5 节的日频版本对照）
+  </span>
+</div>
+
+<div class="callout key">
+  <span class="t">这个公式可以直接拿来改你的 cut_amplitude</span>
+  你的"理想振幅"现在是<b>（最高价 − 最低价）÷ 收盘价</b>这一类朴素定义。式 (5.52) 给了一个更讲究的版本：<br><br>
+  · <b>用对数差分</b>而不是简单相减 → 天然对不同价位可比<br>
+  · <b>用平方</b> → 落在"方差"这个可加的量纲上<br>
+  · <b>减去开开盘—收盘位移那部分</b>（第二项，系数 0.386）→ 把"区间内的来回折腾"和"当期的净位移"分开<br><br>
+  换句话说：<b>同样是"振幅"，这样定义的那个数在统计性质上更干净，也更接近真实波动率。</b>值得做一版对照。
+</div>
+
+<div class="tr">
+  <span class="lab">原书第 12 段 · 日内季节性</span>
+  <p>价格数据整体呈上行趋势，但很难看出成交量的形态，尤其是日内形态。<b>简单的平均成交量图清楚地显示大部分交易发生在上午 8 点到下午 4 点之间。</b>对数成交量的自相关函数清楚地展示了数据中的日内变化。<b>从业者对准确建模成交量有极大兴趣，因为成交量常被用于交易策略的进场/出场决策。</b>例如 VWAP 执行策略假定成交量是事先已知的。其他好处还包括：若交易者在收盘前十分钟接到一笔大额订单并被要求当日完成，一个可靠的成交量预期能帮助评估这笔执行是否可行；以及改进成交量预测如何有助于捕获 alpha。</p>
+  <p>Brownlees、Cipollini 与 Gallo（2011）提出如下动态模型：</p>
+</div>
+
+<div class="eq">
+  <span class="no">公式 (5.53) · 成交量的乘法模型</span>
+  <div class="body">V<sub>t,m</sub> = η<sub>t</sub> · φ<sub>m</sub> · μ<sub>t,m</sub> · ε<sub>t,m</sub></div>
+  <span class="cap">
+    η<sub>t</sub> <b>日成分</b>（当天的整体水平）　·　φ<sub>m</sub> <b>周期成分</b>（日内第 m 段的固定节奏，用正弦/余弦 Fourier 建模）<br>
+    μ<sub>t,m</sub> <b>日内动态的非周期成分</b>（依自身与 V 的滞后项演化）　·　ε<sub>t,m</sub> 噪声<br>
+    <b>因为是乘法形式，取对数后可转为加法，从而各成分分别建模再相加。</b>
+  </span>
+</div>
+
+<div class="tr">
+  <span class="lab">原书第 13–14 段 · 作者给出的建模处方</span>
+  <p>我们先回顾以往实证研究的主要发现：<br>
+  · <b>以平方收益度量的波动率，与成交量正相关。</b><br>
+  · <b>大幅价格变动之后通常伴随高成交量。</b><br>
+  · <b>以滞后期成交量为条件，会削弱杠杆效应。</b><br>
+  · <b>以滞后期成交量为条件后，存在正的风险—收益关系。</b></p>
+  <p>我们的建模思路如下：<b>① 在不同频率层级上对成交量建模</b>（m = 30 分钟，t = 天）；<b>② 用低频数据开发宏观策略</b>；<b>③ 用高频数据做微观决策。</b></p>
+  <p>鉴于日内周期性很强，<b>可以简单地为各个 30 分钟时段构造指示变量，把成交量对这些哑变量回归以捕捉"一天中的时点"效应。这解释了几乎 65% 的对数成交量变异。</b>残差捕捉非周期形态，其偏自相关函数提示可以建模为<b>高阶自回归过程</b>。由于各成分是<b>可加</b>的，哑变量回归的预测与残差自回归的预测可以相加，得到合理的成交量预测。</p>
+</div>
+
+<div class="tr">
+  <span class="lab">原书第 15 段 · 两种简化的成交量预测</span>
+  <p>上述方法显然需要时间序列程序。作为一种易于使用的替代近似，我们建议用<b>指数平滑</b>：<br>
+  · <b>预测一（直接法）：</b>用日度数据预测次日成交量 v̂<sub>t+1</sub>；<b>平滑常数取 0.25–0.35</b>。<br>
+  · <b>预测二（加总法）：</b>两步走——(a) 对每个时段 m，计算若干天（行业通常用 <b>30 天</b>）的平均成交量 v̄<sub>m</sub>；(b) 算残差 e<sub>t,m</sub> = v<sub>t,m</sub> − v̄<sub>m</sub>，对残差用<b>同样的 0.25–0.35</b> 做指数平滑得到 ê<sub>t+1,m</sub>；(c) 该时段预测 v̂<sub>t+1,m</sub> = v̄<sub>m</sub> + ê<sub>t+1,m</sub>；(d) 对 m 加总得到 v̂<sub>t+1</sub>。</p>
+  <p>波动率预测同样走简化路线：<b>对未来 30 天的 daily/intraday 波动取加权平均。</b></p>
+</div>
+
+<h4>Omnibus Rule（综合规则）—— 本节的收尾，也是最可落地的一条</h4>
+
+<div class="tr">
+  <span class="lab">原书第 16 段 · 原文照译</span>
+  <p>下面这个把<b>价格、成交量与波动率</b>结合起来的算法建议如下（假定 5.3 节给出的价格类规则已经在执行）：</p>
+  <p><b>进场，当且仅当：</b><br>
+  (a) <b>价格类规则支持</b>；<b>且</b><br>
+  (b) σ<sub>t+1,m</sub> &lt; σ̂<sub>t+1,m</sub>（<b>已实现波动 &lt; 预测波动</b>）；<b>且</b><br>
+  (c) Σ<sub>m</sub> v<sub>t+1</sub> &lt; Σ<sub>m</sub> v̂<sub>t+1</sub>（<b>累计实际成交量 &lt; 累计预测成交量</b>）。</p>
+  <p><b>出场：只要 (a)、(b)、(c) 中任一条不再成立。</b></p>
+  <p>尽管上述规则看起来相当苛刻（stringent），<b>实际应用却能给出显著的结果。</b></p>
+</div>
+
+<svg viewBox="0 0 680 190" width="100%" xmlns="http://www.w3.org/2000/svg" role="img" font-family="var(--font-sans)">
+<title>Omnibus 三重过滤规则</title>
+<desc>价格规则支持、已实现波动低于预测波动、累计实际成交量低于累计预测成交量，三者同时满足才进场，任一不满足即出场。</desc>
+<text x="40" y="26" font-size="14" font-weight="500" fill="#1a1d23">Omnibus Rule：三个条件串联，全部满足才动手</text>
+
+<rect x="40" y="46" width="180" height="52" rx="8" fill="#B5D4F4" stroke="#185FA5" stroke-width="0.5"/>
+<text x="130" y="64" font-size="12.5" fill="#0C447C" text-anchor="middle" dominant-baseline="central">① 价格规则支持？</text>
+<text x="130" y="82" font-size="11.5" fill="#185FA5" text-anchor="middle" dominant-baseline="central">你已有的信号</text>
+
+<path d="M228 72 L248 72" fill="none" stroke="#888780" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+<rect x="252" y="46" width="180" height="52" rx="8" fill="#B5D4F4" stroke="#185FA5" stroke-width="0.5"/>
+<text x="342" y="64" font-size="12.5" fill="#0C447C" text-anchor="middle" dominant-baseline="central">② 实际波动 &lt; 预测波动？</text>
+<text x="342" y="82" font-size="11.5" fill="#185FA5" text-anchor="middle" dominant-baseline="central">环境够不够安静</text>
+
+<path d="M440 72 L460 72" fill="none" stroke="#888780" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+<rect x="464" y="46" width="176" height="52" rx="8" fill="#B5D4F4" stroke="#185FA5" stroke-width="0.5"/>
+<text x="552" y="64" font-size="12.5" fill="#0C447C" text-anchor="middle" dominant-baseline="central">③ 实际量 &lt; 预测量？</text>
+<text x="552" y="82" font-size="11.5" fill="#185FA5" text-anchor="middle" dominant-baseline="central">有没有新信息在进</text>
+
+<path d="M552 102 L552 124" fill="none" stroke="#0F6E56" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="452" y="128" width="200" height="38" rx="8" fill="#C0DD97" stroke="#3B6D11" stroke-width="0.5"/>
+<text x="552" y="147" font-size="13" fill="#27500A" text-anchor="middle" dominant-baseline="central">三条全中 → 进场</text>
+
+<rect x="40" y="128" width="300" height="38" rx="8" fill="#F7C1C1" stroke="#A32D2D" stroke-width="0.5"/>
+<text x="190" y="147" font-size="12.5" fill="#791F1F" text-anchor="middle" dominant-baseline="central">任一不满足 → 立刻出场</text>
+
+<defs>
+<marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+</defs>
+</svg>
+<div class="figcap">Omnibus Rule 的判定流程（原书 p.197–198）</div>
+
+<div class="why">
+  <span class="h">把它翻译成日频版本，就是你下一个实验（E3）的雏形</span>
+  书里是 30 分钟级的三重过滤。搬到你的日频月度调仓上，可以是：<br><br>
+  · <b>① 信号</b>：现有模型打分仍然是唯一决定 <b>选谁</b> 的东西（不用动）<br>
+  · <b>② 波动环境</b>：当天的已实现波动 vs 过去 30 天的 EWMA 预测波动 → 决定是否<b>下注</b><br>
+  · <b>③ 量能环境</b>：当天累计成交量 vs 过去 30 天同时段的预测成交量 → 决定是否<b>下注</b><br><br>
+  关键是<b>②③ 只做"开关"，不参与选股</b>。这跟你现在的差别很大：你现在是把量价信息<b>混进特征</b>，而这里是把它做成<b>独立的仓位闸门</b>。<br><br>
+  <b>这样做的好处：</b>你的 E1/E2 是在问"加进去的模型能不能选得更好"，而 E3 问的是另一个更好的问题——<b>"同样的选股能力，换个下注时机能不能少亏"。</b>后者的经济意义通常大得多。
+</div>
+
+<h2>公式白话速查</h2>
+
+<table class="t">
+  <tr><th style="width:12%">编号</th><th style="width:44%">一句话人话</th><th>对你的用处</th></tr>
+  <tr><td><b>(5.44)</b></td><td>把"上期收益"和"上期换手率"<b>相乘</b>放进回归，看方向是延续还是反转</td><td>交互项写法；对照你的 cut_reversal</td></tr>
+  <tr><td><b>(5.45)</b></td><td>换手率的<b>环比变化率</b></td><td>你的"成交额变化"类特征可直接换这个定义</td></tr>
+  <tr><td><b>(5.46)</b></td><td>权重 ∝ 上期收益 ×（1 + 上期活跃度变化）</td><td>构造组合的另一种加权法</td></tr>
+  <tr><td><b>(5.47)</b></td><td>两阶段：<b>笔数 T 比成交量 V 更能解释波动</b></td><td><b>dealnum 的理论依据</b></td></tr>
+  <tr><td><b>(5.48)</b></td><td>按单笔规模分档，用 Lee-Ready 判主动性，取<b>净主动笔数</b></td><td>你"小单主动买卖"的原型</td></tr>
+  <tr><td><b>(5.49)</b></td><td>把前期收益切成 6 档状态（A = 2% 一档）</td><td>比"25% 分位"更细的分层法</td></tr>
+  <tr><td><b>(5.50)</b></td><td>先除以<b>流通股本</b>再算成交量的变化率</td><td><b>标准化必须的那一除</b></td></tr>
+  <tr><td><b>(5.51)</b></td><td>量过滤器：<b>低量档宽 15%，高量档宽 50%（不对称）</b></td><td>直接改你的分位切法</td></tr>
+  <tr><td><b>(5.52)</b></td><td>用 <b>H/L/C/O</b> 四个价算"这段时间的波动"</td><td>重定义你的振幅</td></tr>
+  <tr><td><b>(5.53)</b></td><td>成交量 = 日水平 × 日内节奏 × 动态残差 × 噪声</td><td>日内/日频两层建模的分解思路</td></tr>
+</table>
+
+<h2>直击你的项目：7 条可以马上做的事</h2>
+
+<table class="t">
+  <tr><th style="width:5%">#</th><th style="width:26%">改什么</th><th style="width:26%">改哪个文件哪一行</th><th>依据 / 为什么</th></tr>
+  <tr>
+    <td><b>1</b></td>
+    <td>分位改成<b>不对称</b>（或先取对数）</td>
+    <td><code>features.py:37</code><br><code>k = int(20 * frac)</code> → 头尾各用不同的 k</td>
+    <td>式 (5.51)：Cooper 低量侧 15%、高量侧 50%，因成交量分布右偏。<b>改动最小、最可能见效。</b></td>
+  </tr>
+  <tr>
+    <td><b>2</b></td>
+    <td>补一列 <b>|x − 中位数|</b>（偏离度）</td>
+    <td><code>features.py:31–43</code> 的 sources 循环<b>之外</b>另加一列（<b>不要改 cut 本身</b>）</td>
+    <td>V 形非线性。现有"高组减低组"只测单调，测不出两端一致的形态</td>
+  </tr>
+  <tr>
+    <td><b>3</b></td>
+    <td>重定义<b>振幅</b></td>
+    <td><code>features.py:15</code><br><code>amp = g.high/g.low - 1</code></td>
+    <td>式 (5.52)：对数极差平方 − 0.386×开收平方。量纲落在方差上、跨价位可比</td>
+  </tr>
+  <tr>
+    <td><b>4</b></td>
+    <td>加一组<b>交互项</b>对照实验</td>
+    <td><code>run_research.py:70</code> 的 <code>specs</code> 里加一组</td>
+    <td>式 (5.44)：直接把 <code>turnover × return</code> 放进 E0。<b>若它能打平 cut_*，说明手工切割没带来模型学不到的东西</b>——这个负结论本身有答辩价值</td>
+  </tr>
+  <tr>
+    <td><b>5</b></td>
+    <td>换样本 / 按市值分档复测</td>
+    <td>标的文件 <code>instruments/csi300.txt</code>；或在结果层按市值分三档</td>
+    <td>原文："stronger for smaller firms"。<b>沪深 300 是最没有秘密的一批公司</b></td>
+  </tr>
+  <tr>
+    <td><b>6</b></td>
+    <td>给 dealnum 补文献出处</td>
+    <td>手册 / 论文"为什么需要 Wind 新数据"一节</td>
+    <td>式 (5.47) 笔数优于成交量；式 (5.48) 按单笔规模分档 + Lee-Ready 判主动性</td>
+  </tr>
+  <tr>
+    <td><b>7</b></td>
+    <td>把量价从"特征"改成"<b>开关</b>"</td>
+    <td><code>run_research.py:70–72</code> 新增一组 spec（<code>E3_neural_oof</code> 已被占用，用 E4）</td>
+    <td>Omnibus Rule：<b>波动/量能两把锁只决定"今天要不要下注"，不参与选股。</b>换时机通常比多塞特征更值钱</td>
+  </tr>
+</table>
+
+<div class="callout info">
+  <span class="t">在做 1–3 之前，先花五分钟验一下值不值得改</span>
+  画一张<b>尾部分档剖面图</b>：在每个 20 日窗口内，把排序键 <code>a</code> 分成 5 档，分别算<b>每档对应的未来收益（你的 <code>label</code>）</b>，再对日期与股票平均。<br><br>
+  · <b>单调</b> → 第 1、2 条不用改，问题在别处<br>
+  · <b>U 形 / 倒 U（中间凹或凸）</b> → 第 2 条必须做<br><br>
+  这一张图直接告诉你：<b>E1 那个 0，到底是"真没用"还是"被自己的减法抵消了"。</b>
+</div>
+
+<div class="callout warn">
+  <span class="t">两条诚实边界（答辩前必须知道）</span>
+  <b>① 证据的时代与地域。</b>这一节引用的研究绝大多数是 <b>1990–2000 年代的 NYSE / AMEX / NASDAQ</b> 数据。<b>沪深 300 在 2020 年代的市场微观结构不同</b>（涨跌停、T+1、散户占比、注册制前后差异）。书上的系数不能直接照搬，<b>要照搬的是"该看哪些东西、该怎么建模"，不是具体数值。</b><br><br>
+  <b>② 别忘 5.7 的教训。</b>这一节里出现的每一条规则（每周 x%、网格 2%、档宽 15%/50%、平滑常数 0.25–0.35）都是<b>在特定样本上调出来的</b>。你在自己的数据上重新标定时，<b>同样会引入数据窥探</b>。标完之后，请务必回到 <b>5.7 的 White / SPA / FDR</b> 那一套去核一遍。
+</div>
+
+<h2>术语对照</h2>
+
+<table class="t term">
+  <tr><td>Extraneous Signals</td><td>外在信号 —— 价格/收益之外的信息源，如成交量、波动率、成交笔数。<b>你的切割因子属这一类。</b></td></tr>
+  <tr><td>Volume Turnover (V)</td><td>换手率 = 成交股数 ÷ 流通股数。<b>注意分母是流通股本，不是总股本。</b></td></tr>
+  <tr><td>Parent / Child Order</td><td>母单 / 子单。大单被算法拆成许多小单，所以"成交量"本身已经失真，要看笔数与单笔规模。</td></tr>
+  <tr><td>Net Trade Count (NT)</td><td>净成交笔数 = 买方发起笔数 − 卖方发起笔数，通常按单笔规模分档统计。</td></tr>
+  <tr><td>Lee &amp; Ready Rule</td><td>判断一笔成交是买方还是卖方发起的经典规则（成交价与买卖报价中点比较 + 报价变动修正）。</td></tr>
+  <tr><td>Order Imbalance</td><td>订单失衡 = 买方发起量 − 卖方发起量。</td></tr>
+  <tr><td>Filter Rule</td><td>过滤规则 —— 把资产按过去表现切成若干"状态档"，不同档用不同交易动作。</td></tr>
+  <tr><td>Grid Width (A / B / C)</td><td>网格宽度 —— 分档的步长。书里 A = 2%（收益）、B = 15%（低量）、C = 50%（高量）。</td></tr>
+  <tr><td>Leverage Effect</td><td>杠杆效应 —— 价格下跌通常伴随波动上升的现象。</td></tr>
+  <tr><td>Intra-day Periodicity</td><td>日内周期性 —— 成交量在一天内呈 U 形/驼峰形分布，建模前必须剥离。</td></tr>
+  <tr><td>Impounding</td><td>信息被"压入"价格的过程 —— 若这个过程不是瞬时的，成交量就携带了中间阶段的信息。</td></tr>
+</table>
+
+<h2>关键文献（按出现顺序）</h2>
+
+<table class="t">
+  <tr><th style="width:34%">文献</th><th>贡献</th></tr>
+  <tr><td>Tauchen &amp; Pitts (1983)</td><td>成交量—波动率关系的经典模型（详见 4.3 节）</td></tr>
+  <tr><td>Blume, Easley &amp; O'Hara (1994)</td><td>成交量的<b>信息角色</b></td></tr>
+  <tr><td>Campbell, Grossman &amp; Wang (1993)</td><td><b>高成交量的价格变动倾向于反转</b></td></tr>
+  <tr><td>Llorente, Michaely, Saar &amp; Wang (2002)</td><td>式 (5.44)：投机 vs 流动性交易决定自相关符号</td></tr>
+  <tr><td>Gervais, Kaniel &amp; Mingelgrin (2001)</td><td>异常活跃 → 后续更高收益（可见度假说）</td></tr>
+  <tr><td>Conrad, Hameed &amp; Niden (1994)</td><td>按交易活跃度分层的反转/动量</td></tr>
+  <tr><td>Lee &amp; Swaminathan (2000)</td><td>换手率与动量生命周期</td></tr>
+  <tr><td>Kyle (1985)</td><td><b>净订单流驱动价格波动</b></td></tr>
+  <tr><td>Chan &amp; Fong (2000)</td><td>式 (5.47)(5.48)：<b>笔数优于成交量</b>；净主动笔数</td></tr>
+  <tr><td>Lee &amp; Ready (1991)</td><td>交易方向判定规则</td></tr>
+  <tr><td>Chordia, Roll &amp; Subrahmanyam (2002)</td><td>三条量—失衡—波动的基准事实</td></tr>
+  <tr><td>Cooper (1999)</td><td>式 (5.49)–(5.51)：收益/成交量过滤规则与不对称档宽</td></tr>
+  <tr><td>Brownlees, Cipollini &amp; Gallo (2011)</td><td>式 (5.53)：成交量的乘法分解模型</td></tr>
+</table>
+
+<footer>
+  译注依据 Velu / Hardy / Nehren《Algorithmic Trading and Quantitative Strategies》pp.189–198 原文提取翻译；讲解与项目建议为结合你的 Qlib × Alpha158 × 切割因子项目所加，属解读而非原文。<br>
+  建议你手上备一份正版，对照原文与图表（Figure 5.8–5.16）一起读。
+</footer>
+
+</div>
+</body>
+</html>

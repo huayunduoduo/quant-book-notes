@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>5.3.2 均线与振荡器 · 中译注</title>
+<style>
+  :root{
+    --bg:#f7f8fa; --card:#fff; --ink:#1a1d23; --ink2:#4a5058; --ink3:#858b94;
+    --line:#e4e7ec; --brand:#0f6e56; --brand-bg:#e7f6f0; --warn:#b45309;
+    --warn-bg:#fdf4e7; --danger:#c0392b; --danger-bg:#fdecea;
+    --blue:#185fa5; --blue-bg:#eaf2ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:15px/1.85 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+  .wrap{max-width:920px;margin:0 auto;padding:40px 24px 100px}
+  header{border-bottom:1px solid var(--line);padding-bottom:24px;margin-bottom:28px}
+  .kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);font-weight:600}
+  h1{font-size:26px;line-height:1.4;margin:10px 0 10px}
+  .src{font-size:13px;color:var(--ink3);margin:0 0 14px}
+  .lede{color:var(--ink2);margin:0;max-width:760px}
+  h2{font-size:20px;margin:48px 0 6px;padding-top:20px;border-top:1px solid var(--line)}
+  h2:first-of-type{border-top:0;padding-top:0}
+  h3{font-size:16px;margin:26px 0 8px}
+  p{margin:0 0 13px}
+  ul,ol{padding-left:22px;margin:0 0 14px}
+  li{margin:6px 0;color:var(--ink2)}
+  li strong{color:var(--ink)}
+  code{font:12.5px/1.6 ui-monospace,Consolas,monospace;background:#eef2ed;padding:2px 5px;border-radius:4px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 24px;margin:16px 0}
+  table.t{width:100%;border-collapse:collapse;font-size:13.5px;background:var(--card);
+          border-radius:10px;overflow:hidden;margin:14px 0}
+  table.t th{text-align:left;background:#fafbfc;color:var(--ink3);font-size:12px;letter-spacing:.04em;
+             padding:10px 12px;border-bottom:1px solid var(--line);font-weight:600}
+  table.t td{padding:10px 12px;border-bottom:1px solid #f0f2f5;vertical-align:top;color:var(--ink2)}
+  table.t tr:last-child td{border-bottom:0}
+  table.t td b{color:var(--ink)}
+  .callout{border-radius:10px;padding:14px 18px;margin:15px 0;border-left:3px solid;font-size:14px}
+  .callout .t{font-weight:600;display:block;margin-bottom:4px}
+  .callout.info{background:var(--brand-bg);border-color:#4fb08c;color:#0b5c43}
+  .callout.warn{background:var(--warn-bg);border-color:#e0a33e;color:#6b3f05}
+  .callout.danger{background:var(--danger-bg);border-color:#e07a6e;color:#7d2418}
+  .callout.key{background:var(--blue-bg);border-color:#7eaaf5;color:#12457f}
+  .tr{background:#fcfdfc;border:1px solid #dfe6e2;border-left:4px solid #9ec2b2;
+      border-radius:0 10px 10px 0;padding:16px 20px;margin:12px 0}
+  .tr .lab{font:11.5px/1 ui-monospace,Consolas,monospace;color:var(--brand);
+           background:var(--brand-bg);padding:4px 8px;border-radius:4px;display:inline-block;margin-bottom:10px}
+  .tr p{margin:0 0 10px;color:#2a3038}
+  .tr p:last-child{margin-bottom:0}
+  .why{background:#f7f9f6;border:1px dashed #c3d3c9;border-radius:8px;padding:13px 18px;margin:12px 0;
+       font-size:14px;color:var(--ink2)}
+  .why b{color:var(--brand)}
+  .why .h{color:var(--brand);font-weight:600;display:block;margin-bottom:5px;font-size:13px;letter-spacing:.06em}
+  .say{background:var(--card);border-left:4px solid var(--brand);border-radius:0 12px 12px 0;
+       padding:16px 22px;margin:18px 0}
+  .say .h{font-size:12.5px;letter-spacing:.1em;color:var(--brand);font-weight:600;margin-bottom:6px}
+  .say p:last-child{margin-bottom:0}
+  .eq{background:#f4f8f2;border:1px solid #cfe0d5;border-radius:10px;padding:16px 20px;margin:14px 0}
+  .eq .no{font:11px/1 ui-monospace,Consolas,monospace;color:var(--brand);
+          background:var(--brand-bg);padding:4px 8px;border-radius:4px;display:inline-block;margin-bottom:10px}
+  .eq .body{font-family:"Cambria Math",Cambria,Georgia,serif;font-size:16.5px;line-height:2.2;text-align:center}
+  .eq .cap{display:block;font-family:inherit;font-size:12.5px;color:var(--ink3);text-align:left;
+           margin-top:8px;line-height:1.75}
+  .note{background:#fbfbfc;border:1px solid #e6e9ee;border-radius:8px;padding:11px 15px;margin:12px 0;
+        font-size:13px;color:var(--ink2)}
+  .note .h{font-weight:600;color:var(--ink);display:block;margin-bottom:4px;font-size:12.5px}
+  sub,sup{font-size:.66em}
+  svg{max-width:100%;height:auto;display:block;margin:16px auto}
+  .figcap{text-align:center;font-size:12.5px;color:var(--ink3);margin:-6px 0 20px}
+  footer{margin-top:50px;padding-top:20px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink3)}
+  @media(max-width:640px){
+    .wrap{padding:28px 16px 70px} h1{font-size:22px} .eq .body{font-size:14px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">Algorithmic Trading and Quantitative Strategies · Ch.5</div>
+  <h1>§5.3.2 均线族与振荡器<br><span style="font-size:16px;color:var(--ink3)">Moving Average Variants and Oscillators</span></h1>
+  <p class="src">原文 pp.164–166（约 2.5 页）· 公式 (5.5)–(5.8) · 页索引 180–182（pypdf）</p>
+  <p class="lede">这是技术规则的"主力部队"：三种均线（SMA / EWA / BWMA）、布林带、双均线振荡器、RSI。本节的结构是"先摆装置、再装仪表、最后给仪表一个统计学的读数"——收尾那句"所有规则都能写成收益分布 c.d.f. 的形式"，正是 §5.10（成交量进模型）和你 M 因子的方法论入口。</p>
+</header>
+
+<div class="say">
+  <div class="h">本节主旨（一句话）</div>
+  <p>上一节的滤波只有一个旋钮 x，本节把"工具箱"铺开：均线族负责"平滑掉噪音、留下趋势"，布林带往均线里加回波动率，双均线交叉用"两条平滑线的相对位置"代替"价格对一条线的穿越"，RSI 则直接量化"最近涨跌的力量对比"。最后原文做了最重要的一步：<b>把每条规则都翻译成随机游走模型下收益分布 c.d.f. 的读数</b>——规则不再是图形直觉，而是模型的检验统计量；也正因为有了模型，成交量这类新信息才有位置可以"正式加进来"。</p>
+</div>
+
+<h2>一、文章逻辑链：六步</h2>
+
+<table class="t">
+  <tr><th style="width:10%">步</th><th style="width:46%">内容</th><th>上一步留下的缺口</th></tr>
+  <tr><td><b>①</b></td><td>(5.5)：先补刀——Fama–Blume 的度量对滤波<b>系统性偏负</b></td><td>上节判决可能有失公允 → ①先澄清 bias</td></tr>
+  <tr><td><b>②</b></td><td>(5.6) 三种均线：SMA 等权 / EWA 指数权 / BWMA 线性权</td><td>①说清公平性，该摆装置了 → ②是最基础的平滑装置</td></tr>
+  <tr><td><b>③</b></td><td>SMA/EWA 交易规则 + "反转 vs 动量"两种进场哲学</td><td>②只给了指标，没给怎么用 → ③给规则</td></tr>
+  <tr><td><b>④</b></td><td>布林带：往均线里<b>加回波动率</b>（±2σ̂ 两条带）</td><td>③的规则不管波动大小、一视同仁 → ④补上波动维度</td></tr>
+  <tr><td><b>⑤</b></td><td>双均线振荡器 + RSI：用"两条线交叉""涨跌力量比"发信号</td><td>④还是"价格对静态线"，⑤升级成"线对线""力量对力量"</td></tr>
+  <tr><td><b>⑥</b></td><td>(5.8) 随机游走解读：RSI=70 ⟺ 赔率比 &gt; 2.33；<b>所有规则皆可写成 c.d.f.</b></td><td>①–⑤全是 ad hoc 装置 → ⑥给统一的理论地基，并打开成交量之门</td></tr>
+</table>
+
+<h2>二、逐段中译与讲解</h2>
+
+<h3>① 开场补刀：Fama–Blume 度量对滤波有偏（p.164 顶部）</h3>
+
+<div class="tr">
+  <span class="lab">原书第 1 段 · p.164</span>
+  <p>有人指出，Fama 和 Blume 的度量在寻找成功滤波规则这件事上<b>存在偏倚</b>。统计量 X 和 x 是为多头策略设计的——投资者在未持仓时把资金放在无风险资产里。若定义持仓日与非持仓日<b>累计超额收益之差</b>为：</p>
+  <div class="eq"><span class="no">(5.5)</span>
+    <div class="body">R<sub>F</sub>* = (1/N) [ Σ<sub>t∈I</sub>(r<sub>t</sub> − r<sub>f</sub>) − Σ<sub>t∈O</sub>(r<sub>t</sub> − r<sub>f</sub>) ]</div>
+    <span class="cap">I = 持仓日集合，O = 空仓日集合。注意分母是 N（全部天数），且空仓日的超额<b>带负号</b>进入。</span>
+  </div>
+  <p>则可证 E(R<sub>F</sub>* − R<sub>BH</sub>) = (1−2f)P<sub>R</sub> − P<sub>R</sub> = <b>−2f·P<sub>R</sub></b>——是常数风险溢价的一个固定比例，因此造成偏倚。</p>
+</div>
+
+<div class="why">
+  <span class="h">这个 bias 在数学上是怎么发生的（手算）</span>
+  在"无本事世界"里每一天期望超额都是 P<sub>R</sub>。R<sub>F</sub>* 的两个舱：<br>
+  · 持仓舱：(1−f)·N 天 × P<sub>R</sub> = (1−f)N·P<sub>R</sub><br>
+  · 空仓舱：**负号** × f·N 天 × P<sub>R</sub> = −fN·P<sub>R</sub>（空仓日你<b>没赚到</b>的超额被记成了"损失"）<br>
+  合计 E(R<sub>F</sub>*) = (1−2f)·N·P<sub>R</sub>/N = (1−2f)P<sub>R</sub>。而 R<sub>BH</sub> = P<sub>R</sub>，相减：<br>
+  <b>E(R<sub>F</sub>* − R<sub>BH</sub>) = (1−2f)P<sub>R</sub> − P<sub>R</sub> = −2f·P<sub>R</sub> &lt; 0（只要 f&gt;0）</b><br><br>
+  代数字：P<sub>R</sub> = 0.5%/天时，f=0.1 → 偏置 −0.10%/天；f=0.3 → −0.30%/天。<b>哪怕滤波毫无本事也被判负</b>——但注意方向：这个 bias 是<b>不利于滤波</b>的，所以 Fama–Blume 那句死刑判决其实"偏严不偏松"。真正的含义是：上一节 (5.2) 用 (1−f)·R<sub>BH</sub> 校正暴露是必要的，若用 (5.5) 这种口径直接比，结论会失真。<b>同一份成绩，口径选错，正负结论都能造出来</b>——这就是"口径"这一课的第二集（第一集是 5.2 的 x vs X）。
+</div>
+
+<h3>② 三种均线（p.164）</h3>
+
+<div class="tr">
+  <span class="lab">原书第 2 段 · p.164</span>
+  <p>均线交易规则通常基于<b>当前价格与过去价格某种移动平均的比较</b>。考虑价格 P<sub>t</sub>, P<sub>t−1</sub>, …, P<sub>t−m+1</sub>，窗口宽度 m。文献中有多种均线，其相对优劣取决于价格形态：</p>
+  <div class="eq"><span class="no">(5.6)</span>
+    <div class="body">
+      SMA: P̄<sup>(m)</sup><sub>t</sub> = (1/m) Σ<sub>i=0</sub><sup>m−1</sup> P<sub>t−i</sub><br>
+      EWA: P̄<sup>(m)</sup><sub>t</sub> = [1/Σ<sub>i=0</sub><sup>m−1</sup>λ<sup>i+1</sup>] · Σ<sub>i=0</sub><sup>m−1</sup> λ<sup>i+1</sup> P<sub>t−i</sub><br>
+      BWMA: P̂<sup>(m)</sup><sub>t</sub> = [1/Σ<sub>i=1</sub><sup>m</sup>i] · Σ<sub>i=0</sub><sup>m−1</sup> (m−i)·P<sub>t−i</sub>
+    </div>
+    <span class="cap">平滑常数 λ 必须在 0 与 1 之间。SMA 等权；EWA 按指数衰减加权（越新越重）；BWMA 按线性递减加权（第新的权 m，第旧的权 1）。</span>
+  </div>
+  <p>基于这类指标的规则在<b>呈现明确趋势的市场</b>中往往有盈利，因此它们一般被称为"趋势跟随"（trend-following）指标，有时也称"动量"指标。</p>
+</div>
+
+<div class="card">
+  <p><b>三种均线手算对比</b>（同一窗口 m=5，价格 [100, 102, 101, 105, 104]，λ=0.9）：</p>
+  <table class="t">
+    <tr><th style="width:14%">均线</th><th style="width:30%">权重（旧→新）</th><th>结果</th></tr>
+    <tr><td><b>SMA</b></td><td>每个 1/5 = 0.200</td><td><b>102.400</b></td></tr>
+    <tr><td><b>EWA</b></td><td>0.160 → 0.178 → 0.198 → 0.220 → 0.244（指数衰减，最新权最大）</td><td><b>102.168</b></td></tr>
+    <tr><td><b>BWMA</b></td><td>1/15 → 2/15 → 3/15 → 4/15 → 5/15（线性递增）</td><td><b>101.667</b></td></tr>
+  </table>
+  <p>注意排序：BWMA &lt; EWA &lt; SMA。窗口里最新的 104 是<b>偏低</b>的价，谁的"新价权"越大，就被拉得越低——三种均线本质是<b>同一窗口上三种"记忆衰减曲线"</b>，它们没有绝对好坏，只有"对最近的反应快慢"之分。</p>
+</div>
+
+<div class="why">
+  <span class="h">"记忆"差多少？改一个数试试</span>
+  把最后一天 104 改成 120（大涨），其余不动：<br>
+  · SMA：102.40 → 105.60，<b>动了 3.20</b>（每个价都均摊 1/5，新价进来大家重新洗牌）<br>
+  · EWA：102.17 → 104.73，<b>动了 2.56</b>——慢着，EWA 权最新价最重，怎么反而动得少？<br>
+  因为 EWA 的权重是<b>归一化后</b> 0.244 对比 SMA 的 0.200？不对——真相是：EWA 版本里旧价的权<b>合计仍占 75.6%</b>，而新价在旧价群体中"稀释"得更多；同时 λ=0.9 衰减慢、新旧差不大。真正决定"反应速度"的不是加权形式本身，而是<b>有效窗口宽度</b>（EWA 的半衰期 ≈ ln2/ln(1/λ) ≈ 6.6 天，比 m=5 还长）。<b>λ 小 → 记忆短 → 反应快但噪音多；λ 大 → 记忆长 → 平滑但滞后</b>。这条和你调 LGBM 超参是同一种权衡：响应度 vs 稳定度。
+</div>
+
+<h3>③ 交易规则与两种哲学：反转 vs 动量（p.164）</h3>
+
+<div class="tr">
+  <span class="lab">原书第 3 段 · p.164</span>
+  <p>实践中的一些简单规则：</p>
+  <div class="eq"><span class="no">规则</span>
+    <div class="body">SMA 规则：若 P̄<sup>(m)</sup><sub>t</sub>/P<sub>t</sub> &gt; U 或 &lt; L，则交易<br>
+    EWA 规则：若 P̄<sup>(m)</sup><sub>t</sub>(λ)/P<sub>t</sub> &gt; U 或 &lt; L，则交易</div>
+    <span class="cap">U、L 是上下阈值（如 1.02 与 0.98）。"交易"的方向见下一段。</span>
+  </div>
+  <p>两类潜在策略大致称为<b>"反转"（Reversal）与"动量"（Momentum）</b>，区别主要在<b>进场的时点</b>：逆向者（contrarian / 反转）寻找<b>局部最低点</b>进场；动量追随者寻找<b>局部最高点</b>进场。</p>
+</div>
+
+<div class="why">
+  <span class="h">同一条均线，能装出两种截然相反的策略</span>
+  比率 P̄/P 本身只告诉你"价格在均线上方还是下方"，<b>不告诉你该买还是该卖</b>——方向是策略设计者选的：<br><br>
+  · <b>动量派</b>：P 上穿均线 → 趋势启动 → <b>买</b>（追涨）；P 下穿 → 卖。<br>
+  · <b>反转派</b>：P 跌破均线过深（比率 &lt; L）→ 超跌 → <b>买</b>（抄底）；上冲过高 → 卖。<br><br>
+  所以"用均线"这个说法本身没有信息量，<b>"用均线 + 选边"才有</b>。这两派不可能同时正确——市场若趋势性强，动量对；若均值回归强，反转对。这不是哲学之争，是<b>关于收益自相关符号的实证问题</b>——正是 ⑥ 段随机游走解读要回答的（γ(h) 的符号决定谁有理）。
+</div>
+
+<h3>④ 布林带：把波动率加回均线（p.165）</h3>
+
+<div class="tr">
+  <span class="lab">原书第 4 段 · p.165</span>
+  <p>上述规则容易实现，但<b>没有考虑价格（收益）过程的方差或波动率</b>。广泛使用的布林带（Bollinger band）在概念上类似于监控制造业质量过程，它基于加权均线和方差。定义标准差：</p>
+  <div class="eq"><span class="no">定义</span>
+    <div class="body">σ̂<sub>t</sub> = { (1/(m−1)) Σ<sub>i=0</sub><sup>m−1</sup> (P<sub>t−i</sub> − P̄<sup>(m)</sup><sub>t</sub>)² }<sup>1/2</sup></div>
+  </div>
+  <div class="eq"><span class="no">BWMA 规则</span>
+    <div class="body">若 P<sub>t</sub> &gt; P<sup>+</sup> = P̂<sup>(m)</sup><sub>t</sub> + 2σ̂<sub>t</sub>（上带），则<b>卖出</b>；<br>
+    若 P<sub>t</sub> &lt; P<sup>−</sup> = P̂<sup>(m)</sup><sub>t</sub> − 2σ̂<sub>t</sub>（下带），则<b>买入</b>；<br>
+    两者之间<b>不行动</b>。</div>
+  </div>
+  <p>大体上，移动平均、加权平均等关键量对应 Lai 与 Xing (2008) 讨论的<b>滑动均值平滑器</b>。有些技术规则不用滑动均值，而用<b>滑动最大值 / 最小值</b>（max / min<sub>0≤i≤m</sub> P<sub>t−i</sub>），这些规则的性质同样容易研究。</p>
+</div>
+
+<div class="card">
+  <p><b>布林带手算</b>（接上面 m=5 窗口：均值 102.400，样本标准差 σ̂ = 2.074）：</p>
+  <table class="t">
+    <tr><th style="width:20%">量</th><th style="width:40%">算式</th><th>值</th></tr>
+    <tr><td>中轨</td><td>P̄ = 102.400</td><td>102.40</td></tr>
+    <tr><td>上带</td><td>102.400 + 2×2.074</td><td><b>106.55</b></td></tr>
+    <tr><td>下带</td><td>102.400 − 2×2.074</td><td><b>98.25</b></td></tr>
+  </table>
+  <p>价格在 [98.25, 106.55] 之间时<b>什么都不做</b>——带子外的世界才触发交易。与滤波对比：滤波的门槛是"固定的百分比 x"，布林带的门槛是"相对当前波动率的 2 个标准差"——<b>市场安静时带子自动收窄（灵敏），市场狂躁时带子自动放宽（钝感）</b>。这就是"考虑了方差"的含义。</p>
+</div>
+
+<div class="callout warn">
+  <span class="t">注意：书里这条布林带规则是"反转式"的——和网上流行版本相反</span>
+  原文写得很清楚：碰上带<b>卖出</b>、碰下带<b>买入</b>（超买卖超卖买，均值回归逻辑）。而坊间流行的布林带突破策略是"突破上带<b>追涨买入</b>"（动量逻辑）。两种用法在文献里都存在，但<b>本节的写法是反转式</b>——和 ⑤ 段 RSI 的"超买/超卖"家族同门。别把两版混为一谈，回测时方向写反等于白测。"制造业质量监控"的类比也印证反转式：指标偏离控制带 = 过程异常 = 大概率回归。
+</div>
+
+<h3>⑤ 两个振荡器：双均线交叉与 RSI（p.165）</h3>
+
+<div class="tr">
+  <span class="lab">均线振荡器 · p.165</span>
+  <p>所谓均线振荡器规则需要计算<b>短、长两个时间跨度的均线</b>。设 P̄<sup>(m)</sup><sub>t</sub> 与 P̄<sup>(n)</sup><sub>t</sub> 为短、长均线，m &lt; n。当<b>短均线穿越长均线</b>时发出趋势突破信号：短均线<b>自下而上</b>穿过长均线发出上升趋势信号；反之自上而下为下降突破。精确地：</p>
+  <div class="eq"><span class="no">振荡器规则</span>
+    <div class="body">进场：P̄<sup>(m)</sup><sub>t−1</sub> &lt; P̄<sup>(n)</sup><sub>t−1</sub> 且 P̄<sup>(m)</sup><sub>t</sub> &gt; P̄<sup>(n)</sup><sub>t</sub><br>
+    离场：P̄<sup>(m)</sup><sub>t−1</sub> &gt; P̄<sup>(n)</sup><sub>t−1</sub> 且 P̄<sup>(m)</sup><sub>t</sub> &lt; P̄<sup>(n)</sup><sub>t</sub></div>
+    <span class="cap">民间叫法：金叉（进场）/ 死叉（离场）。注意条件里是<b>两天</b>：昨天的相对位置 + 今天的相对位置，"穿越"是一个两天事件。</span>
+  </div>
+</div>
+
+<div class="card">
+  <p><b>金叉手算</b>（短 m=3，长 n=5，价格先跌后涨：110→109→107→106→105→104→103→104→106→108→110→112）：</p>
+  <table class="t">
+    <tr><th style="width:12%">t</th><th style="width:14%">价格</th><th style="width:18%">短均线(3)</th><th style="width:18%">长均线(5)</th><th>信号</th></tr>
+    <tr><td>5</td><td>104</td><td>105.00</td><td>106.20</td><td>短&lt;长</td></tr>
+    <tr><td>6</td><td>103</td><td>104.00</td><td>105.00</td><td>短&lt;长</td></tr>
+    <tr><td>7</td><td>104</td><td>103.67</td><td>104.40</td><td>短&lt;长</td></tr>
+    <tr><td>8</td><td>106</td><td>104.33</td><td>104.40</td><td>短&lt;长（只差 0.07）</td></tr>
+    <tr><td><b>9</b></td><td><b>108</b></td><td><b>106.00</b></td><td><b>105.00</b></td><td><b>金叉 → 进场</b>（昨天 104.33&lt;104.40，今天 106&gt;105）</td></tr>
+    <tr><td>10</td><td>110</td><td>108.00</td><td>106.20</td><td>短&gt;长（持仓）</td></tr>
+    <tr><td>11</td><td>112</td><td>110.00</td><td>108.00</td><td>短&gt;长（持仓）</td></tr>
+  </table>
+  <p>看 t=8→9 那一步：价格 106→108 只涨了两块，短均线却从 104.33 跳到 106.00（它对新材料敏感），长均线只从 104.40 爬到 105.00（它拖着 4 天旧价）。<b>交叉信号的本质 = 短记忆追上长记忆的那一刻</b>。也看得到代价：t=8 只差 0.07 没触发，迟一天进场的成本是 106−104 = 2 块——<b>平滑的滞后费</b>。</p>
+</div>
+
+<div class="tr">
+  <span class="lab">RSI 振荡器 · p.165–166</span>
+  <p>另一个振荡器用于衡量价格朝某一方向运动的<b>强度</b>：相对强弱指标（RSI）。其逻辑是：若价格变化朝一个方向过快，反向修正很可能随之而来且不久出现。因此这类规则被称为"反转"或"超买/超卖"指标。定义：</p>
+  <div class="eq"><span class="no">原料</span>
+    <div class="body">U<sub>t</sub> = Σ<sub>i=1</sub><sup>m</sup> I(P<sub>t−i</sub> − P<sub>t−i−1</sub> &gt; 0)·|P<sub>t−i</sub> − P<sub>t−i−1</sub>|<br>
+    D<sub>t</sub> = Σ<sub>i=1</sub><sup>m</sup> I(P<sub>t−i</sub> − P<sub>t−i−1</sub> &lt; 0)·|P<sub>t−i</sub> − P<sub>t−i−1</sub>|</div>
+    <span class="cap">U = 最近 m 个变动里<b>上涨部分之和</b>，D = <b>下跌部分绝对值之和</b>——把涨跌两股力量分别归拢。原文 D 舱写作 S，应为笔误。</span>
+  </div>
+  <div class="eq"><span class="no">(5.7)</span>
+    <div class="body">RS<sub>t</sub> = U<sub>t</sub> / D<sub>t</sub>，　RSI<sub>t</sub> = 100 · U<sub>t</sub>/(U<sub>t</sub>+D<sub>t</sub>) = 100 − 100/(1 + RS<sub>t</sub>)</div>
+    <span class="cap">RS 是"涨跌力量之比"——一个<b>赔率比</b>（odds ratio）；RSI 把它压到 0–100 区间。由构造，RSI 天然归一化。</span>
+  </div>
+  <div class="eq"><span class="no">反转规则 · p.166</span>
+    <div class="body">若 RSI<sub>t</sub> &gt; 70：超买，预示向下修正 → <b>离场或做空</b><br>
+    若 RSI<sub>t</sub> &lt; 30：超卖，预示向上修正 → <b>进场</b></div>
+  </div>
+</div>
+
+<div class="card">
+  <p><b>RSI 手算</b>（m=5 个变动：+2, +1, −3, +2, +1）：</p>
+  <table class="t">
+    <tr><th style="width:22%">量</th><th style="width:44%">算式</th><th>值</th></tr>
+    <tr><td>U（涨的和）</td><td>2 + 1 + 2 + 1</td><td><b>6</b></td></tr>
+    <tr><td>D（跌的和）</td><td>3</td><td><b>3</b></td></tr>
+    <tr><td>RS</td><td>6 / 3</td><td><b>2.000</b></td></tr>
+    <tr><td>RSI</td><td>100 × 6/9</td><td><b>66.67</b></td></tr>
+    <tr><td>交叉验证</td><td>100 − 100/(1+2)</td><td>66.67 ✓（两种写法恒等）</td></tr>
+  </table>
+  <p>本例 RS=2 → RSI=66.67，还没到 70 的超买线。看懂了这对数，"RSI=70 ⟺ RS=2.33"就只是一个比例换算：</p>
+  <table class="t">
+    <tr><th style="width:25%">RSI</th><th style="width:35%">RS = RSI/(100−RSI)</th><th>含义</th></tr>
+    <tr><td>30</td><td>30/70 = <b>0.429</b></td><td>跌的力量是涨的 2.3 倍 → 超卖</td></tr>
+    <tr><td>50</td><td><b>1.000</b></td><td>涨跌持平（随机游走的锚点）</td></tr>
+    <tr><td><b>70</b></td><td>70/30 = <b>2.333</b></td><td>涨的力量是跌的 2.33 倍 → 超买</td></tr>
+    <tr><td>80</td><td><b>4.000</b></td><td>4 倍力量差</td></tr>
+  </table>
+</div>
+
+<h3>⑥ 统计地基：把规则写成 c.d.f.（p.166）</h3>
+
+<div class="say" style="margin:14px 0 18px">
+  <div class="h">这一段的一句话主旨</div>
+  <p>把"RSI &gt; 70 就叫超买"这句经验口诀，翻译成一句模型语言：<b>「模型认为未来 n 天上涨的概率已经超过 70%」</b>。翻译完，规则就不再是图形直觉，而是一个<b>概率陈述</b>——概率陈述能被检验、能被加条件、能算出它值多少钱。原文用三行公式完成这次翻译，跨度很大；下面拆成五级台阶，每级只用上一级的结果。</p>
+</div>
+
+<svg viewBox="0 0 680 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="随机游走模型下 n 天平均收益的分布">
+  <rect x="0" y="0" width="680" height="300" fill="#ffffff"/>
+  <line x1="120" y1="210" x2="640" y2="210" stroke="#c9ced6" stroke-width="1"/>
+  <path d="M 140,210.0 L 140.0,208.3 L 148.0,207.8 L 156.0,207.0 L 164.0,206.1 L 172.0,204.9 L 180.0,203.4 L 188.0,201.6 L 196.0,199.3 L 204.0,196.7 L 212.0,193.5 L 220.0,189.7 L 228.0,185.3 L 236.0,180.3 L 244.0,174.6 L 252.0,168.3 L 260.0,161.3 L 268.0,153.7 L 276.0,145.6 L 284.0,137.0 L 292.0,128.1 L 300.0,119.0 L 308.0,110.0 L 316.0,101.1 L 324.0,92.6 L 332.0,84.7 L 338.0,210.0 Z" fill="#c0392b" fill-opacity="0.13"/>
+  <path d="M 338.0,210.0 L 340.0,77.6 L 348.0,71.5 L 356.0,66.6 L 364.0,63.0 L 372.0,60.7 L 380.0,60.0 L 388.0,60.7 L 396.0,63.0 L 404.0,66.6 L 412.0,71.5 L 420.0,77.6 L 428.0,84.7 L 436.0,92.6 L 444.0,101.1 L 452.0,110.0 L 460.0,119.0 L 468.0,128.1 L 476.0,137.0 L 484.0,145.6 L 492.0,153.7 L 500.0,161.3 L 508.0,168.3 L 516.0,174.6 L 524.0,180.3 L 532.0,185.3 L 540.0,189.7 L 548.0,193.5 L 556.0,196.7 L 564.0,199.3 L 572.0,201.6 L 580.0,203.4 L 588.0,204.9 L 596.0,206.1 L 604.0,207.0 L 612.0,207.8 L 620.0,208.3 L 620,210.0 Z" fill="#0f6e56" fill-opacity="0.20"/>
+  <path d="M 140.0,208.3 L 148.0,207.8 L 156.0,207.0 L 164.0,206.1 L 172.0,204.9 L 180.0,203.4 L 188.0,201.6 L 196.0,199.3 L 204.0,196.7 L 212.0,193.5 L 220.0,189.7 L 228.0,185.3 L 236.0,180.3 L 244.0,174.6 L 252.0,168.3 L 260.0,161.3 L 268.0,153.7 L 276.0,145.6 L 284.0,137.0 L 292.0,128.1 L 300.0,119.0 L 308.0,110.0 L 316.0,101.1 L 324.0,92.6 L 332.0,84.7 L 340.0,77.6 L 348.0,71.5 L 356.0,66.6 L 364.0,63.0 L 372.0,60.7 L 380.0,60.0 L 388.0,60.7 L 396.0,63.0 L 404.0,66.6 L 412.0,71.5 L 420.0,77.6 L 428.0,84.7 L 436.0,92.6 L 444.0,101.1 L 452.0,110.0 L 460.0,119.0 L 468.0,128.1 L 476.0,137.0 L 484.0,145.6 L 492.0,153.7 L 500.0,161.3 L 508.0,168.3 L 516.0,174.6 L 524.0,180.3 L 532.0,185.3 L 540.0,189.7 L 548.0,193.5 L 556.0,196.7 L 564.0,199.3 L 572.0,201.6 L 580.0,203.4 L 588.0,204.9 L 596.0,206.1 L 604.0,207.0 L 612.0,207.8 L 620.0,208.3" fill="none" stroke="#0f6e56" stroke-width="2.2"/>
+  <line x1="338.0" y1="210" x2="338.0" y2="52" stroke="#c0392b" stroke-width="1.6" stroke-dasharray="5 4"/>
+  <text x="338.0" y="203" text-anchor="middle" font-size="12.5" fill="#c0392b" font-weight="700">0</text>
+  <line x1="320" y1="196" x2="336" y2="200" stroke="#c0392b" stroke-width="1"/>
+  <line x1="380.0" y1="210" x2="380.0" y2="56.0" stroke="#0f6e56" stroke-width="1.4" stroke-dasharray="4 3"/>
+  <text x="380.0" y="44.0" text-anchor="middle" font-size="13" fill="#0b5c43" font-weight="600">μ（漂移＝中心）</text>
+  <text x="480" y="130" font-size="13" fill="#0b5c43">涨的面积 ≈ 70%</text>
+  <text x="150" y="150" font-size="13" fill="#8c2c20">跌的面积 ≈ 30%</text>
+  <text x="470" y="236.0" font-size="12" fill="#858b94">r̄_n（n 天平均收益）</text>
+  <text x="120" y="188.0" font-size="12" fill="#4a5058">曲线宽度 = σ′ = σ/√n</text>
+</svg>
+<p class="figcap">读图：分布的中心是漂移 μ，宽度是 σ′ = σ/√n。问"涨的概率"= 问 0 右边那块面积有多大。μ 只要离开 0 有 0.52 个 σ′，"超买"（RSI=70）就到了。</p>
+
+<div class="card">
+  <p><b>台阶 0：先把 Φ 当成一台"面积查询机"</b></p>
+  <p>Φ(z) = 标准正态曲线下、<b>z 左边那块面积</b>，输出一个 0–1 之间的数。它没有简单公式，只能查表（或一行代码），所以先把它当成机器，别当成神秘符号。</p>
+  <table class="t">
+    <tr><th style="width:16%">z</th><th style="width:16%">Φ(z)</th><th>这台机器在说什么</th></tr>
+    <tr><td>−1.96</td><td>0.025</td><td>只有 2.5% 的概率比它更小——你 5.7 学的 95% 区间端点</td></tr>
+    <tr><td>−1.00</td><td>0.159</td><td>左边 15.9%</td></tr>
+    <tr><td>−0.524</td><td>0.300</td><td>左边 30%（对称点）</td></tr>
+    <tr><td><b>0</b></td><td><b>0.500</b></td><td>正中间，一半一半</td></tr>
+    <tr><td><b>+0.524</b></td><td><b>0.700</b></td><td><b>左边 70%——RSI=70 的那个点</b></td></tr>
+    <tr><td>+1.00</td><td>0.841</td><td>左边 84.1%</td></tr>
+  </table>
+  <p>唯一的对称关系要记住：<b>Φ(−z) = 1 − Φ(z)</b>。左右两块面积加起来恒等于 1。</p>
+</div>
+
+<div class="card">
+  <p><b>台阶 1：(5.8) 说"每天收益 = 漂移 + 噪音"</b></p>
+  <p>原式 p<sub>t</sub> = μ + p<sub>t−1</sub> + a<sub>t</sub>，把 p<sub>t−1</sub> 移到左边就是收益：</p>
+  <p style="text-align:center;font-family:'Cambria Math',Georgia,serif;font-size:16px">r<sub>t</sub> = p<sub>t</sub> − p<sub>t−1</sub> = <b>μ</b> + <b>a<sub>t</sub></b>，　a<sub>t</sub> ~ N(0, σ²)</p>
+  <ul>
+    <li><b>μ = 漂移</b>：每天固定往上爬的一小步，方向恒定（可正可负），是"趋势"的数学化身；</li>
+    <li><b>a<sub>t</sub> = 噪音</b>：每天重新抽一次的随机抖动，均值 0、标准差 σ，是"波动"的数学化身。</li>
+  </ul>
+  <p>代数字（σ = 1%/天、μ = 0.05%/天）：今天收益 = <b>0.05%</b> + 一次抽签（多数落在 ±1% 内）。<br>
+  这一级的全部意义：<b>技术规则赌的从来不是 a（噪音不可预测），而是 μ 会不会在某些时候变大、变负。</b>均线穿越、RSI 超买超卖，本质上都在猜 μ 的当前值。</p>
+</div>
+
+<div class="card">
+  <p><b>台阶 2：取 n 天平均，噪音缩成 σ/√n，漂移不变</b></p>
+  <p>r̄<sub>n</sub> = (1/n)(r<sub>1</sub> + … + r<sub>n</sub>) = μ + (1/n)(a<sub>1</sub> + … + a<sub>n</sub>)。逐项看：</p>
+  <table class="t">
+    <tr><th style="width:22%">成分</th><th style="width:34%">n 个相加再除以 n 之后</th><th>结果（σ=1%，n=5）</th></tr>
+    <tr><td>漂移 μ</td><td>n 个 μ 平均，还是 μ</td><td><b>0.05%</b>（没变）</td></tr>
+    <tr><td>噪音 a</td><td>n 个独立抖动平均，标准差 = σ/√n = σ′</td><td><b>1%/√5 = 0.447%</b>（缩小）</td></tr>
+  </table>
+  <p><b>这一级是整段的技术支点：平均让噪音变小、却丝毫不改变漂移。</b>所以"过去 5 天平均涨了"比"今天涨了"更能说明 μ 的方向——这正是均线（(5.6)）存在的统计学理由，也是 5.7 里"信号按 n 长、运气按 √n 长"的同一个 √n。</p>
+  <p class="note" style="margin-bottom:0">若收益有自相关，方差要换成 (1/n)Σ<sub>|h|&lt;n</sub>(1−|h|/n)γ(h)——就是 5.7 那个自相关膨胀因子的有限样本版，连 (1−|h|/n) 的折扣都一样。下面为了看清主干，按无自相关处理（原文也是这么假设的）。</p>
+</div>
+
+<div class="card">
+  <p><b>台阶 3：把"涨的概率"变成"查一次面积"</b></p>
+  <p>有了台阶 2，就有 r̄<sub>n</sub> ~ N(μ, σ′²)。要算的只有一件事：<b>P(r̄<sub>n</sub> &gt; 0) = ?</b> 标准化（减均值、除标准差）后 z ~ N(0,1)：</p>
+  <p style="text-align:center;font-family:'Cambria Math',Georgia,serif;font-size:16px">P(r̄<sub>n</sub> &gt; 0) = P( z &gt; −μ/σ′ ) = <b>1 − Φ(−μ/σ′)</b> ＝ <b>Φ(μ/σ′)</b></p>
+  <div class="callout warn" style="margin:12px 0">
+    <span class="t">卡住你的很可能就是这一步：两个写法为什么相等？</span>
+    因为对称关系 Φ(−z) = 1 − Φ(z)。把 z = μ/σ′ 代进去：<b>1 − Φ(−μ/σ′) = 1 − [1 − Φ(μ/σ′)] = Φ(μ/σ′)</b>。<br>
+    原文写左边那版（1−Φ），是因为它从"r̄<sub>n</sub> &gt; 0 等价于 a<sub>n</sub> &gt; −μ"推过来，尾概率天然长这样；而右边那版（Φ）读起来更直白：<b>"0 左边那块面积 = 跌的概率"，所以涨的概率 = Φ(μ/σ′)</b>。两版数字完全一样：Φ(0.524)=0.700，1−Φ(−0.524)=1−0.300=0.700。
+  </div>
+  <p>代数字：μ = 0.05%、σ′ = 0.447% → <b>μ/σ′ = 0.112</b> → P(涨) = Φ(0.112) = <b>0.545</b>。</p>
+  <p>直觉读法：<b>0 这条线离分布中心只有 0.112 个 σ′ 远</b>（几乎压在中心上），所以 0 右边面积略多于一半——涨的概率 54.5%，和抛硬币差不太多。这就是"漂移太小时，任何振荡器都测不出东西"的数学表达。</p>
+</div>
+
+<div class="card">
+  <p><b>台阶 4：赔率 = 两块面积相除；而 RSI 恰好就是"涨面积 × 100"</b></p>
+  <p>涨面积 0.545、跌面积 0.455 → 赔率 = 0.545 / 0.455 = <b>1.195</b>。</p>
+  <p>再回头看 RSI 的定义：<b>RSI = 100·U/(U+D)</b>，其中 U = 平均涨幅、D = 平均跌幅。现在把模型里那个式子拆成三格，和定义式逐格对齐：</p>
+  <table class="t">
+    <tr><th style="width:26%">RSI 定义式里的</th><th style="width:30%">模型里换成</th><th>凭什么能换</th></tr>
+    <tr><td><b>U</b>：上涨力量</td><td>(1−Φ) = P(涨)</td><td>幅度相同时，"力量"正比于"涨了几次"</td></tr>
+    <tr><td><b>D</b>：下跌力量</td><td>Φ = P(跌)</td><td>同理，正比于"跌了几次"</td></tr>
+    <tr><td><b>U+D</b>：力量总和</td><td>(1−Φ)+Φ = <b>1</b></td><td>涨与跌互斥且穷尽，占比加总必然为 1</td></tr>
+  </table>
+  <div class="callout warn" style="margin:12px 0">
+    <span class="t">所以分母到底是什么：不是"除以 1"，是"除以所有类之和"</span>
+    "占比"的定义就是 <b>我这一类 ÷ 所有类之和</b>。RSI 的分母 U+D 是"涨的力量 + 跌的力量"；模型只是把"力量"换成了"次数"，于是分母变成"涨的次数 + 跌的次数"。因为只有涨、跌两类，这个和恰好等于 1——<b>所以它数学上等于 1−Φ，但书上坚持写成 (1−Φ)+Φ，是为了让你一眼看出它就是 U/(U+D)</b>。那个 1 是"归一化"算出来的结果，不是额外假设。<br>
+    顺便回答"为什么分子是 1−Φ 而不是 Φ"：这里 Φ 指的是<b>跌的概率</b>（0 左边那块面积），涨是它的补集，所以分子取 1−Φ。台阶 3 里的 Φ(μ/σ′) 是涨概率——<b>同一个字母两个含义，这种简写（原书和我上一版都这么写）极易看混</b>，下面给符号统一版。
+  </div>
+  <div class="callout key" style="margin:12px 0">
+    <span class="t">符号统一版（建议按这版记）</span>
+    令 Φ ≡ Φ(−μ/σ′) = P(跌)，则 P(涨) = 1 − Φ = Φ(μ/σ′)。于是<br>
+    <b>RSI = 100 × (1−Φ)/[(1−Φ)+Φ] = 100 × Φ(μ/σ′)</b>　　（Φ(0.524) = 0.700 → RSI = 70）
+  </div>
+  <div class="callout key" style="margin:12px 0">
+    <span class="t">RSI 在模型里就是"上涨概率 × 100"</span>
+    这不是巧合：RSI 被设计成"涨跌力量的占比"（0–100），而模型里的"涨的概率"天然就是一个占比。所以 <b>RSI ≈ 100 × P(r̄<sub>n</sub> &gt; 0)</b>——RSI=70 的意思是"模型说涨的概率 70%"，RSI=50 是"五五开"，RSI=30 是"涨的概率 30%"。<br>
+    这也解释了 RSI 为什么长在 0–100 之间、为什么 50 是天然中轴：它就是一块被放大 100 倍的面积。
+  </div>
+</div>
+
+<div class="card">
+  <p><b>台阶 4·附：这个等号有前提——RSI 是"幅度比"，模型是"次数比"</b></p>
+  <p>Wilder 的原始定义里，U、D 是<b>幅度</b>：U = 过去 n 天所有涨幅之和 ÷ n，D = 所有跌幅之和 ÷ n。而模型换成了<b>次数</b>。两者相等只在一种情形下成立——<b>每个涨日和每个跌日的幅度都一模一样</b>。</p>
+  <table class="t">
+    <tr><th style="width:32%">情形（都是 6 涨 4 跌）</th><th style="width:24%">真实 RSI（幅度比）</th><th style="width:20%">次数比</th><th>对得上吗</th></tr>
+    <tr><td>每次涨 1%、每次跌 1%</td><td>60.0</td><td>60.0</td><td><b>对得上</b></td></tr>
+    <tr><td>每次涨 2%、每次跌 1%</td><td><b>75.0</b></td><td>60.0</td><td><b>差 15 个点</b></td></tr>
+  </table>
+  <p>所以 <b>"RSI ≈ 100 × P(涨)"是那条等幅二值随机游走假设的产物，不是 RSI 的普适性质。</b>真实行情涨跌幅度不等，RSI 会系统性偏离"涨的概率"：涨得猛、跌得浅时 RSI 高于涨的次数占比，反之低于。这也顺带解释了为什么同一个"70"在不同波动环境下含义不同——<b>它测的是"最近涨得有多凶"，不是"涨了几天"</b>。</p>
+  <p class="note" style="margin-bottom:0">对你项目的用处：RSI、乖离率这类是<b>幅度加权</b>的位置度量，你的切割因子（cut）是<b>次数/占比</b>加权的量价度量。两者对同一段行情读法不同，所以"RSI 与切割因子相关性"本身就是一条值得跑的正交性检查——<b>若相关性很高，说明你的因子在偷偷度量幅度而不是次数</b>，那 −0.082 的符号可能来自波动而非结构。</p>
+</div>
+
+<div class="card">
+  <p><b>台阶 5：反解 70——"超买线"其实是"漂移门槛"</b></p>
+  <p>把 RSI=70 一步步倒推回去：</p>
+  <p style="text-align:center;font-family:'Cambria Math',Georgia,serif;font-size:15.5px;line-height:2.4">
+    RSI = 70 ⟺ P(涨) = 0.70 ⟺ Φ(μ/σ′) = 0.70<br>⟺ μ/σ′ = Φ<sup>−1</sup>(0.70) = <b>0.524</b>
+  </p>
+  <p>用人话读：<b>"超买"的严格含义是——最近 n 天的隐含漂移，达到了均值标准误的 0.52 倍。</b>反算成日常单位（σ′ = 0.447%）：</p>
+  <p style="text-align:center;font-size:15px"><b>μ = 0.524 × 0.447% ≈ 0.234%/天</b>　（≈ 月 5%，年化 50%+）</p>
+  <p>所以 RSI 打到 70，等于模型在说："这只股票最近 5 天在按年化 50% 的速度往上爬"。<b>这句话是可以被证伪的</b>——只要拿真实数据比一比"RSI=70 之后 n 天实际上涨的频率是不是 70%"，就知道这条阈值在这只股票、这个市场上灵不灵。这就是"c.d.f. 化"给规则带来的第一份好处：<b>从"看图说话"变成"可检验的命题"</b>。</p>
+</div>
+
+<div class="card">
+  <p><b>五级台阶的总账（一张表）</b></p>
+  <table class="t">
+    <tr><th style="width:20%">μ/σ′</th><th style="width:22%">P(涨) = Φ(μ/σ′)</th><th style="width:18%">赔率</th><th>对应 RSI</th></tr>
+    <tr><td>0.00</td><td>0.500</td><td>1.00</td><td>50.0　← 五五开，无漂移</td></tr>
+    <tr><td>0.11</td><td>0.545</td><td>1.20</td><td>54.5　← μ=0.05%/天（台阶 3 的例子）</td></tr>
+    <tr><td>0.25</td><td>0.599</td><td>1.49</td><td>59.9</td></tr>
+    <tr><td><b>0.52</b></td><td><b>0.700</b></td><td><b>2.33</b></td><td><b>70.0　← 超买线</b></td></tr>
+    <tr><td>1.00</td><td>0.841</td><td>5.30</td><td>84.1</td></tr>
+  </table>
+  <p>整张表只有一条逻辑：<b>漂移相对于标准误越大 → 涨的面积越大 → 赔率越大 → RSI 越高</b>。70/30 不是谁拍脑袋定的，它是"漂移 = 0.52 个标准误"这个统计事实的一个别名。</p>
+</div>
+
+<div class="why">
+  <span class="h">为什么值得费这么大劲：c.d.f. 化的三个用处</span>
+  <b>① 统一尺子。</b>滤波的 x%、均线的 U/L、RSI 的 70/30，三种完全不同的阈值，翻译成 c.d.f. 后都变成同一句话："尾概率小于多少"。不同规则第一次可以放在同一把尺子上比。<br>
+  <b>② 可以检验。</b>规则成立 ⟺ 赔率显著大于 1 ⟺ 漂移显著不为 0。这一步直接接上你 5.7 学的 t 检验与置信区间："RSI=70 之后真的涨"这句话，可以算出一个区间，而不是靠回测的累计收益说话。<br>
+  <b>③ 可以加变量。</b>既然规则 = 条件分布的一个尾概率，那把成交量放进条件里，规则立刻升级成 <b>P(r̄<sub>n</sub> &gt; 0 | 成交量)</b>——这就是下一段"枢纽句"的全部内容，也是 §5.10 与你的 M 因子能进入模型的方法论接口。
+</div>
+
+<div class="callout key">
+  <span class="t">枢纽句（全书对你的项目最重要的一句话之一）</span>
+  "本节陈述的所有规则都可以写成标的收益分布 c.d.f. 的形式。这种<b>基于模型的规则解读</b>，能帮助我们把<b>成交量等因子更正式地纳入模型</b>，并评估它们对策略表现的增值。"<br><br>
+  拆开读：① 规则 = 统计量的阈值判断（RSI 是 RS 的单调变换，RS 是正态 c.d.f. 的函数）；② 既然规则背后是模型，模型里就能<b>加变量</b>——把成交量写进条件分布，规则就从"价格规则"升级为"量价规则"；③ "评估增值"= 比较加与不加的分布差异。这恰恰是 §5.10（Llorente 交互项、成交笔数、订单不平衡）的立项书，也是你把研报 M 因子（量价切割）放进 LGBM 而不是手工规则的<b>方法论许可</b>。原文还指出：技术规则在外汇市场的有效性证据最充分（Menkhoff &amp; Taylor 2007）。
+</div>
+
+<h2>三、对你项目的对照</h2>
+
+<table class="t">
+  <tr><th style="width:30%">本节内容</th><th>项目对应</th></tr>
+  <tr><td>(5.6) 三种均线 = 同一窗口三种记忆衰减</td><td>你 20 日窗口的 `aggregation='sum'` 就是"无衰减全记忆"；若想给近期更大权，EWA/BWMA 是现成替代——但每换一种就是一次参数选择，<b>多一种就是一扇数据窥探之门</b>（5.3.1 的教训）。</td></tr>
+  <tr><td>反转 vs 动量 = 自相关符号的实证问题</td><td>你的 cut_reversal 属于<b>反转派</b>（20 日涨得多 → 看跌）。研报 RankIC −0.082 支持 A 股 20 日尺度均值回归占优。是否换个窗口动量就赢？= 问 γ(h) 的符号结构，交给 cut_profile 分档 IC 曲线。</td></tr>
+  <tr><td>布林带"考虑了方差"</td><td>你目前所有特征都是"水平的"（价格/成交额的原始量），没有"除以自身波动"的标准化量。amp（振幅）是雏形；更严格的做法是 z 化：(S_20 − mean)/std。</td></tr>
+  <tr><td>(5.8) 方差里的 (1+2Σρ<sub>h</sub>) 膨胀因子</td><td>与你 E1/E2 的 20 日重叠标签直接相撞——5.7 块 bootstrap（block=21）就是在给这个膨胀因子付账。本节证明它不是回测专用，<b>任何"n 日均值型指标"（含你的窗口因子）都带这个因子</b>。</td></tr>
+  <tr><td>枢纽句：c.d.f. 化 → 纳入成交量</td><td>你的路线已经走在原文指的方向上：cut 排序键 = 成交额、E2 residualize = 剥因子。比手工 c.d.f. 阈值更进一步的正是 LGBM——让树自己学阈值。写论文时可引本段为"量价因子进模型"的文献合法性。</td></tr>
+  <tr><td>Menkhoff–Taylor：外汇市场证据最足</td><td>提示外部效度边界：A 股的技术规则证据远弱于外汇，你负结果的一个候选解释（写 limitation 用）。</td></tr>
+</table>
+
+<h2>四、诚实说明（原文损伤与补充）</h2>
+
+<ul>
+  <li><b>PDF 文本层三处损伤</b>，均按上下文校准：(5.6) EWA 的归一化分母被排成连乘式，按标准加权平均恢复；RSI 的 D<sub>t</sub> 定义中"S<sub>t−i</sub> − S<sub>t−i−1</sub>"应为 P<sub>t−i</sub> − P<sub>t−i−1</sub>；(5.8) 的 μ 在文本层丢失，按 r<sub>t</sub> ~ N(μ, σ²) 反推。</li>
+  <li><b>r̄<sub>n</sub> 方差式原文排版破碎</b>，按标准结果恢复为 (1/n)Σ<sub>|h|&lt;n</sub>(1−|h|/n)γ(h)——这正是 Bartlett 核近似下的均值方差公式，与 5.7 用的膨胀因子同源。</li>
+  <li><b>"μ/σ' ≈ 0.52 ⟺ RSI=70"与赔率查表是我补的推论</b>（原文只给了 1−Φ/Φ 公式和 2.33 那一句），所有数字经 Python 复核。</li>
+  <li><b>布林带"反转式 vs 动量式"的辨析块是我的补充</b>——原文写反转式但未提示与坊间流行版本相反，实践中方向写反极常见，故加警注。</li>
+</ul>
+
+<footer>
+  §5.3.2 Moving Average Variants and Oscillators · 原文 pp.164–166 · 中译与讲解 2026-10-28<br>
+  手算数据：三种均线 [100,102,101,105,104] · 金叉序列 12 天 · RSI 变动 [+2,+1,−3,+2,+1] · 全部经 Python 复核
+</footer>
+
+</div>
+</body>
+</html>

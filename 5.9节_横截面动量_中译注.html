@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>5.9 横截面动量策略 · 中译注</title>
+<style>
+  :root{
+    --bg:#f7f8fa; --card:#fff; --ink:#1a1d23; --ink2:#4a5058; --ink3:#858b94;
+    --line:#e4e7ec; --brand:#0f6e56; --brand-bg:#e7f6f0; --warn:#b45309;
+    --warn-bg:#fdf4e7; --danger:#c0392b; --danger-bg:#fdecea;
+    --blue:#185fa5; --blue-bg:#eaf2ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:15px/1.85 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+  .wrap{max-width:920px;margin:0 auto;padding:40px 24px 100px}
+  header{border-bottom:1px solid var(--line);padding-bottom:24px;margin-bottom:28px}
+  .kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);font-weight:600}
+  h1{font-size:26px;line-height:1.4;margin:10px 0 10px}
+  .src{font-size:13px;color:var(--ink3);margin:0 0 14px}
+  .lede{color:var(--ink2);margin:0;max-width:760px}
+  h2{font-size:20px;margin:48px 0 6px;padding-top:20px;border-top:1px solid var(--line)}
+  h2:first-of-type{border-top:0;padding-top:0}
+  h3{font-size:16px;margin:26px 0 8px}
+  p{margin:0 0 13px}
+  ul,ol{padding-left:22px;margin:0 0 14px}
+  li{margin:6px 0;color:var(--ink2)}
+  li strong{color:var(--ink)}
+  code{font:12.5px/1.6 ui-monospace,Consolas,monospace;background:#eef2ed;padding:2px 5px;border-radius:4px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 24px;margin:16px 0}
+  table.t{width:100%;border-collapse:collapse;font-size:13.5px;background:var(--card);
+          border-radius:10px;overflow:hidden;margin:14px 0}
+  table.t th{text-align:left;background:#fafbfc;color:var(--ink3);font-size:12px;letter-spacing:.04em;
+             padding:10px 12px;border-bottom:1px solid var(--line);font-weight:600}
+  table.t td{padding:10px 12px;border-bottom:1px solid #f0f2f5;vertical-align:top;color:var(--ink2)}
+  table.t tr:last-child td{border-bottom:0}
+  table.t td b{color:var(--ink)}
+  .callout{border-radius:10px;padding:14px 18px;margin:15px 0;border-left:3px solid;font-size:14px}
+  .callout .t{font-weight:600;display:block;margin-bottom:4px}
+  .callout.info{background:var(--brand-bg);border-color:#4fb08c;color:#0b5c43}
+  .callout.warn{background:var(--warn-bg);border-color:#e0a33e;color:#6b3f05}
+  .callout.danger{background:var(--danger-bg);border-color:#e07a6e;color:#7d2418}
+  .callout.key{background:var(--blue-bg);border-color:#7eaaf5;color:#12457f}
+  .tr{background:#fcfdfc;border:1px solid #dfe6e2;border-left:4px solid #9ec2b2;
+      border-radius:0 10px 10px 0;padding:16px 20px;margin:12px 0}
+  .tr .lab{font:11.5px/1 ui-monospace,Consolas,monospace;color:var(--brand);
+           background:var(--brand-bg);padding:4px 8px;border-radius:4px;display:inline-block;margin-bottom:10px}
+  .tr p{margin:0 0 10px;color:#2a3038}
+  .tr p:last-child{margin-bottom:0}
+  .why{background:#f7f9f6;border:1px dashed #c3d3c9;border-radius:8px;padding:13px 18px;margin:12px 0;
+       font-size:14px;color:var(--ink2)}
+  .why b{color:var(--brand)}
+  .why .h{color:var(--brand);font-weight:600;display:block;margin-bottom:5px;font-size:13px;letter-spacing:.06em}
+  .say{background:var(--card);border-left:4px solid var(--brand);border-radius:0 12px 12px 0;
+       padding:16px 22px;margin:18px 0}
+  .say .h{font-size:12.5px;letter-spacing:.1em;color:var(--brand);font-weight:600;margin-bottom:6px}
+  .say p:last-child{margin-bottom:0}
+  .eq{background:#f4f8f2;border:1px solid #cfe0d5;border-radius:10px;padding:16px 20px;margin:14px 0}
+  .eq .no{font:11px/1 ui-monospace,Consolas,monospace;color:var(--brand);
+          background:var(--brand-bg);padding:4px 8px;border-radius:4px;display:inline-block;margin-bottom:10px}
+  .eq .body{font-family:"Cambria Math",Cambria,Georgia,serif;font-size:16.5px;line-height:2.2;text-align:center}
+  .eq .cap{display:block;font-family:inherit;font-size:12.5px;color:var(--ink3);text-align:left;
+           margin-top:8px;line-height:1.75}
+  .note{background:#fbfbfc;border:1px solid #e6e9ee;border-radius:8px;padding:11px 15px;margin:12px 0;
+        font-size:13px;color:var(--ink2)}
+  .note .h{font-weight:600;color:var(--ink);display:block;margin-bottom:4px;font-size:12.5px}
+  sub,sup{font-size:.66em}
+  svg{max-width:100%;height:auto;display:block;margin:16px auto}
+  .figcap{text-align:center;font-size:12.5px;color:var(--ink3);margin:-6px 0 20px}
+  footer{margin-top:50px;padding-top:20px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink3)}
+  @media(max-width:640px){
+    .wrap{padding:28px 16px 70px} h1{font-size:22px} .eq .body{font-size:14px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">Algorithmic Trading and Quantitative Strategies · Ch.5</div>
+  <h1>§5.9 横截面动量策略<br><span style="font-size:16px;color:var(--ink3)">Cross-Sectional Momentum Strategies</span></h1>
+  <p class="src">原文 pp.184–188（约 5 页）· 公式 (5.36)–(5.43) · 页索引 200–204（pypdf）</p>
+  <p class="lede">前面所有小节（滤波规则、均线、模式识别、配对交易）都在<b>一条价格序列</b>上做文章。这一节换了一个轴：不问"这只股票自己的过去能不能预测它自己"，改问"<b>过去涨得多的股票，未来会不会继续比别的股票涨得多</b>"。这一节也是全书离你的项目最近的一节——"按某个排序键分档再加权"这条模板，就是你的 <code>cut()</code> 在做的事情的跨股票版本。</p>
+</header>
+
+<div class="say">
+  <div class="h">本节主旨（一句话）</div>
+  <p>动量策略 = 买入过去的赢家、用卖出输家的钱来融资。Lo–MacKinlay (1990) 把它的期望利润精确拆成<b>三项</b>——个股自身自相关、跨股票领先–滞后、均值截面差异——从此"动量为什么赚钱"从一个现象变成一个可分解、可检验的对象；此后三十年（时序动量、成交量分档、外汇动量、波动率排序、实盘成本）都是在这三项分解的地基上换排序键、换市场、换持有期。</p>
+</div>
+
+<h2>零、先摆清楚轴：这一节的"排序"和你的"切割"差在哪</h2>
+
+<div class="card">
+<p>读这节之前必须先分清<b>两个正交的轴</b>，否则会把你的因子和书里的策略混成一团：</p>
+
+<table class="t">
+  <tr><th style="width:16%"></th><th style="width:42%">§5.9 的横截面动量</th><th>你的 cut() 家族（§5.10 对照过的 M 因子）</th></tr>
+  <tr>
+    <td><b>排序发生在哪个轴</b></td>
+    <td><b>横截面</b>：同一天，把 N 只股票按过去 k 月收益排成 10 组，买最高组、卖最低组</td>
+    <td><b>时间轴（股票内）</b>：同一只股票的 20 天窗口内，按当天成交额（笔均额）把<b>天</b>排序，高组 +1、低组 −1</td>
+  </tr>
+  <tr>
+    <td><b>排序键</b></td>
+    <td>过去收益（经典）；波动率、信用评级等（见本节 "Other Sorting Criteria"）</td>
+    <td>当日成交额 / 笔均成交额（<code>features.py:4-9</code> 的参数 a）</td>
+  </tr>
+  <tr>
+    <td><b>被加权的东西</b></td>
+    <td><b>股票</b>（组合权重 w<sub>i,t</sub>）</td>
+    <td><b>天</b>（窗口内每日收益的权重 (+1, −1)）</td>
+  </tr>
+  <tr>
+    <td><b>权重和</b></td>
+    <td><b>为零</b>（自融资：买赢家的钱来自卖输家）</td>
+    <td>为零（(+1) + (−1)）——和 §5.10 讲的"切割 = 重新赋权"同一结构</td>
+  </tr>
+  <tr>
+    <td><b>共性</b></td>
+    <td colspan="2"><b>都是"按某个排序键排序 → 按档赋权 → 求加权和"</b>。§5.9 是这条模板在横截面上的原始论文版；你的因子是同一模板在时间轴上的变体。</td>
+  </tr>
+</table>
+
+<p><b>所以这节对你的意义不是"照抄一条策略"，而是：</b>它给了这条模板的三样东西——利润的理论分解（哪里来的钱）、一整族可换的排序键（成交量、波动率、信用评级……）、以及实盘成本账（你 6.5 要答的题）。这些都是你写论文时直接引用的坐标系。</p>
+</div>
+
+<h2>一、文章逻辑链：七步</h2>
+
+<table class="t">
+  <tr><th style="width:8%">步</th><th style="width:44%">内容</th><th>上一步留下的缺口</th></tr>
+  <tr><td><b>①</b></td><td>动机：时序策略依赖"价格偏离随机游走"；但<b>即便价格真随机游走</b>，基于过去表现的策略仍有截面成分可赚（p.184）</td><td>——立论：动量不依赖时序可预测性</td></tr>
+  <tr><td><b>②</b></td><td>(5.36) 给出动量策略的<b>精确数学定义</b>：w = (1/N)(个股过去收益 − 市场过去收益)</td><td>①只说了"能赚"，没说"赚多少、从哪来"</td></tr>
+  <tr><td><b>③</b></td><td>(5.37)(5.38) <b>三源分解</b>：利润 = 自相关项 + 领先滞后项 + 均值差异项</td><td>②是定义，③回答"钱从哪来"——全节理论核心</td></tr>
+  <tr><td><b>④</b></td><td>经济学解释流派：反应不足 / 宏观共同因子 / 小交易者行为（p.185–186）</td><td>③说清了"哪一项大"，但<b>没有回答"为什么会大"</b></td></tr>
+  <tr><td><b>⑤</b></td><td>Moskowitz–Ooi–Pedersen (2012)：58 个品种的实证，自相关项主导；给出 (5.39)–(5.42) 的波动率标准化回归框架（p.186–187）</td><td>④是解释，⑤给证据；并补上"风险调整后还剩多少"的问题</td></tr>
+  <tr><td><b>⑥</b></td><td>两个扩展市场：成交量维度（Lee–Swaminathan）与外汇市场（Menkhoff 等，(5.43)）</td><td>⑤证明了动量在期货里成立，⑥问"换排序键、换资产类还成立吗"</td></tr>
+  <tr><td><b>⑦</b></td><td>Other Sorting Criteria + Practical Considerations：<b>排序键随便换</b>（波动率、信用评级）+ 实盘四条建议 + 成本警告（p.188）</td><td>⑥固定了两个市场，⑦把模板彻底"泛化"——也埋下 6.5 成本的伏笔</td></tr>
+</table>
+
+<h2>二、逐段中译与讲解</h2>
+
+<h3>① 开场：换轴（p.184）</h3>
+
+<div class="tr">
+  <span class="lab">原书 pp.184</span>
+  <p>迄今为止讨论的交易策略完全依赖于收益中的<b>时间序列模式</b>，或收益与风险因子之间的关系。时序策略一般利用的是股票价格短期内可能不服从随机游走这一事实。<b>即使价格服从随机游走，也已被证明：基于过去表现的策略仍含有可以被有利利用的横截面成分。</b>例如，动量策略表明，反复买入过去的赢家——其资金来自卖出输家的所得——可以获利。这等价于买入平均收益高的证券、舍弃平均收益低的证券。因此，<b>只要证券全集的平均收益存在横截面方差，动量策略就是有利可图的</b>。另一方面，反转（contrarian）策略即使在价格服从随机游走时也<b>不会</b>盈利。低频情形下动量策略的论证见 Jegadeesh and Titman (1993, 2002) 与 Conrad and Kaul (1998)。</p>
+</div>
+
+<div class="why">
+  <span class="h">两个容易被读漏的点</span>
+  <b>1. "存在截面均值差异 → 动量必赚"是一个近乎代数的事实</b>：你按过去收益排序，若未来均值本来就有截面差异，排序必然部分保留这个差异，多头组合均值自然高于空头组合——<b>它不需要任何"可预测性"</b>，需要的只是"均值本来就不一样"。这就是第 ③ 步三源分解里第三项的种子。<br><br>
+  <b>2. "反转策略在随机游走下不赚"是在给读者划界限</b>：随机游走下过去收益对未来无信息，买输家卖赢家自然不赚。注意和你项目的关系——<b>你做的是反转（Ret20 前后的负 IC），所以你的因子赚钱必然要求价格在 20 日尺度上偏离随机游走</b>，这与动量策略的"无条件也能赚"是不同的命题。
+</div>
+
+<h3>② 动量策略的数学定义（式 5.36）</h3>
+
+<div class="tr">
+  <span class="lab">原书 p.184</span>
+  <p>为了更好地理解动量策略利润的来源，Lo and MacKinlay (1990) 将利润函数分解为三个成分。我们沿袭 Lewellen (2002) 的设定。令 r<sup>k</sup><sub>i,t−1</sub> 为资产 i 结束于 t−1 的 k 月收益，r<sup>k</sup><sub>m,t−1</sub> 为等权（市场）指数结束于 t−1 的 k 月收益。动量策略在 N 个资产上的配置方案为：</p>
+</div>
+
+<div class="eq">
+  <span class="no">式 (5.36)</span>
+  <div class="body">w<sup>k</sup><sub>i,t</sub> = (1/N)(r<sup>k</sup><sub>i,t−1</sub> − r<sup>k</sup><sub>m,t−1</sub>),&nbsp;&nbsp;i = 1, …, N</div>
+  <span class="cap">为便于解释，取 k=1 只看上个月收益，记 w<sub>i,t</sub>。注意对每个 t，<b>权重之和为零</b>（Σ<sub>i</sub>r<sub>i,t−1</sub> = N·r<sub>m,t−1</sub>，代入即得）。这就是"自融资"：买赢家的每一分钱都来自卖输家。</span>
+</div>
+
+<div class="why">
+  <span class="h">逐符号拆 (5.36)</span>
+  · <b>r<sub>i,t−1</sub> − r<sub>m,t−1</sub></b>：个股上月收益<b>减去市场均值</b>——注意减号在这里的作用：它把"绝对涨了多少"换成"<b>比平均涨得多多少</b>"，这就是横截面排序的连续版（rank 的可微替代）。<br>
+  · <b>1/N</b>：把组合规模摊到 N 只股票上，保证总敞口可比。<br>
+  · <b>跑一遍小例（N=3）</b>：上月收益 r = (+10%, 0%, −4%)，市场均值 r<sub>m</sub> = 2%。则 w = (1/3)(8%, −2%, −6%) ≈ (+2.67%, −0.67%, −2.00%)。<b>涨最多的做多、跌最多的做空，权重严格按超出均值的幅度成比例</b>——比"买前十卖后十"的分组更平滑，这就是它的理论形式选连续权重的原因。
+</div>
+
+<h3>③ 三源分解：全节的理论核心（式 5.37、5.38）</h3>
+
+<div class="tr">
+  <span class="lab">原书 p.185</span>
+  <p>令 r<sub>t</sub> 为 N×1 收益向量，均值 μ = E(r<sub>t</sub>)，Ω = E[(r<sub>t−1</sub>−μ)(r<sub>t</sub>−μ)′] 为收益的自协方差矩阵。w<sub>t</sub> 为 N×1 权重向量，组合月收益 π<sub>t</sub> = w′<sub>t</sub>r<sub>t</sub>。容易证明：</p>
+</div>
+
+<div class="eq">
+  <span class="no">式 (5.37)</span>
+  <div class="body">E(π<sub>t</sub>) = (1/N)·E[Σ<sub>i</sub> r<sub>i,t−1</sub>·r<sub>i,t</sub>] − (1/N)·E[r<sub>m,t−1</sub>·Σ<sub>i</sub> r<sub>i,t</sub>] = (1/N)Σ<sub>i</sub>(γ<sub>i</sub>+μ<sub>i</sub><sup>2</sup>) − (γ<sub>m</sub>+μ<sub>m</sub><sup>2</sup>)</div>
+  <span class="cap">γ<sub>i</sub> 与 γ<sub>m</sub> 分别为个股 i 与等权指数的<b>滞后一阶自协方差</b>。第一个等号就是把 (5.36) 代进 π<sub>t</sub> = w′r 展开；第二个等号用了 E(r<sub>i,t−1</sub>·r<sub>i,t</sub>) = γ<sub>i</sub> + μ<sub>i</sub><sup>2</sup>（自协方差定义的移项）。<b>两个大项各自都有清晰的读法：第一项是"自己预测自己"，第二项是"市场预测个股"。</b></span>
+</div>
+
+<div class="eq">
+  <span class="no">式 (5.38)</span>
+  <div class="body">E(π<sub>t</sub>) = <span style="color:#c0392b">(N−1)/N² · tr(Ω)</span> + <span style="color:#185fa5">(1/N²)·[tr(Ω) − 1′Ω1]</span> + <span style="color:#b45309">[(1/N)Σμ<sub>i</sub><sup>2</sup> − μ<sub>m</sub><sup>2</sup>]</span></div>
+  <span class="cap">其中 tr(Ω) 是 Ω 对角线之和 = 各股自协方差之和；1′Ω1 是全部元素之和。均值项在 PDF 文本层符号有缺蚀，按 (5.37) 与 tr(Ω)/N − 1′Ω1/N² = (1/N)Σγ<sub>i</sub> − γ<sub>m</sub> 反推补全（见下方"诚实说明"）。<b>三个颜色就是三个利润来源。</b></span>
+</div>
+
+<div class="card">
+<p><b>三项逐个读（原书列出的三个来源）：</b></p>
+<table class="t">
+  <tr><th style="width:30%">项</th><th style="width:44%">来源（原书原话）</th><th>通俗读法</th></tr>
+  <tr>
+    <td><span style="color:#c0392b"><b>红：自相关项</b><br>(N−1)/N² · tr(Ω)</span></td>
+    <td>"个股收益<b>正自相关</b>，所以每只股票的过去收益预测它自己的高未来收益"</td>
+    <td><b>时序动量</b>：涨过的继续涨。这就是 Moskowitz 等人后来单独拎出来研究的 TSMOM</td>
+  </tr>
+  <tr>
+    <td><span style="color:#185fa5"><b>蓝：领先滞后项</b><br>(1/N²)[tr(Ω) − 1′Ω1]</span></td>
+    <td>"个股收益与<b>其他股票的滞后收益负相关</b>，所以一些股票的糟糕表现预测其他股票的高收益"</td>
+    <td><b>传染/轮动</b>：大盘股先动、小盘股跟涨的 lead–lag 效应。注意该项为正当且仅当 1′Ω1 &lt; tr(Ω)，即平均跨股协方差为负</td>
+  </tr>
+  <tr>
+    <td><span style="color:#b45309"><b>黄：均值差异项</b><br>(1/N)Σμ<sub>i</sub>² − μ<sub>m</sub><sup>2</sup></span></td>
+    <td>"有些股票<b>就是有相对较高的无条件平均收益</b>"</td>
+    <td><b>截面均值方差</b>：它就是"截面均值差异 → 动量必赚"那个代数事实的正式化。注意它<b>不需要任何可预测性</b>——即使价格是纯随机游走（γ 全为 0），只要 μ 有差异，这一项照样为正</td>
+  </tr>
+</table>
+</div>
+
+<div class="why">
+  <span class="h">为什么这个分解值得单独记住</span>
+  它把一个含混的问题——"动量为什么赚钱？"——切成了三个<b>可分别实证检验</b>的子问题：样本里自相关是不是正的？跨股协方差是不是负的？均值差异有多大、稳不稳？<b>后续 30 年的文献基本就是在轮流回答这三问</b>：第 ⑤ 步回答"红项最大"，第 ④ 步解释"红项为什么存在"，第 ⑥ 步在别的资产类里重测三项。<br><br>
+  <b>对你的诊断也是同一个形状</b>：你在 §5.10 里学的"按档算 IC、画 IC 曲线"，本质就是把"我的切割收益从哪来"切开看。三源分解是它的时序版原型——如果以后要写论文的分解小节，这就是方法论引用的出处（Lo–MacKinlay 1990）。
+</div>
+
+<h3>④ 经济学解释：钱为什么会留在桌上（p.185–186）</h3>
+
+<div class="tr">
+  <span class="lab">原书 pp.185–186</span>
+  <p>金融文献里有大量对动量策略的实证验证。<b>然而 (5.38) 的解析分解对动量的经济来源并不算很有信息量。</b>动量策略的成功被归因于多种理论。文献认为公司特质收益可以驱动动量：特质收益之所以持续，是因为<b>投资者对公司特质消息反应不足</b>，或股票收益因某个宏观经济因子/政策的共同影响而强烈共变。Lewellan (2002) 表明规模（Size）与 B/M 组合同样表现出强动量；由于这些组合充分分散、其收益反映系统性风险，因此可论证<b>宏观经济因子必须对动量负责</b>。Hvidkjaer (2006) 则认为动量可能部分由<b>小交易者的行为</b>驱动：他们起初反应不足，随后对买卖压力延迟反应；交易压力会转化为价格压力，进而影响小交易者的交易行为。</p>
+</div>
+
+<div class="why">
+  <span class="h">注意这一段的行文姿态</span>
+  作者明确承认"分解不等于解释"——三项分解告诉你<b>哪一项在账面上大</b>，但为什么自相关是正的（反应不足？延迟消化？），账面看不出来，要靠经济学假说去争。这段列的三个流派分别把红项归因于：微观（个股消息消化慢）、宏观（共同因子漂移）、行为（小资金反应模式）。<b>三者不互斥</b>，文献至今没有完全裁决——原文用 "could be" "may be" 这种措辞是诚实的，翻译时保留了这个不确定性。
+</div>
+
+<h3>⑤ 时序动量的实证：Moskowitz–Ooi–Pedersen (2012)（式 5.39–5.42，p.186–187）</h3>
+
+<div class="tr">
+  <span class="lab">原书 pp.185–187</span>
+  <p>尽管横截面动量被广泛记录，在 (5.38) 的三项中，<b>由第一项代表的时序动量在 58 个品种（覆盖股指、外汇、商品与债券期货）的研究中占主导</b>。Moskowitz, Ooi and Pedersen (2012) 表明自协方差项 tr(Ω)/N 是主导因子，在外汇与股票市场尤甚。为使跨资产类比较有意义，超额收益先按事前波动率标准化，再估计如下两个用于预测价格延续与反转的模型：</p>
+</div>
+
+<div class="eq">
+  <span class="no">式 (5.39)、(5.40)</span>
+  <div class="body">r<sup>st</sup><sub>t−1</sub> = α + φ<sub>h</sub>·r<sup>st</sup><sub>t−h</sub> + ε<sup>st</sup><sub>t</sub>&nbsp;&nbsp;&nbsp;&nbsp;r<sup>st</sup><sub>t−1</sub> = α + φ<sub>h</sub>·sgn(r<sup>st</sup><sub>t−h</sub>) + ε<sup>st</sup><sub>t</sub></div>
+  <span class="cap">h = 1, 2, …, 60 个月；上标 st = standardized（波动率标准化后的超额收益）。(5.39) 用幅度、(5.40) 只用<b>符号</b>——后者就是"趋势存在吗"的最简版本。PDF 文本层下标有错位（r 的两个下标挤在一起），此处按 MOP (2012) 原文校准。<b>用 t−1 期的信息（而非 t 期）回归，正是为了避免前视偏差</b>（原书脚注 2 也点明这一点）。</span>
+</div>
+
+<div class="eq">
+  <span class="no">式 (5.41)</span>
+  <div class="body">σ²<sub>t</sub> = 261·Σ<sub>i=0</sub><sup>∞</sup> δ<sup>i</sup>(1−δ)·(r<sub>t−i</sub> − r̄<sub>t</sub>)²</div>
+  <span class="cap">事前年化方差的指数加权估计：权重 δ<sup>i</sup>(1−δ) 之和为 1，r̄<sub>t</sub> 是同样指数加权的平均收益；平滑参数选成<b>半衰期约 60 天</b>（PDF 文本层的 δ 符号整块丢失，此处按 MOP 原文补全，原书正文有 "60 days" 字样可对上）。261 是年化因子（每年交易日数的口径）。</span>
+</div>
+
+<div class="tr">
+  <span class="lab">原书 p.186</span>
+  <p>我们还可以考察基于时序动量、不同回看期 (k) 与持有期 (h) 的策略盈利性。策略是：若过去 k 个月的超额收益为正则做多，否则做空。<b>仓位大小取 1/σ<sub>t−1</sub>，与品种的事前波动率成反比</b>——这样跨品种（不同波动率）的结果更容易汇总，时间序列也更平稳。对每个 (k, h) 策略，计算所有当时活跃组合的平均收益，得到单一收益序列 r<sup>TSMOM(k,h)</sup><sub>t</sub>。为评估整体价值，收益再对可能的风险因子做回归：</p>
+</div>
+
+<div class="eq">
+  <span class="no">式 (5.42)</span>
+  <div class="body">r<sup>TSMOM(k,h)</sup><sub>t</sub> = α + β<sub>1</sub>MKT<sub>t</sub> + β<sub>2</sub>BOND<sub>t</sub> + β<sub>3</sub>GSCI<sub>t</sub> + β<sub>4</sub>SMB<sub>t</sub> + β<sub>5</sub>HML<sub>t</sub> + β<sub>6</sub>UMD<sub>t</sub> + a<sub>t</sub></div>
+  <span class="cap">MKT = MSCI 世界指数超额收益；BOND = Barcap 综合债指；GSCI = 标普商品指数；SMB/HML/UMD 是 Fama–French 的规模、价值、<b>横截面动量</b>因子。1985.1–2009.12 月度数据。<b>注意回归表里已经放了一个 UMD（截面动量因子）——这是在问：时序动量是不是只是截面动量的马甲？</b></span>
+</div>
+
+<div class="tr">
+  <span class="lab">原书 p.187</span>
+  <p>Moskowitz 等人发现：时序动量策略提供<b>超越被动买入持有</b>的收益；(5.42) 产生<b>大且显著的 alpha</b>；投机者可能以对冲者的损失为代价从趋势跟随中获益；<b>动量约持续一年后开始反转</b>；即便计入交易的价格冲击后动量策略仍盈利。价格冲击（第 9 章）指当前交易对后续交易的影响。尽管交易决策在宏观层面做出，但实际交易发生在微观层面，这点须记在心上。</p>
+</div>
+
+<div class="why">
+  <span class="h">这一段里对你最有用的三件事</span>
+  <b>1. 1/σ 仓位</b>：这就是 §5.12 "下单规模"在学术实证里的标准答案——<b>波动率倒数加权</b>。你 top50 等权、没有规模维度，这是一个现成的、有文献背书的升级方向（而且实现只需一行除法）。<br>
+  <b>2. "动量约持续一年后反转"</b>：动量因子有<b>生命周期</b>。你的因子是 20 日反转，属于同一个"回看期–持有期"参数面上的另一块区域——文献里动量（中长周期同向）与反转（短周期反向）并存，正是这个面上不同点的表现。<b>这给了你 horizon 实验的理论位置</b>：不是调参玄学，是这条曲线上的取样。<br>
+  <b>3. UMD 放进回归</b>：做因子研究报 alpha 时，回归表里要放上<b>已知因子的收益</b>作为控制变量——"我的 alpha 在控制了动量/规模/价值后还剩多少"才是增量。你的 E1−E0 做的就是同一件事（控制 E0 里已有的 MOM20 等特征）。
+</div>
+
+<h3>⑥ 两个扩展：成交量与外汇（p.187）</h3>
+
+<div class="tr">
+  <span class="lab">原书 p.187</span>
+  <p>Lee and Swaminathan (2000) 研究了<b>交易量</b>在解释动量策略结果中的作用。他们发现均衡中价格与成交量是<b>同时决定</b>的，因此两者都可以表现出动量。除按过去收益的十分位分类外，股票全集又按成交量规模分成三档，得到三十组。研究提供的证据表明：<b>低成交量股票往往被市场低估</b>。因此投资者预期不仅影响股票收益，也影响其成交量。<b>高成交量公司一般未来收益更低。</b>"成交量助推动量"的一般说法不获支持——但对输家成立；并且成交量"只对赢家有助于信息扩散"。</p>
+</div>
+
+<div class="callout key">
+  <span class="t">这一段是你全节最该划线的——它就是"成交额排序键"的文献锚点</span>
+  你的 <code>cut()</code> 按当日成交额/笔均额把窗口内的天分档。<b>Lee–Swaminathan 做的是同一件事的横截面版：按成交量给股票分档。</b>他们的两个发现直接可以被你引用：① 成交量与收益同时决定（所以"量"不是收益的简单结果，是独立信息源——这正是 E2 用 residualize 剥离市场共性后仍想保留的东西）；② <b>高量组未来收益更低</b>——量大的地方未来回报更差，这与你在 M 因子里观察到"大单日收益反转更强（M_high IC = −0.082）"在方向上同族。<b>他们的"三十组 = 十分位 × 量三档"的双向排序设计，也给你 cut_profile 诊断一个现成的升级模板</b>（排序键分档 × 量分档，交叉看 IC）。
+</div>
+
+<div class="tr">
+  <span class="lab">原书 p.187</span>
+  <p>值得提及的是，虽然动量策略的应用大多记录在股票市场，但学界对其在外汇（FX）市场的使用兴趣日增。FX 市场传统上被认为是趋势跟随等技术规则成功过的市场。Menkhoff, Sarno, Schmeling and Schrimpf (2012) 等研究探索了横截面动量策略，并证明其在 FX 市场盈利（高达 10%）。FX 动量组合偏向次要货币，但交易这些货币的交易成本略高。基准货币收益 r<sub>t</sub> = ln(S<sub>t</sub>) − ln(S<sub>t−1</sub>)，S<sub>t</sub> 为即期汇率；<b>利息调整后收益</b>（F<sub>t−1</sub> 为 t−1 时的远期价格）：</p>
+</div>
+
+<div class="eq">
+  <span class="no">式 (5.43)</span>
+  <div class="body">r*<sub>t</sub> = ln(S<sub>t</sub>) − ln(F<sub>t−1</sub>) = ln(S<sub>t</sub>) − ln(S<sub>t−1</sub>) + ln(S<sub>t−1</sub>) − ln(F<sub>t−1</sub>) ∼ r<sub>t</sub> + (r<sub>f</sub> − r<sub>d</sub>)/12</div>
+  <span class="cap">r<sub>f</sub> 外国利率、r<sub>d</sub> 本国利率（除 12 是月度化）。<b>拆成两块：纯货币升值 + 利率差贡献</b>（分解细节见 Okunev and White 2003）。Menkhoff 等发现：盈利<b>明确来自即期汇率变化本身</b>，而非利差。</span>
+</div>
+
+<div class="tr">
+  <span class="lab">原书 pp.187–188</span>
+  <p>股票市场中，动量策略的成功被归因于<b>信息处理缓慢与投资者过度反应</b>；而 FX 市场由专业人士主导，信息应几乎即时反映在汇率中。但如果组合主要由次要货币构成，它们可能呈现更高波动、更高国家风险与更高的利率变动，从而构成<b>有效的套利限制</b>。还观察到：基于截面的货币动量与基准技术交易策略无关，且即便对其调整后，截面动量利润仍然更高。</p>
+</div>
+
+<h3>⑦ Other Sorting Criteria：排序键随便换（p.188）</h3>
+
+<div class="tr">
+  <span class="lab">原书 p.188</span>
+  <p>上文经典动量研究倾向于按过去平均收益把股票分成十个十分位。<b>Han, Yang and Zhou (2013) 建议按波动率排序</b>——波动率反映信息不确定性。其他排序标准还可以包括信用评级、违约距离（distance to default）等。一般地，<b>按某标准排序后形成十分位组合，然后用基于移动平均的规则（见 5.3 节）</b>：价格在均线上方则买入或继续持有，否则投资于无风险资产。将此策略表现与买入持有比较。结果表明：基于波动率的策略产生正收益，且收益大体随波动率增加；若收益再经市场风险（CAPM）与 Fama–French 因子调整，平均收益更大且随波动率水平递增。两点注意：① 经风险因子调整后，<b>交易机会可能变少</b>，因为这些模型更严格；② 若结果未对交易成本调整，买卖股票组合可能很昂贵，<b>结果可能过于乐观</b>。</p>
+</div>
+
+<div class="callout key">
+  <span class="t">这一小段是全书离你手头代码最近的一段</span>
+  把它的句式读出来就是：<b>"按某标准排序 → 分档 → 档内/档上叠加规则 → 风险调整后比基准"</b>。把"按波动率/信用评级"换成"按笔均成交额"，把"移动平均规则"换成"窗口内 +1/−1 赋权"，就是你的 <code>cut()</code>。<b>你的因子在这一节的文献坐标是 "Other Sorting Criteria 的股票内时间轴变体"。</b>而作者主动交代的两个警告——风险调整后机会变少、不计成本则过于乐观——正是你论文的答辩预演题（分别对应 E2 的 residualize 和 6.5 的成本核算）。
+</div>
+
+<h3>⑧ Practical Considerations：实盘四条（p.188）</h3>
+
+<div class="tr">
+  <span class="lab">原书 p.188</span>
+  <p>学术研究表明动量因子相当稳健、跨市场有效，<b>税前费前年均收益约高于市场 10%</b>。但它是一个<b>短期、高换手、回撤很深</b>的策略。Israel, Moskowitz, Ross and Serban (2017) 讨论了实盘动量组合的实施成本，其结果表明：<b>只要审慎选择执行算法，计入交易成本后动量的盈利性仍可维持</b>。来自实务界的一些建议：</p>
+  <ul>
+    <li><b>更频繁地再平衡</b>，比如每月；</li>
+    <li>给动量更高的股票<b>更高权重</b>，而非纯市值加权；</li>
+    <li>给<b>交易成本更低</b>的股票一定权重；</li>
+    <li>再平衡时考虑<b>中间期的过去表现</b>，而不只是最近的过去。</li>
+  </ul>
+  <p>其他建议包括考虑<b>双重动量</b>（dual momentum）——绝对动量与相对动量——使用不同基准，在上升与下跌行情中都能工作。</p>
+</div>
+
+<div class="why">
+  <span class="h">四条建议的共同主题：为"高换手"付的每一分钱都要省</span>
+  月度再平衡（砍掉日内噪音换手）、动量加权（少交易低信号股票）、成本感知（同样的信号，选便宜的股票执行）、用中间期信息（减少信号边界上的来回翻转）。<b>第四条尤其值得你注意</b>："intermediate not just immediate past performance" 意思是别只看最后一刻的信号值——边界附近信号在阈值上下抖动会产生大量无意义换手。这与你 20 日窗口滚动重算时的情况完全同构。另外"回撤很深"四个字对应 §5.2 学的卡玛比率——动量的年度收益漂亮、最深回撤却可到 −50% 量级，<b>这正是单看年化收益会漏掉的东西</b>。
+</div>
+
+<h2>三、公式速查表</h2>
+
+<table class="t">
+  <tr><th style="width:12%">公式</th><th style="width:40%">在算什么</th><th>一句话记忆</th></tr>
+  <tr><td><b>(5.36)</b></td><td>动量组合权重 = (1/N)×(个股过去收益 − 市场过去收益)</td><td>"做多超出平均的，做空落后于平均的"</td></tr>
+  <tr><td><b>(5.37)</b></td><td>期望利润 = "自己预测自己" − "市场预测个股"</td><td>"两个 E 相减"</td></tr>
+  <tr><td><b>(5.38)</b></td><td>三源分解：自相关项 + 领先滞后项 + 均值差异项</td><td>"红蓝黄：自己动、别人带动、本来就该赚"</td></tr>
+  <tr><td><b>(5.39)(5.40)</b></td><td>波动标准化收益对 h 月前收益（或其符号）的回归</td><td>"趋势存在吗？用幅度/只用正负各测一遍"</td></tr>
+  <tr><td><b>(5.41)</b></td><td>指数加权的事前方差（半衰期约 60 天）</td><td>"给最近的波动更大话语权"</td></tr>
+  <tr><td><b>(5.42)</b></td><td>TSMOM 收益对六因子回归取 alpha</td><td>"控制了已知因子后还剩多少是我的"</td></tr>
+  <tr><td><b>(5.43)</b></td><td>远期收益拆成即期升值 + 利差</td><td>"外汇动量赚的是哪一半？——即期那一半"</td></tr>
+</table>
+
+<h2>四、项目对照表</h2>
+
+<table class="t">
+  <tr><th style="width:34%">本节内容</th><th>对你的项目意味着什么</th></tr>
+  <tr>
+    <td><b>模板："排序键 → 分档 → 赋权"（全节）</b></td>
+    <td>你的 <code>cut()</code> 是同一模板的<b>股票内时间轴版</b>（排序对象是"天"而非"股票"）。写论文时引用 Jegadeesh–Titman (1993) 与本节作为"排序加权"方法论的出处，再说明你的变体切在时间轴上。</td>
+  </tr>
+  <tr>
+    <td><b>(5.38) 三源分解</b></td>
+    <td>可直接借来做诊断升级：把你的切割收益拆成"窗口内自相关贡献 / 日间联动贡献 / 均值差异贡献"三项，回答"M 因子的钱从哪来"。这是 <code>cut_profile.py</code> 之外第二个值得写的分析脚本。</td>
+  </tr>
+  <tr>
+    <td><b>Lee–Swaminathan：量三档 × 收益十分位</b></td>
+    <td>成交量作为排序键有硬文献支持（"高量组未来收益更低"）。你的排序键（成交额/笔均额）与之同族；他们的<b>双向交叉分组设计</b>（10×3）可以直接抄给你的诊断：排序键分档 × 量分档，交叉算 IC。</td>
+  </tr>
+  <tr>
+    <td><b>1/σ<sub>t−1</sub> 波动率倒数仓位</b></td>
+    <td>你 top50 等权、规模维度空白（§5.12 已指出）。MOP 给出的是学术界默认做法，一行代码可试：<code>weight = 1/rolling_std(returns, 20)</code>，与等权基线做配对 bootstrap。</td>
+  </tr>
+  <tr>
+    <td><b>"动量约一年后反转"</b></td>
+    <td>回看期–持有期是文献里被系统研究过的参数面，你此前纠结的 <code>--horizon 5</code> 对照实验在这个面上有理论位置——不是调参，是取样。</td>
+  </tr>
+  <tr>
+    <td><b>"Other Sorting Criteria" 的两条警告</b></td>
+    <td>①风险调整后机会变少 → 预期 E2（residualize 后）信号变弱是正常现象，不是失败；②不计成本过于乐观 → 论文必须报换手率和成本估算，接 §6.5。</td>
+  </tr>
+  <tr>
+    <td><b>UMD 因子控制</b></td>
+    <td>(5.42) 把已知动量因子放进回归——你 E1 的设计（E0 已含 MOM20 等未切割动量特征）与之同构：<b>你的增量本来就是"控制了常规动量之后"的增量</b>，这点写论文时要点明。</td>
+  </tr>
+</table>
+
+<h2>五、诚实边界（三处）</h2>
+
+<div class="callout warn">
+  <span class="t">原文文本层受损的三处，均已按原始论文校准</span>
+  <b>① (5.38) 末项</b>：PDF 提取为 "+ μ."，均值项的平方与下标丢失。按 (5.37) 与恒等式 tr(Ω)/N − 1′Ω1/N² = (1/N)Σγ<sub>i</sub> − γ<sub>m</sub> 反推，末项应为 (1/N)Σμ<sub>i</sub><sup>2</sup> − μ<sub>m</sub><sup>2</sup>，与 Lo–MacKinlay (1990) 原文一致。<br>
+  <b>② (5.41) 的 δ</b>：指数平滑参数的符号整块丢失（"∑(1− )i = 1− = 60days"），按 MOP (2012) 原文补为权重 δ<sup>i</sup>(1−δ)、半衰期约 60 天。<br>
+  <b>③ (5.39)(5.40) 下标</b>：r 的下标挤错位（"rst−h t−h−1"），按"避免前视偏差 + MOP 原文"校准为 r<sub>t−h</sub>。
+</div>
+
+<div class="callout danger">
+  <span class="t">本节没有替你回答的问题</span>
+  本节是<b>股票外的资产类（期货、外汇）和股票横截面</b>的文献综述式小节，给出的都是"这个模板在很多地方都成立"的证据；<b>它没有回答"股票内时间轴切割"是否有文献直接支持</b>——那是你要靠自己的 E1/E2 检验去填的空白（这也正是这个选题有新意的原因之一）。另外"A 股 300 成分股 2015–2025 样本内切割因子无增量"的负结果，与文献里"量价信息含量"的正结果并不矛盾：样本、口径、市场微观结构都不同——这个辩护逻辑在 §5.7 的框架下是站得住的。
+</div>
+
+<h2>六、术语对照</h2>
+
+<table class="t">
+  <tr><th style="width:46%">原文</th><th>译法 / 说明</th></tr>
+  <tr><td>cross-sectional momentum</td><td>横截面动量（按股票排序的动量）</td></tr>
+  <tr><td>time-series momentum (TSMOM)</td><td>时序动量（每只资产和自己比，MOP 2012）</td></tr>
+  <tr><td>autocovariance matrix Ω</td><td>自协方差矩阵（对角线=自身滞后协方差，非对角=跨股滞后协方差）</td></tr>
+  <tr><td>lead–lag</td><td>领先–滞后效应（大盘股先动、小盘股跟涨）</td></tr>
+  <tr><td>contrarian strategy</td><td>反转策略（动量的镜像：买输家卖赢家）</td></tr>
+  <tr><td>decile portfolios</td><td>十分位组合（按排序键十等分）</td></tr>
+  <tr><td>distance to default</td><td>违约距离（Merton 模型的信用风险量）</td></tr>
+  <tr><td>dual momentum</td><td>双重动量（绝对动量：跟自己 0 比；相对动量：跟别的比）</td></tr>
+  <tr><td>look-ahead bias</td><td>前视偏差（用了当时不可能得到的数据，原书脚注 2）</td></tr>
+  <tr><td>ex-ante volatility</td><td>事前波动率（只用 t−1 及之前的信息估出）</td></tr>
+</table>
+
+<h2>七、关键文献</h2>
+
+<table class="t">
+  <tr><th style="width:52%">文献</th><th>在本节的角色</th></tr>
+  <tr><td>Jegadeesh &amp; Titman (1993, 2002)</td><td>横截面动量的开山实证（股票，低频）</td></tr>
+  <tr><td><b>Lo &amp; MacKinlay (1990)</b></td><td><b>三源分解的原始出处——本节理论核心</b></td></tr>
+  <tr><td>Lewellen (2002)</td><td>本节沿用的设定；Size/B/M 组合动量 → 宏观因子解释</td></tr>
+  <tr><td>Conrad &amp; Kaul (1998)</td><td>均值差异项可解释动量利润的早期论证</td></tr>
+  <tr><td><b>Moskowitz, Ooi &amp; Pedersen (2012)</b></td><td>时序动量 (TSMOM) 的 58 品种实证；(5.39)–(5.42) 的出处</td></tr>
+  <tr><td><b>Lee &amp; Swaminathan (2000)</b></td><td><b>成交量×收益双向分组——你排序键的文献锚点</b></td></tr>
+  <tr><td>Menkhoff, Sarno, Schmeling &amp; Schrimpf (2012)</td><td>外汇动量；即期 vs 利差的分解</td></tr>
+  <tr><td>Han, Yang &amp; Zhou (2013)</td><td>波动率排序动量</td></tr>
+  <tr><td>Israel, Moskowitz, Ross &amp; Serban (2017)</td><td>动量实盘实施与成本</td></tr>
+  <tr><td>Hvidkjaer (2006)</td><td>小交易者行为解释</td></tr>
+  <tr><td>Okunev &amp; White (2003)</td><td>(5.43) 分解细节</td></tr>
+  <tr><td>Gagnon &amp; Karolyi (2010)</td><td>（§5.11 前文残留段）ADR 跨市价差 4.9bp</td></tr>
+</table>
+
+<footer>
+  译注基于桌面版 PDF pp.184–188（页索引 200–204，pypdf 提取）。式 (5.38)(5.39)–(5.41) 文本层受损处按原始论文校准并在文中注明。
+  对照项目文件：<code>research/features.py</code>（cut 定义）、<code>5.10节_外在信号_中译注.html</code>（切割=赋权、M 因子）、<code>5.12节_下单规模_中译注.html</code>（规模维度）。
+</footer>
+
+</div>
+</body>
+</html>

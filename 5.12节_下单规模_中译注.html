@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>5.12 其他议题：下单规模等 · 中译注</title>
+<style>
+  :root{
+    --bg:#f7f8fa; --card:#fff; --ink:#1a1d23; --ink2:#4a5058; --ink3:#858b94;
+    --line:#e4e7ec; --brand:#0f6e56; --brand-bg:#e7f6f0; --warn:#b45309;
+    --warn-bg:#fdf4e7; --danger:#c0392b; --danger-bg:#fdecea;
+    --blue:#185fa5; --blue-bg:#eaf2ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:15px/1.85 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+  .wrap{max-width:920px;margin:0 auto;padding:40px 24px 100px}
+  header{border-bottom:1px solid var(--line);padding-bottom:24px;margin-bottom:28px}
+  .kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);font-weight:600}
+  h1{font-size:26px;line-height:1.4;margin:10px 0 10px}
+  .src{font-size:13px;color:var(--ink3);margin:0 0 14px}
+  .lede{color:var(--ink2);margin:0;max-width:760px}
+  h2{font-size:20px;margin:48px 0 6px;padding-top:20px;border-top:1px solid var(--line)}
+  h2:first-of-type{border-top:0;padding-top:0}
+  h3{font-size:16px;margin:26px 0 8px}
+  p{margin:0 0 13px}
+  ul,ol{padding-left:22px;margin:0 0 14px}
+  li{margin:6px 0;color:var(--ink2)}
+  li strong{color:var(--ink)}
+  code{font:12.5px/1.6 ui-monospace,Consolas,monospace;background:#eef2ed;padding:2px 5px;border-radius:4px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 24px;margin:16px 0}
+  table.t{width:100%;border-collapse:collapse;font-size:13.5px;background:var(--card);
+          border-radius:10px;overflow:hidden;margin:14px 0}
+  table.t th{text-align:left;background:#fafbfc;color:var(--ink3);font-size:12px;letter-spacing:.04em;
+             padding:10px 12px;border-bottom:1px solid var(--line);font-weight:600}
+  table.t td{padding:10px 12px;border-bottom:1px solid #f0f2f5;vertical-align:top;color:var(--ink2)}
+  table.t tr:last-child td{border-bottom:0}
+  table.t td b{color:var(--ink)}
+  .callout{border-radius:10px;padding:14px 18px;margin:15px 0;border-left:3px solid;font-size:14px}
+  .callout .t{font-weight:600;display:block;margin-bottom:4px}
+  .callout.info{background:var(--brand-bg);border-color:#4fb08c;color:#0b5c43}
+  .callout.warn{background:var(--warn-bg);border-color:#e0a33e;color:#6b3f05}
+  .callout.danger{background:var(--danger-bg);border-color:#e07a6e;color:#7d2418}
+  .callout.key{background:var(--blue-bg);border-color:#7eaaf5;color:#12457f}
+  .tr{background:#fcfdfc;border:1px solid #dfe6e2;border-left:4px solid #9ec2b2;
+      border-radius:0 10px 10px 0;padding:16px 20px;margin:12px 0}
+  .tr .lab{font:11.5px/1 ui-monospace,Consolas,monospace;color:var(--brand);
+           background:var(--brand-bg);padding:4px 8px;border-radius:4px;display:inline-block;margin-bottom:10px}
+  .tr p{margin:0 0 10px;color:#2a3038}
+  .tr p:last-child{margin-bottom:0}
+  .why{background:#f7f9f6;border:1px dashed #c3d3c9;border-radius:8px;padding:13px 18px;margin:12px 0;
+       font-size:14px;color:var(--ink2)}
+  .why b{color:var(--brand)}
+  .why .h{color:var(--brand);font-weight:600;display:block;margin-bottom:5px;font-size:13px;letter-spacing:.06em}
+  .say{background:var(--card);border-left:4px solid var(--brand);border-radius:0 12px 12px 0;
+       padding:16px 22px;margin:18px 0}
+  .say .h{font-size:12.5px;letter-spacing:.1em;color:var(--brand);font-weight:600;margin-bottom:6px}
+  .say p:last-child{margin-bottom:0}
+  .eq{background:#f4f8f2;border:1px solid #cfe0d5;border-radius:10px;padding:16px 20px;margin:14px 0}
+  .eq .no{font:11px/1 ui-monospace,Consolas,monospace;color:var(--brand);
+          background:var(--brand-bg);padding:4px 8px;border-radius:4px;display:inline-block;margin-bottom:10px}
+  .eq .body{font-family:"Cambria Math",Cambria,Georgia,serif;font-size:16.5px;line-height:2.2;text-align:center}
+  .eq .cap{display:block;font-family:inherit;font-size:12.5px;color:var(--ink3);text-align:left;
+           margin-top:8px;line-height:1.75}
+  .note{background:#fbfbfc;border:1px solid #e6e9ee;border-radius:8px;padding:11px 15px;margin:12px 0;
+        font-size:13px;color:var(--ink2)}
+  .note .h{font-weight:600;color:var(--ink);display:block;margin-bottom:4px;font-size:12.5px}
+  sub,sup{font-size:.66em}
+  svg{max-width:100%;height:auto;display:block;margin:16px auto}
+  .figcap{text-align:center;font-size:12.5px;color:var(--ink3);margin:-6px 0 20px}
+  footer{margin-top:50px;padding-top:20px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink3)}
+  @media(max-width:640px){
+    .wrap{padding:28px 16px 70px} h1{font-size:22px} .eq .body{font-size:14px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">Section 5.12 · 中译注 + 逐条讲解</div>
+  <h1>其他议题：下单规模等</h1>
+  <p class="src">Velu, Hardy, Nehren《Algorithmic Trading and Quantitative Strategies》· pp.202–204 · 公式 (5.56)–(5.64)</p>
+  <p class="lede">这一节回答一个前面所有章节都回避了的问题：<b>决定了"买不买"之后，到底该买多少。</b>全文逐段译出，九个公式逐个讲透，最后落到你项目里<b>完全空白的那一块——仓位规模</b>。</p>
+</header>
+
+<div class="say">
+  <div class="h">主旨一句话</div>
+  <p>第 5 章从头到尾都在解决"<b>什么时候进、什么时候出</b>"（方向）。这一节补上另一半：<b>"进多少"</b>（规模）。并且给出两个完整解法——离散赌博框架的 <b>Kelly 判据</b>，和连续时间框架的 <b>朱–周（2009）最优配置</b>。</p>
+</div>
+
+<div class="callout key">
+  <span class="t">为什么这一节对你特别重要</span>
+  你的项目现在<b>只做了一半</b>：<code>evaluation.py</code> 里的组合是<b>月度 top 50、等权</b>——也就是说，<b>"买多少"这个问题你是用"平均分"糊过去的</b>。<br><br>
+  这一节正好是那一半的教科书。而且它还有一条对你很扎心的结论（式 5.64 后面那句）：<b>如果状态变量对收益没有影响（μ₁ = 0），那么择时规则对"下多少"毫无帮助。</b>
+</div>
+
+<h2>这一节在全书的位置（先看骨架）</h2>
+
+<table class="t">
+  <tr><th style="width:6%">步</th><th style="width:44%">这一段做什么</th><th>与上一步的关系</th></tr>
+  <tr>
+    <td><b>起点</b></td>
+    <td>前面所有策略：一旦做出进出场决策，<b>下单规模就被默认为"全部资金"</b>。但现实里很多人是分批进出的</td>
+    <td>— <b>那每笔该下多少？</b></td>
+  </tr>
+  <tr>
+    <td><b>①</b></td>
+    <td><b>Kelly (1956)</b>：在赌博语境下给出下注<b>比例</b> f 的判据。式 (5.56)–(5.58)，结论 <b>f* = p − q</b></td>
+    <td>给了答案，但<b>需要知道胜率 p、q</b> → 实践中怎么估计？</td>
+  </tr>
+  <tr>
+    <td><b>②</b></td>
+    <td>实践说明：用投资过程中<b>近期观察到的 W、L</b> 滚动修正 f。更一般的"最优下注向量 + 序贯依赖"版本太复杂，不做</td>
+    <td>缺口：<b>只在"赌／不赌"的二选一框架里。有了无风险资产这个选项怎么办？</b></td>
+  </tr>
+  <tr>
+    <td><b>③</b></td>
+    <td><b>朱–周 (2009)</b>：单一风险资产 + 无风险资产。基准解 = <b>风险厌恶调整后的夏普比率</b>，式 (5.59)–(5.61)</td>
+    <td>缺口：<b>若把"技术分析给出的状态变量"也算进来，最优配置会怎么变？</b></td>
+  </tr>
+  <tr>
+    <td><b>④</b></td>
+    <td>加入状态变量 S<sub>t</sub> → 式 (5.62)：在夏普比率项之外<b>多出一个修正项 d</b>；γ = 1 时退回标准夏普比率</td>
+    <td>缺口：<b>能不能用一个具体的择时规则（比如移动平均）把它算出来？</b></td>
+  </tr>
+  <tr>
+    <td><b>⑤</b></td>
+    <td>式 (5.63) 定义移动平均入场指示 η<sub>t</sub>；式 (5.64) 给出此时的最优规模 <b>w*</b> = 夏普项 + <b>择时带来的增量项</b></td>
+    <td>链条闭合：<b>择时规则不只是"要不要进"，它还会改变"该进多少"</b></td>
+  </tr>
+</table>
+
+<div class="why">
+  <span class="h">一句话抓住整节</span>
+  <b>方向（进不进）和规模（进多少）是两个独立的问题。</b>前面九节只做了第一个；这一节告诉你怎么解第二个，并且证明——<b>这两件事会互相影响：你的择时规则会改变最优仓位。</b>
+</div>
+
+<h2>逐段中译（pp.202–204）</h2>
+
+<h3>① 开篇：被默认掉的那个假设（p.202）</h3>
+
+<div class="tr">
+  <span class="lab">原书第 1 段</span>
+  <p><b>5.12 其他议题：下单规模等。</b></p>
+  <p><b>在上述交易策略中，一旦做出进出场决策，规模——即要买卖多少单位——通常被假定为投资的全部金额。</b>许多交易者倾向于<b>分批进场或出场</b>，这样所有资金就不需要在某一时刻一次性投入或撤出。<b>于是问题变成：如何确定每一笔交易的押注规模？</b>我们在本节探讨一些实用的思路。</p>
+</div>
+
+<div class="note">
+  <span class="h">注解：它点破了一个被默认掉的前提</span>
+  第 5 章前面每一条规则（过滤规则、移动平均、配对交易、横截面动量）的输出其实都只是一个<b>方向</b>：买 / 卖 / 不动。而"买多少"从来没被讨论过——<b>默认答案是"全仓"。</b><br>
+  这一节说：这个默认值是不成立的，规模本身就是一个需要求解的决策变量。
+</div>
+
+<h3>② Kelly 判据：下注多少分之一（pp.202–203）</h3>
+
+<div class="tr">
+  <span class="lab">原书第 2 段</span>
+  <p>一个归功于 <b>Kelly（1956）</b> 的判据，最初是在<b>赌博</b>的语境下提出的，它决定每一次应当押下的投资资本比例 <b>f</b>。设初始投资为 X<sub>0</sub>，共有 <b>n</b> 次投资机会，其依据的财富累积式为：</p>
+</div>
+
+<div class="eq">
+  <span class="no">公式 (5.56)</span>
+  <div class="body">X<sub>n</sub> = X<sub>0</sub> · (1 + f)<sup>W</sup> · (1 − f)<sup>L</sup></div>
+  <span class="cap">
+    X<sub>0</sub> 初始资本　·　n 下注次数　·　<b>W</b> 赢的次数　·　<b>L</b> 输的次数（W + L = n）<br>
+    f 每次押下的资本比例：赢则这一份变成 1+f，输则变成 1−f
+  </span>
+</div>
+
+<div class="note">
+  <span class="h">关于 (5.56) 的一处诚实说明</span>
+  PDF 文本层在该式的指数部分有字符错位，无法逐字还原。<b>此处按后续 (5.57)(5.58) 反推的标准形式给出</b>——这是 Kelly 框架的标准写法，且与本节后面的推导完全自洽。
+</div>
+
+<div class="tr">
+  <span class="lab">原书第 3 段（承上）</span>
+  <p>其中 W 与 L 分别为成功与失败的次数，p 与 q 为相应的概率。于是<b>每次下注的增长率</b>为：</p>
+</div>
+
+<div class="eq">
+  <span class="no">公式 (5.57)</span>
+  <div class="body">(1/n) · ln( X<sub>n</sub> / X<sub>0</sub> ) = p · ln(1 + f) + q · ln(1 − f)</div>
+  <span class="cap">
+    把 (5.56) 取对数再除以 n。左边 = <b>每一次下注的平均对数增长率</b>；右边 = 赢的情形与输的情形按概率加权<br>
+    p = W/n　·　q = L/n　·　p + q = 1
+  </span>
+</div>
+
+<div class="eq">
+  <span class="no">公式 (5.58)</span>
+  <div class="body">f* = p − q　（= (W − L) / n）</div>
+  <span class="cap">把 (5.57) 对 f 求最大化，解出的最优下注比例</span>
+</div>
+
+<div class="why">
+  <span class="h">这三个公式在干什么（形象版）</span>
+  <b>(5.56)</b> 是"钱包怎么变"：<b>赢一次乘 (1+f)，输一次乘 (1−f)</b>。所以你要的是"赢的次数尽量多"——但也别把 f 压得太小，那样赢得再多也没用。<br><br>
+  <b>(5.57)</b> 换了个看问题的角度：不看"总钱数"，看<b>"平均每一次下注，钱包的对数增长了多少"</b>。为什么要取对数？因为财富是<b>连乘</b>的，取对数就把乘法变成了加法，n 次之后除以 n 就得到"平均每次"——这正是可以长期优化的量。<br><br>
+  <b>(5.58)</b> 就是解出来的答案：<b>最优比例 = 胜率 − 败率</b>。<br>
+  · 胜率 60% → f* = 0.6 − 0.4 = <b>20%</b>，每次押两成<br>
+  · 胜率 50% → f* = <b>0</b>，<b>别下注</b><br>
+  · 胜率 40% → f* = −20%，<b>应该站在对面下注</b><br><br>
+  <b>最反直觉的一点：</b>哪怕你有 60% 的胜率（明显占优），也<b>不应该全押</b>——全押一次输光就归零了。<b>Kelly 保护的是"能一直玩下去"。</b>
+</div>
+
+<div class="tr">
+  <span class="lab">原书第 4 段</span>
+  <p>为了在实践中实施，需要<b>对 p 和 q 的良好估计</b>；下注规模可以依据投资过程中对 <b>W 与 L 的（近期）经验观察</b>来修正。<b>该问题的一个更一般版本，是在序贯博弈带有某种依赖结构时，求解最优下注向量 f* = (f*<sub>1</sub>, …, f*<sub>n</sub>)，但这看起来相当复杂。</b></p>
+</div>
+
+<div class="callout warn">
+  <span class="t">这一句对你有直接的实操含义</span>
+  Kelly 的输入是 <b>p 和 q —— 胜率</b>，<b>不是打分。</b><br><br>
+  你的 LightGBM 输出的是 <code>score</code>（一个可排序的分数），<b>它不等于胜率</b>。要用 Kelly，你得先把 score 校准成概率（比如用历史分位映射、Platt 校准、或 isotonic 回归）。<br><br>
+  书里给的替代办法更实用：<b>直接用近期实际观察到的赢／输次数（W、L）来滚动修正 f。</b>这个你可以今天就在 <code>evaluation.py</code> 里实现。
+</div>
+
+<h3>③ 朱–周（2009）：把"也可以不投"算进来（p.203）</h3>
+
+<div class="callout key">
+  <span class="t">这一段在干什么（先给全局，再看公式，否则很容易迷路）</span>
+  前面 Kelly 那一套有个没说出口的前提：<b>"不下注"就等于什么都不做，钱原地不动。</b><br><br>
+  真实投资不是这样：<b>你不买股票，钱没有消失，它可以躺在无风险资产里生利息。</b>所以问题必须升级为——<br><br>
+  <p style="font-family:ui-monospace,Consolas,monospace;font-size:13.5px;text-align:center;margin:8px 0"><b>"有风险资产 + 无风险资产，这两者怎么分？"</b></p>
+  而且光说"我要收益最大"还不够——<b>那只会导致满仓加杠杆</b>（因为期望收益对仓位是线性的，投得越多期望越大）。所以必须再补问一句：<b>你有多怕波动？</b>这正是参数 γ 要登场的原因。<br><br>
+  <b>这一段就是把这个更真实的问题解出来。</b>标题里那句"也可以不投"，指的就是<b>无风险资产这个替代选项被纳入了决策</b>。
+</div>
+
+<div class="callout warn">
+  <span class="t">四个公式的角色：它们不是四条并列的知识，是"解同一道题"的四件套</span>
+  <table class="t">
+    <tr><th style="width:13%">公式</th><th style="width:18%">角色</th><th>一句话</th></tr>
+    <tr><td><b>(5.59)</b></td><td><b>目标函数</b></td><td>你想最大化<b>什么</b> → 期望效用</td></tr>
+    <tr><td><b>(5.60)</b></td><td><b>约束条件</b></td><td>钱是<b>怎么变</b>的 → 财富动态过程</td></tr>
+    <tr><td><b>(5.61)</b></td><td><b>答案 · 简单版</b></td><td>没有技术信号时的最优仓位</td></tr>
+    <tr><td><b>(5.62)</b></td><td><b>答案 · 完整版</b></td><td>把技术信号的信息算进来之后</td></tr>
+  </table>
+  <b>看这一段最容易卡住的地方就是"这几个公式到底什么关系"——它们不是并列的四个知识点，而是同一道题的「目标 / 约束 / 解」。</b>先认出这个结构，逐式再看就顺了。
+</div>
+
+<div class="tr">
+  <span class="lab">原书第 5 段</span>
+  <p><b>统计套利规则的用途，可以扩展到进出场决策之外；但进出场决策的规模，必须在"投资于无风险资产"这类替代选项的存在下加以确定。</b>朱与周（2009）表明：<b>当未来收益存在不确定性时，固定配置规则可以通过技术分析得到增强。</b></p>
+  <p>固定配置规则来自第 6 章提出的投资组合理论。<b>对于单一风险资产（其行为通过技术分析加以监控）与一种无风险资产，最优配置规则依第 6 章呈夏普比率结构：</b></p>
+</div>
+
+<div class="eq">
+  <span class="no">教科书给出的基准解</span>
+  <div class="body">w = ( μ − r<sub>f</sub> ) / σ</div>
+  <span class="cap">
+    w 投在风险资产上的比例　·　μ 预期收益　·　r<sub>f</sub> 无风险利率　·　σ 收益标准差<br>
+    μ 与 σ 由历史数据估计，并预期在近期保持稳定 —— <b>这就是"夏普比率"</b>
+  </span>
+</div>
+
+<div class="tr">
+  <span class="lab">原书第 6 段</span>
+  <p>假定投资者的初始财富为 X<sub>0</sub>，希望最大化期望值：</p>
+</div>
+
+<div class="eq">
+  <span class="no">公式 (5.59)</span>
+  <div class="body">E[ U(X<sub>n</sub>) ] = E[ X<sub>n</sub><sup>1−γ</sup> / (1 − γ) ]</div>
+  <span class="cap">
+    γ = <b>风险厌恶参数</b>　·　这是标准的 <b>CRRA（常相对风险厌恶）效用函数</b><br>
+    γ = 0 → 完全不在乎风险（只看收益）；γ 越大 → 越怕波动；γ = 1 时该式退化为 ln X<sub>n</sub>
+  </span>
+</div>
+
+<div class="why">
+  <span class="h">(5.59) 手算一遍：γ 这个旋钮到底在拧什么</span>
+  取 <b>γ = 0.5</b>，效用函数变成 <b>U(X) = 2√X</b>。看财富翻倍时效用怎么变：<br><br>
+  <table class="t">
+    <tr><th style="width:25%">期末财富 X<sub>n</sub></th><th>U = 2√X</th><th>相比上一行增加了</th></tr>
+    <tr><td>100 万</td><td>20.00</td><td>—</td></tr>
+    <tr><td>200 万</td><td>28.28</td><td>+8.28</td></tr>
+    <tr><td>400 万</td><td>40.00</td><td>+11.72</td></tr>
+  </table>
+  注意：<b>200→400 万也是翻倍，效用却只多 11.72（看着更大），但关键是"每单位财富带来的效用"在下降</b>——100 万时每万元值 0.02，400 万时每万元只值 0.01。<b>这就是"边际效用递减"，也就是"怕风险"的数学定义。</b><br><br>
+  <b>为什么必须有这一步？</b>如果目标函数直接写成 E[X<sub>n</sub>]，那么"投得越多期望越大"，最优解是<b>无限加杠杆</b>。效用函数的作用就是<b>把"钱越多，每多一块钱越不值钱"这件事编码进去</b>，从而让最优仓位变成一个有限的数字。<br><br>
+  <b>和前面 Kelly 的一个漂亮联系（我的观察，书上没明说）</b>：γ → 1 时 CRRA 退化为 <b>U(X) = ln X</b>——<b>而这正是 (5.57) 里 Kelly 最大化的那个东西</b>。也就是说，<b>Kelly 那一位投资者，本质上就是 γ = 1 的这位投资者。</b>后面你会发现 (5.64) 里没有 γ，形式恰好对应 γ = 1 的情形，这不是巧合。
+</div>
+
+<div class="eq">
+  <span class="no">公式 (5.60) · 预算约束（财富的动态过程）</span>
+  <div class="body">dX<sub>t</sub> = r<sub>f</sub> X<sub>t</sub> dt + w<sub>t</sub> ( μ<sub>0</sub> + μ<sub>1</sub> S<sub>t</sub> − r<sub>f</sub> ) dt + w<sub>t</sub> σ dB<sub>t</sub></div>
+  <span class="cap">
+    <b>第一项</b>：没投进风险资产的钱，按无风险利率 r<sub>f</sub> 增长<br>
+    <b>第二项</b>：投进去的部分，赚到超额收益 μ<sub>0</sub> + μ<sub>1</sub>S<sub>t</sub> − r<sub>f</sub><br>
+    <b>第三项</b>：投进去的部分，承受波动（B<sub>t</sub> 为布朗运动）<br>
+    μ<sub>0</sub>、σ 为收益的均值与标准差；<b>S<sub>t</sub> 为状态变量，能提供关于未来股票收益的信息</b>
+  </span>
+</div>
+
+<div class="why">
+  <span class="h">(5.60) 手算一遍：一笔钱在一年里是怎么变的</span>
+  先扫掉两个符号障碍：<b>dt</b> 就是"一小段时间"，<b>dB<sub>t</sub></b> 是"这一小段时间里的随机冲击"（布朗运动的一小步，均值 0、标准差 √dt）。<b>dX<sub>t</sub> = "这一瞬间财富变了多少"。</b><br><br>
+  设：X<sub>0</sub> = 100 万，r<sub>f</sub> = 2%，w = 0.5（一半投股票），μ<sub>0</sub> + μ<sub>1</sub>S<sub>t</sub> = 10%，σ = 20%。一年下来：<br><br>
+  <table class="t">
+    <tr><th style="width:22%">项</th><th style="width:32%">算什么</th><th>数值</th><th style="width:26%">由谁决定</th></tr>
+    <tr>
+      <td><b>第一项</b><br>r<sub>f</sub>X<sub>t</sub>dt</td>
+      <td>全部本金吃无风险利息</td>
+      <td>100 万 × 2% = <b>+2 万</b></td>
+      <td><b>与你投多少无关</b>，躺着也有</td>
+    </tr>
+    <tr>
+      <td><b>第二项</b><br>w(μ<sub>0</sub>+μ<sub>1</sub>S<sub>t</sub>−r<sub>f</sub>)dt</td>
+      <td>投进去的部分赚超额收益</td>
+      <td>50 万 × (10%−2%) = <b>+4 万</b></td>
+      <td><b>正比于 w</b></td>
+    </tr>
+    <tr>
+      <td><b>第三项</b><br>w σ dB<sub>t</sub></td>
+      <td>投进去的部分承受波动</td>
+      <td>50 万 × 20% × 随机冲击</td>
+      <td><b>正比于 w</b>，可正可负</td>
+    </tr>
+  </table>
+  <b>看明白 w 出现在哪、不出现在哪，这一式就懂了：</b><br>
+  · <b>第一项没有 w</b> —— 不管你投不投，钱都在生利息。这就是标题说的"也可以不投"的<b>收益底线</b>。<br>
+  · <b>第二、三项都有 w</b> —— 你投得越多，赚得越多，<b>抖得也越厉害</b>。<br><br>
+  <b>所以仓位 w 本质上是在做一笔交换：用"多承担一点抖动"，换取"多拿一点超额收益"。</b>最优 w 就是这笔交换最划算的那个点——而"多划算才算划算"由 (5.59) 的 γ 决定。
+</div>
+
+<div class="why">
+  <span class="h">(5.60) 里唯一的新东西是 μ₁ · S<sub>t</sub></span>
+  普通的配置问题里，预期收益就是个常数 μ<sub>0</sub>。这里多了一项 <b>μ<sub>1</sub> · S<sub>t</sub></b>：意思是<b>"预期收益会随状态变量 S<sub>t</sub> 变化"</b>。<br><br>
+  <b>S<sub>t</sub> 是什么？</b>就是你的技术分析给出的那个东西——移动平均的偏离、成交量的异常、任何你认为能预示未来的量。<br><br>
+  <b>μ<sub>1</sub> 就是"这个信号到底有没有用"的强度系数。</b>μ<sub>1</sub> = 0 意味着你的技术分析信号<b>对收益毫无影响</b>。<b>整节最后的结论就挂在这个系数上。</b>
+</div>
+
+<div class="eq">
+  <span class="no">公式 (5.61) · 收益随机时的固定配置率</span>
+  <div class="body">w(γ) = ( μ − r<sub>f</sub> ) / ( γ · σ )</div>
+  <span class="cap">这就是<b>经风险厌恶调整后的夏普比率</b>。γ 越大 → 仓位越小；γ = 1 → 回到标准夏普比率</span>
+</div>
+
+<div class="why">
+  <span class="h">(5.61) 手算一遍：三个旋钮各拧一下看看</span>
+  上面那个例子：μ = 10%、r<sub>f</sub> = 2%、σ = 20%。先算<b>夏普比率</b> = (μ − r<sub>f</sub>)/σ = 0.08/0.20 = <b>0.40</b>。于是 w(γ) = 0.40 / γ：<br><br>
+  <table class="t">
+    <tr><th style="width:16%">γ</th><th style="width:26%">最优仓位 w</th><th>这是什么样的人</th></tr>
+    <tr><td>0.5</td><td><b>80%</b></td><td>激进，八成身家压上去</td></tr>
+    <tr><td>1</td><td><b>40%</b></td><td><b>对数效用者 —— 就是 Kelly 那一位</b></td></tr>
+    <tr><td>2</td><td><b>20%</b></td><td>稳健</td></tr>
+    <tr><td>4</td><td><b>10%</b></td><td>非常保守</td></tr>
+  </table>
+  <b>三个旋钮的作用方向一目了然：</b><br>
+  · <b>分子 (μ − r<sub>f</sub>) 越大</b>（超额收益越高）→ 仓位<b>越大</b><br>
+  · <b>σ 越大</b>（波动越大）→ 仓位<b>越小</b><br>
+  · <b>γ 越大</b>（越怕风险）→ 仓位<b>越小</b><br><br>
+  <b>一句话记住：仓位 = 夏普比率 ÷ 你有多怕。</b>注意 w 完全可以大于 1（加杠杆）——只要夏普比率够高、你又足够不怕（γ 小）。
+</div>
+
+<div class="eq">
+  <span class="no">公式 (5.62) · 把状态变量的信息算进来</span>
+  <div class="body">w(γ) = ( μ − r<sub>f</sub> ) / ( γ σ ) + [ (1 − γ) / γ ] · d</div>
+  <span class="cap">
+    <b>第二项 d 是新增的修正项</b>，由状态变量带来的额外配置<br>
+    书中说明：<b>d 依赖于 (5.60) 中的 μ<sub>1</sub></b>——它反映状态变量对收益过程的影响，以及状态变量自身的波动<br>
+    <b>当 γ = 1 时，第二项为 0，(5.62) 退化为标准夏普比率度量。</b>
+  </span>
+</div>
+
+<div class="why">
+  <span class="h">(5.62) 到底多了什么：一个"对冲未来"的仓位</span>
+  相比 (5.61)，这里只多了一项 <b>[(1 − γ)/γ] · d</b>。直觉是这样的：<br><br>
+  <b>一旦你的信号能预示未来（μ₁ ≠ 0），"最优仓位"就不再是一个固定数字了</b>——因为未来的投资机会本身会变。这时投资者除了"现在这笔划不划算"，还会多想一层：<b>"万一以后机会变差了怎么办？"</b>这一层担心就是 <b>d</b>，金融学里叫<b>跨期对冲需求</b>（Merton 的经典结果，书上没展开）。<br><br>
+  <b>系数 [(1 − γ)/γ] 的符号很值得看一眼：</b><br>
+  <table class="t">
+    <tr><th style="width:18%">γ</th><th style="width:22%">系数 (1−γ)/γ</th><th>含义</th></tr>
+    <tr><td>γ &lt; 1（不怕）</td><td><b>正</b></td><td>激进者愿意为"机会可能变好"加仓</td></tr>
+    <tr><td>γ = 1（对数效用）</td><td><b>0</b></td><td><b>刚好抵消 —— 对数效用者的"短视性"</b></td></tr>
+    <tr><td>γ &gt; 1（保守）</td><td><b>负</b></td><td>保守者因"怕以后变差"而减仓</td></tr>
+  </table>
+  <b>γ = 1 时这一项归零，不是巧合</b>：对数效用投资者有个经典性质叫<b>"短视"（myopia）</b>——他只需要看当期最优化，不需要为未来的机会变化额外对冲。而 γ = 1 正是 Kelly 那一位。<br><br>
+  <b>⚠ 但千万别读错成"γ = 1 时择时就没价值了"。</b>这里消失的只是 <b>d 这个对冲项</b>；信号的价值<b>还会通过第一项里的 μ（漂移本身随 S<sub>t</sub> 变）继续起作用</b>——下一节 (5.64) 里那个 (μ₁/σ)(b₁/b₂) 就是它。
+</div>
+
+<div class="tr">
+  <span class="lab">原书第 7 段（p.204）</span>
+  <p><b>d 这一项依赖于 (5.60) 中的 μ<sub>1</sub></b>，后者表示状态变量对收益过程的影响，以及状态变量中的波动；细节见朱与周（2009）。<b>由于 d 可以取一系列不同的值，调整因子 [(1 − γ)/γ] · d 既可能为正，也可能为负。</b>注意当 γ = 1 时，w(γ) = w，(5.62) 就导向夏普比率的标准度量。</p>
+</div>
+
+<h3>④ 用一个具体的择时规则把它算出来（p.204）</h3>
+
+<div class="tr">
+  <span class="lab">原书第 8 段</span>
+  <p>为了评估"随时间跟踪价格以决定入场策略"的<b>附加价值</b>，我们遵循一条基于<b>固定长度移动平均</b>的简单规则。<b>若当前价格 p<sub>t</sub> 大于移动平均值 A<sub>t</sub>，则进入市场：</b></p>
+</div>
+
+<div class="eq">
+  <span class="no">公式 (5.63)</span>
+  <div class="body">η<sub>t</sub> = η(p<sub>t</sub>, A<sub>t</sub>) = 1　若 p<sub>t</sub> &gt; A<sub>t</sub>；否则 = 0</div>
+  <span class="cap">η<sub>t</sub> 是<b>入场指示变量</b>：1 = 在场，0 = 空仓。这是全书最简单的一条择时规则</span>
+</div>
+
+<div class="tr">
+  <span class="lab">原书第 9 段</span>
+  <p>在此设定下，最优下注规模被证明为：</p>
+</div>
+
+<div class="eq">
+  <span class="no">公式 (5.64)</span>
+  <div class="body">w* = ( μ − r<sub>f</sub> ) / σ + ( μ<sub>1</sub> / σ ) · ( b<sub>1</sub> / b<sub>2</sub> )</div>
+  <span class="cap">
+    b<sub>2</sub> = E(η<sub>t</sub>)　—— <b>平均入场比例</b>（有多大比例的时间在场）<br>
+    b<sub>1</sub> = E[ (S<sub>t</sub> − S̄) · η<sub>t</sub> ]　—— <b>入场时状态变量的平均超出量</b>（只在场时，信号比平时强多少）<br>
+    第一项 = 基准夏普比率仓位；<b>第二项 = 择时规则带来的增量</b>
+  </span>
+</div>
+
+<div class="tr">
+  <span class="lab">原书第 10 段</span>
+  <p><b>其中 μ<sub>1</sub> 是"基于信息的状态变量 S<sub>t</sub>"对价格形成的影响，b<sub>2</sub> 为平均入场次数，b<sub>1</sub> 给出状态变量的平均超出量。</b>虽然 (5.64) 中的其他量在历史上已被充分研究，<b>这里新的关键比值是 (μ<sub>1</sub>/σ) · (b<sub>1</sub>/b<sub>2</sub>)，它可以被视为"可以分摊到 b<sub>2</sub> 次入场上的总规模 (μ<sub>1</sub> · b<sub>1</sub>)"。</b></p>
+  <p><b>如果 μ<sub>1</sub> = 0，注意移动平均规则可能不会给固定规模的入场带来任何灵活性。</b></p>
+</div>
+
+<div class="why">
+  <span class="h">(5.64) 精讲：这一步在干嘛、每个符号是什么、数字怎么算</span>
+
+  <b>先定位：④ 段在整节里干的事。</b>③ 段给的 (5.62) 是个抽象答案——里面有个说不清道不明的 d。④ 段的工作就是：<b>挑一条最简单的具体规则（5.63），把抽象答案算成看得见的数字</b>——d 落地成 (μ₁/σ)·(b₁/b₂)。<br><br>
+
+  <b>第 1 步 · (5.63)：把"择时"变成一个开关。</b>η<sub>t</sub> 只取 0 或 1：价格在均线上方 = 1（在场），下方 = 0（空仓）。它的作用是把"你什么时候在场"变成一个<b>可以代入期望运算的数学对象</b>。注意：<b>η 是由信号决定的</b>——你只在"信号说好"的时候在场。<br><br>
+
+  <b>第 2 步 · 逐符号表：</b>
+  <table class="t">
+    <tr><th style="width:18%">符号</th><th style="width:34%">定义</th><th>直观读法</th></tr>
+    <tr><td><b>μ − r<sub>f</sub></b></td><td>无信号时的超额收益</td><td>第一项的分子——底仓的"报酬"</td></tr>
+    <tr><td><b>μ<sub>1</sub></b></td><td>信号每强 1 单位，预期收益多多少</td><td><b>信号的"价值密度"</b>——整个第二项全挂在它身上</td></tr>
+    <tr><td><b>b<sub>2</sub> = E(η<sub>t</sub>)</b></td><td>入场指示的平均值</td><td><b>在场时间比例</b>（1 = 天天在场，0.5 = 一半时间）</td></tr>
+    <tr><td><b>b<sub>1</sub> = E[(S<sub>t</sub>−S̄)·η<sub>t</sub>]</b></td><td>信号偏离 × 入场开关 的期望</td><td><b>只在场时才计入</b>"信号比平时强多少"——空仓的时段不算</td></tr>
+  </table>
+  <b>第一项没有 γ</b>：这正是 ③ 段说的"γ = 1 的情形"——(5.64) 是对数效用（也就是 Kelly 那一位）视角下的答案。<br><br>
+
+  <b>第 3 步 · 一个让公式瞬间变直白的化简（观察，原书没明说）：</b><br>
+  b₁ ÷ b₂ = E[(S<sub>t</sub>−S̄)·η<sub>t</sub>] ÷ E[η<sub>t</sub>]，分子分母正好构成<b>条件期望</b>：<br>
+  <p style="font-family:ui-monospace,Consolas,monospace;font-size:13.5px;text-align:center;margin:8px 0"><b>b₁/b₂ = E[ S<sub>t</sub> − S̄ | 在场 ]　——"你入场的时候，信号平均比平时强多少"</b></p>
+  于是 (5.64) 可以读成一句大白话：<b>最优仓位 = 底仓 + 信号价值密度 × 入场时的信号优势。</b>每多承担一份波动（÷σ），你在<b>真正入场的那段时间</b>里，凭信号多赚 μ₁ × (b₁/b₂)。<br><br>
+
+  <b>第 4 步 · 手算一遍：</b>设 μ − r<sub>f</sub> = 8%，σ = 20%，μ₁ = 0.10。20 天里 η=1 的有 8 天 → b₂ = 8/20 = <b>0.4</b>；在场那 8 天信号平均超出量 +0.8（空仓 12 天是 −0.5，但乘 η=0 不计入）→ b₁ = 0.4 × 0.8 = <b>0.32</b>。<br><br>
+  <table class="t">
+    <tr><th style="width:30%">项</th><th style="width:36%">算式</th><th>结果</th></tr>
+    <tr><td><b>底仓</b></td><td>(μ − r<sub>f</sub>)/σ = 0.08 ÷ 0.20</td><td><b>0.40</b></td></tr>
+    <tr><td><b>择时增量</b></td><td>(μ₁/σ)·(b₁/b₂) = (0.10/0.20) × (0.32/0.40) = 0.5 × 0.8</td><td><b>0.40</b></td></tr>
+    <tr><td><b>最优仓位 w*</b></td><td>0.40 + 0.40</td><td><b>0.80</b></td></tr>
+  </table>
+  用原书那句"分摊"读法验算：<b>总规模</b> μ₁·b₁ = 0.10 × 0.32 = 0.032，÷σ 换成夏普单位 = 0.16，再÷b₂ 摊到在场时段 = 0.16 ÷ 0.4 = 0.40 ✓ 两种读法同一个数。<br><br>
+  <b>对照：如果信号无效（μ₁ = 0）</b>，第二项 = 0，w* 恒等于 0.40——<b>规则开关得再勤快，仓位都是 40%，择时白做</b>。这就是下一框那句扎心结论的数学来源。
+</div>
+
+<div class="why">
+  <span class="h">第二项归零有两条路——第二条更隐蔽，也更值得你警惕</span>
+  <table class="t">
+    <tr><th style="width:30%">情形</th><th style="width:22%">第二项</th><th>含义</th></tr>
+    <tr><td><b>μ₁ = 0</b>：信号对收益无影响</td><td><b>= 0</b></td><td>信号本身没价值，规则怎么设计都救不了</td></tr>
+    <tr><td><b>b₁ = 0</b>：信号有用，但你入场时它并不比平时强</td><td><b>= 0</b></td><td><b>规则和信号"没对上表"</b>——比如均线规则恰好总在信号弱时触发</td></tr>
+    <tr><td>两者都 ≠ 0</td><td>&gt; 0</td><td>择时才有真增量</td></tr>
+  </table>
+  <b>b₁ = 0 这条路平时没人提，但它回答了一个重要问题："信号有用"为什么还不等于"策略有用"？</b>因为价值 = <b>信号价值 (μ₁) × 规则与信号的配合度 (b₁/b₂)</b>——两个因子相乘，<b>任何一个为 0，乘积就是 0</b>。检验一个策略，这两件事要分开测：先测 μ₁（你的 E1/E2 干的就是这个），再测你的入场规则是否真的在信号强时触发。<br><br>
+  <b>落到项目：</b>S<sub>t</sub> 就是你的切割因子。E1/E2 测不出增量 ≈ μ₁ ≈ 0 → 按 (5.64)，建立在它之上的任何仓位/择时规则都不会有价值——这就是那条可以写进论文的连锁负结论。反过来，若以后某个信号测出 μ₁ ≠ 0，<b>先别急着做策略</b>——还要验证你的调仓时点真的落在信号强的时段（b₁ &gt; 0），两个都过了才算数。
+</div>
+
+<div class="callout danger">
+  <span class="t">整节最重要的一句，就在最后这一行</span>
+  <b>"如果 μ₁ = 0，移动平均规则可能不会给固定规模的入场带来任何灵活性。"</b><br><br>
+  翻译过来：<b>只有当你的信号真的能影响未来收益（μ₁ ≠ 0）时，择时规则才会改变"该下多少"。</b>如果你的信号跟未来收益无关，那么不管你的进出场规则多花哨，<b>最优仓位都还是那个固定的夏普比率仓位——择时白做。</b><br><br>
+  <b>对照你的结果：</b>你的 E1 增量测不出来，等价于在说"切割因子对收益的影响接近 0"。按这一节的逻辑，那就不只是"因子没用"，而是——<b>建立在它之上的任何择时/调仓规则，都不会带来仓位上的额外价值。</b>
+</div>
+
+<svg viewBox="0 0 680 214" width="100%" xmlns="http://www.w3.org/2000/svg" role="img" font-family="var(--font-sans)">
+<title>最优仓位的两项构成</title>
+<desc>最优仓位等于固定的夏普比率项加上择时规则带来的增量项，增量项由信号强度除以波动乘以入场时信号超出量除以入场比例。</desc>
+<text x="40" y="26" font-size="14" font-weight="500" fill="#1a1d23">式 (5.64)：最优仓位 = 一项固定的 + 一项择时给的</text>
+
+<rect x="40" y="46" width="290" height="70" rx="10" fill="#B5D4F4" stroke="#185FA5" stroke-width="0.5"/>
+<text x="185" y="66" font-size="13" fill="#0C447C" text-anchor="middle" dominant-baseline="central">第一项　(μ − r_f) / σ</text>
+<text x="185" y="88" font-size="12" fill="#185FA5" text-anchor="middle" dominant-baseline="central">不管你择不择时，都要有的底仓</text>
+<text x="185" y="104" font-size="12" fill="#185FA5" text-anchor="middle" dominant-baseline="central">＝ 夏普比率</text>
+
+<text x="345" y="81" font-size="16" fill="#4a5058" text-anchor="middle" dominant-baseline="central">+</text>
+
+<rect x="366" y="46" width="274" height="70" rx="10" fill="#C0DD97" stroke="#3B6D11" stroke-width="0.5"/>
+<text x="503" y="66" font-size="13" fill="#27500A" text-anchor="middle" dominant-baseline="central">第二项　(μ₁/σ) · (b₁/b₂)</text>
+<text x="503" y="88" font-size="12" fill="#3B6D11" text-anchor="middle" dominant-baseline="central">择时规则带来的增量</text>
+<text x="503" y="104" font-size="12" fill="#3B6D11" text-anchor="middle" dominant-baseline="central">μ₁ = 0 时这一项直接归零</text>
+
+<rect x="40" y="132" width="290" height="56" rx="10" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
+<text x="185" y="152" font-size="12.5" fill="#444441" text-anchor="middle" dominant-baseline="central">μ₁／σ</text>
+<text x="185" y="170" font-size="12" fill="#5F5E5A" text-anchor="middle" dominant-baseline="central">信号的"性价比"（强度 ÷ 波动）</text>
+
+<rect x="366" y="132" width="274" height="56" rx="10" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
+<text x="503" y="152" font-size="12.5" fill="#444441" text-anchor="middle" dominant-baseline="central">b₁／b₂</text>
+<text x="503" y="170" font-size="12" fill="#5F5E5A" text-anchor="middle" dominant-baseline="central">每次入场时，信号比平时强多少倍</text>
+
+<text x="40" y="206" font-size="13" fill="#1a1d23">两个都是 0 的常见情形：信号无效（μ₁=0），或信号在入场时并不比平时更强（b₁=0）</text>
+</svg>
+<div class="figcap">式 (5.64) 的两项拆解</div>
+
+<h2>公式白话速查</h2>
+
+<table class="t">
+  <tr><th style="width:12%">编号</th><th style="width:44%">一句话人话</th><th>关键量</th></tr>
+  <tr><td><b>(5.56)</b></td><td>钱包怎么变：赢一次乘 (1+f)，输一次乘 (1−f)</td><td>X<sub>0</sub>、W、L</td></tr>
+  <tr><td><b>(5.57)</b></td><td>换成"平均每次下注，对数财富增长多少"</td><td>p、q</td></tr>
+  <tr><td><b>(5.58)</b></td><td><b>最优比例 = 胜率 − 败率</b>。五五开就别下注</td><td>f*</td></tr>
+  <tr><td><b>(5.59)</b></td><td>投资者的目标是"期望效用"最大，γ 决定他多怕风险</td><td>γ</td></tr>
+  <tr><td><b>(5.60)</b></td><td>财富的三段来源：无风险利息 + 超额收益 + 波动</td><td>μ<sub>0</sub>、μ<sub>1</sub>、S<sub>t</sub>、σ</td></tr>
+  <tr><td><b>(5.61)</b></td><td>不择时的基准仓位 = <b>夏普比率 ÷ 风险厌恶</b></td><td>w(γ)</td></tr>
+  <tr><td><b>(5.62)</b></td><td>择时版仓位 = 基准 + 修正项 d；γ=1 时退回 (5.61)</td><td>d</td></tr>
+  <tr><td><b>(5.63)</b></td><td>最简单的入场规则：价格 &gt; 均线就进场</td><td>η<sub>t</sub></td></tr>
+  <tr><td><b>(5.64)</b></td><td>此时的最优仓位 = 夏普项 + <b>(μ₁/σ)(b₁/b₂)</b></td><td>b<sub>1</sub>、b<sub>2</sub></td></tr>
+</table>
+
+<h2>与你的项目：这一节指出了你完全空白的那一块</h2>
+
+<table class="t">
+  <tr><th style="width:5%">#</th><th style="width:28%">你现在的状态</th><th style="width:26%">这一节的对应</th><th>可以做什么</th></tr>
+  <tr>
+    <td><b>1</b></td>
+    <td><b>top 50 等权</b>。"买多少"用平均分糊过去了</td>
+    <td>整节就是在解这个：w(γ)、(5.64)</td>
+    <td>先做最简单的：把等权换成 <b>w ∝ 夏普比率</b>（用个股过去 60 日的 μ/σ）。这是一行代码的改动，可直接和等权对照</td>
+  </tr>
+  <tr>
+    <td><b>2</b></td>
+    <td>模型输出 <code>score</code>，<b>不是胜率</b></td>
+    <td>Kelly 需要 <b>p、q</b>（式 5.58）</td>
+    <td>两条路：① 把 score 校准成概率（分位映射 / Platt）；② 照书里的做法，<b>用近期实际 W、L 滚动修正 f</b></td>
+  </tr>
+  <tr>
+    <td><b>3</b></td>
+    <td>月度调仓，<b>有"进不进"没有"进多少"</b></td>
+    <td>式 (5.64)：择时规则会改变最优仓位</td>
+    <td>把上次说的 E3 从"<b>开关</b>"升级为"<b>规模</b>"：信号强时满仓、信号弱时半仓。<b>比单纯开关更有价值</b>，因为它保留了部分敞口</td>
+  </tr>
+  <tr>
+    <td><b>4</b></td>
+    <td>E1 增量测不出（切割因子 ≈ 无效）</td>
+    <td><b>μ₁ = 0 的推论</b></td>
+    <td>这是一个<b>可以写进论文的连锁结论</b>：既然切割因子对收益的影响接近 0，那么按 (5.64)，建立在它之上的择时规则也不会带来仓位上的额外价值。<b>负结果也能形成完整的论证</b></td>
+  </tr>
+</table>
+
+<div class="callout warn">
+  <span class="t">两条诚实边界</span>
+  <b>① 这一节的理论假设很重。</b>(5.59)–(5.64) 假设收益服从带漂移的布朗运动、μ 与 σ 在近期稳定、投资者效用是 CRRA 形式。<b>这些在 A 股都不严格成立</b>。所以这些公式的价值是<b>告诉你"仓位该由哪几个量决定"</b>，不是给你一个能直接抄的仓位数字。<br><br>
+  <b>② Kelly 有一个著名的实践陷阱。</b>f* = p − q 对 p 的估计误差<b>极其敏感</b>：高估胜率会导致过度下注，而过度下注的代价（长期几何增长率下降、回撤剧增）远大于低估。<b>业界通行做法是"半 Kelly"或更保守</b>（用 f*/2 甚至 f*/4）。<b>这一节没有提这一点，但你必须知道。</b>
+</div>
+
+<h2>术语对照</h2>
+
+<table class="t">
+  <tr><td style="width:170px;font-weight:600;color:var(--ink)">Trade Size</td><td>下单规模 —— 每一笔交易投入多少单位／多少资金。<b>与"方向"相对。</b></td></tr>
+  <tr><td><b>Staggered Entry/Exit</b></td><td>分批进场／出场 —— 不把资金一次性投入或撤出</td></tr>
+  <tr><td><b>Kelly Criterion</b></td><td>凯利判据：长期几何增长率最大化下的最优下注比例</td></tr>
+  <tr><td><b>f*</b></td><td>最优下注比例。等赔率下 f* = p − q</td></tr>
+  <tr><td><b>CRRA Utility</b></td><td>常相对风险厌恶效用：U(X) = X<sup>1−γ</sup>/(1−γ)，γ 为风险厌恶参数</td></tr>
+  <tr><td><b>State Variable S<sub>t</sub></b></td><td>状态变量 —— 能提供未来收益信息的变量。<b>你的技术信号、切割因子就扮演这个角色。</b></td></tr>
+  <tr><td><b>μ<sub>1</sub></b></td><td>状态变量对收益过程的影响强度。<b>等于 0 = 你的信号没用。</b></td></tr>
+  <tr><td><b>b<sub>2</sub> / b<sub>1</sub></b></td><td>平均入场比例 / 入场时状态变量的平均超出量</td></tr>
+  <tr><td><b>Fixed Allocation Rule</b></td><td>固定配置规则 —— 不管信号如何，都按固定比例持有（第 6 章组合理论的结果）</td></tr>
+</table>
+
+<h2>关键文献</h2>
+
+<table class="t">
+  <tr><th style="width:32%">文献</th><th>贡献</th></tr>
+  <tr><td><b>Kelly (1956)</b></td><td>凯利判据的原始论文（信息论语境下的下注比例）</td></tr>
+  <tr><td><b>Zhu &amp; Zhou (2009)</b></td><td>本节后半部分全部内容的来源：证明<b>技术分析可以增强固定配置规则</b>，并给出 (5.62)(5.64)</td></tr>
+  <tr><td>Markowitz / 第 6 章</td><td>固定配置规则与夏普比率结构的出处</td></tr>
+</table>
+
+<footer>
+  译注依据 Velu / Hardy / Nehren《Algorithmic Trading and Quantitative Strategies》pp.202–204 原文提取翻译。<br>
+  式 (5.56) 因 PDF 文本层指数部分字符错位，按 (5.57)(5.58) 反推给出标准形式，已在正文注明。<br>
+  "半 Kelly"等实践注意为讲解所加，非原文内容。
+</footer>
+
+</div>
+</body>
+</html>

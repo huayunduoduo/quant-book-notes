@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>新数据获取 · 小白操作手册</title>
+<style>
+  :root{
+    --bg:#f7f8fa;
+    --card:#ffffff;
+    --ink:#1a1d23;
+    --ink-2:#4a5058;
+    --ink-3:#858b94;
+    --line:#e4e7ec;
+    --brand:#1f6feb;
+    --brand-bg:#eaf2ff;
+    --ok:#12805c;
+    --ok-bg:#e7f6f0;
+    --warn:#b45309;
+    --warn-bg:#fdf4e7;
+    --bad:#c0392b;
+    --bad-bg:#fdecea;
+    --code-bg:#1e2430;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    font-size:15px; line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:920px; margin:0 auto; padding:40px 24px 80px;}
+
+  /* ---------- header ---------- */
+  header{margin-bottom:32px;}
+  .kicker{font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3); font-weight:600;}
+  h1{font-size:28px; line-height:1.35; margin:8px 0 12px; letter-spacing:-.01em;}
+  .lede{color:var(--ink-2); font-size:15px; margin:0; max-width:680px;}
+
+  /* ---------- generic ---------- */
+  h2{font-size:18px; margin:44px 0 16px; letter-spacing:-.01em; display:flex; align-items:center; gap:10px;}
+  h2 .num{
+    flex:none; width:26px; height:26px; border-radius:8px; background:var(--brand); color:#fff;
+    font-size:13px; font-weight:700; display:flex; align-items:center; justify-content:center;
+  }
+  p{margin:0 0 12px;}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:20px 22px; margin-bottom:14px;}
+
+  /* ---------- status table ---------- */
+  .status{background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden; margin-bottom:16px;}
+  .status table{width:100%; border-collapse:collapse; font-size:14px;}
+  .status th{text-align:left; padding:11px 18px; background:#fafbfc; color:var(--ink-3); font-weight:600; font-size:12px; letter-spacing:.04em; border-bottom:1px solid var(--line);}
+  .status td{padding:11px 18px; border-bottom:1px solid #f0f2f5;}
+  .status tr:last-child td{border-bottom:none;}
+  .tag{display:inline-block; padding:1px 9px; border-radius:20px; font-size:12px; font-weight:600;}
+  .tag.ok{background:var(--ok-bg); color:var(--ok);}
+  .tag.bad{background:var(--bad-bg); color:var(--bad);}
+
+  /* ---------- callout ---------- */
+  .callout{border-radius:10px; padding:14px 18px; margin:14px 0; font-size:14px; border-left:3px solid;}
+  .callout .t{font-weight:700; display:block; margin-bottom:3px;}
+  .callout.warn{background:var(--warn-bg); border-color:#e0a33e; color:#6b3f05;}
+  .callout.bad{background:var(--bad-bg); border-color:#e07a6e; color:#7d2418;}
+  .callout.ok{background:var(--ok-bg); border-color:#4fb08c; color:#0b5c43;}
+  .callout.info{background:var(--brand-bg); border-color:#7eaaf5; color:#12457f;}
+
+  /* ---------- step ---------- */
+  .step{background:var(--card); border:1px solid var(--line); border-radius:12px; margin-bottom:16px; overflow:hidden;}
+  .step-head{display:flex; align-items:flex-start; gap:12px; padding:16px 20px; border-bottom:1px solid #f0f2f5;}
+  .step-head input[type=checkbox]{
+    appearance:none; -webkit-appearance:none; flex:none; margin-top:3px;
+    width:19px; height:19px; border:2px solid #c8ced8; border-radius:5px; cursor:pointer; position:relative; background:#fff;
+  }
+  .step-head input[type=checkbox]:checked{background:var(--brand); border-color:var(--brand);}
+  .step-head input[type=checkbox]:checked::after{
+    content:""; position:absolute; left:5px; top:1px; width:5px; height:10px;
+    border:solid #fff; border-width:0 2px 2px 0; transform:rotate(45deg);
+  }
+  .step-head label{flex:1; cursor:pointer;}
+  .step-head .st{font-size:16px; font-weight:700; display:block; margin-bottom:2px;}
+  .step-head .sd{font-size:13px; color:var(--ink-3);}
+  .step-body{padding:18px 20px 20px;}
+  .step-body>*:last-child{margin-bottom:0;}
+
+  /* ---------- code ---------- */
+  .cmd{position:relative; background:var(--code-bg); border-radius:9px; margin:10px 0 14px;}
+  .cmd pre{
+    margin:0; padding:14px 16px; overflow-x:auto; color:#e6edf3;
+    font-family:"Cascadia Code",Consolas,"SF Mono",Menlo,monospace; font-size:13px; line-height:1.65;
+  }
+  .cmd .copy{
+    position:absolute; top:8px; right:8px; background:rgba(255,255,255,.1); color:#c9d1d9;
+    border:1px solid rgba(255,255,255,.15); border-radius:6px; padding:3px 10px; font-size:11.5px;
+    cursor:pointer; font-family:inherit; transition:.15s;
+  }
+  .cmd .copy:hover{background:rgba(255,255,255,.2); color:#fff;}
+  .cmd .copy.done{background:#1a7f4b; border-color:#1a7f4b; color:#fff;}
+
+  /* ---------- glossary ---------- */
+  .glossary{background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden;}
+  .glossary .row{display:grid; grid-template-columns:150px 1fr; gap:16px; padding:13px 20px; border-bottom:1px solid #f0f2f5; font-size:14px;}
+  .glossary .row:last-child{border-bottom:none;}
+  .glossary .term{font-weight:700; color:var(--ink);}
+  .glossary .def{color:var(--ink-2);}
+
+  /* ---------- lists ---------- */
+  ul.clean{margin:0; padding-left:20px;}
+  ul.clean li{margin-bottom:7px; color:var(--ink-2);}
+  ul.clean li strong{color:var(--ink);}
+
+  .pill-row{display:flex; gap:8px; flex-wrap:wrap; margin:12px 0 0;}
+  .pill{font-size:12px; padding:4px 11px; border-radius:20px; background:#f2f4f7; color:var(--ink-2); border:1px solid var(--line);}
+
+  footer{margin-top:52px; padding-top:22px; border-top:1px solid var(--line); color:var(--ink-3); font-size:12.5px;}
+
+  @media print{
+    body{background:#fff; font-size:12pt;}
+    .copy{display:none;}
+    .step{break-inside:avoid;}
+    .wrap{padding:0;}
+  }
+  @media (max-width:640px){
+    .glossary .row{grid-template-columns:1fr; gap:2px;}
+    h1{font-size:23px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">零基础操作指南</div>
+  <h1>新数据获取：每一步该做什么</h1>
+  <p class="lede">这份手册把原来那份技术文档重排了一遍。每格只做一件事，做完打勾。每格最后都写了「怎么算成功」和「卡住了怎么办」，不用理解原理也能往下走。</p>
+</header>
+
+<h2><span class="num">0</span>先看清你现在缺什么</h2>
+
+<p>整件事的前提是：<strong>有一台装了 Wind 终端、并且已经登录的 Windows 电脑</strong>，上面放着<strong>那个带 <code>research</code> 文件夹的项目包</strong>。我检查了你这台电脑，情况是这样：</p>
+
+<div class="status">
+  <table>
+    <thead><tr><th>要的东西</th><th>状态</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td>conda 环境 <code>qlib_beginner</code></td><td><span class="tag ok">有</span></td><td>Python 3.12.15，已装 pyqlib 0.9.7</td></tr>
+      <tr><td>项目文件夹（含 <code>research</code> 目录）</td><td><span class="tag bad">没有</span></td><td>全盘搜索未找到，这是当前最大障碍</td></tr>
+      <tr><td>Wind 终端</td><td><span class="tag bad">没有</span></td><td>本机未安装 Wind</td></tr>
+      <tr><td>WindPy 库（Python 读 Wind 的接口）</td><td><span class="tag bad">没有</span></td><td>环境里没有</td></tr>
+      <tr><td><code>run_wind_first_check.ps1</code> 一键脚本</td><td><span class="tag bad">没有</span></td><td>属于那个项目包，跟着包一起缺</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="callout bad">
+  <span class="t">所以现在不要敲任何命令</span>
+  手册里的每条命令都依赖那个项目包。没有它，你只会看到 <code>No module named 'research'</code> 这类报错，然后误以为是自己操作错了。先完成第 1 步，再谈后面。
+</div>
+
+<h2><span class="num">1</span>把项目包找出来</h2>
+
+<div class="step">
+  <div class="step-head">
+    <input type="checkbox" id="c1">
+    <label for="c1">
+      <span class="st">确认项目文件夹在哪台电脑上</span>
+      <span class="sd">目的：确定你该在哪台机器上操作</span>
+    </label>
+  </div>
+  <div class="step-body">
+    <p>回忆一下这个项目包你是怎么拿到的 —— 微信/邮件收到的压缩包？还是别人给你的远程桌面？找到它所在的电脑，然后判断属于下面哪种情况：</p>
+    <ul class="clean">
+      <li><strong>情况 A：</strong>你自己的电脑装了 Wind → 直接在这台机器上做，最省事。</li>
+      <li><strong>情况 B：</strong>公司/学校有一台 Wind 电脑，你用远程桌面连过去 → <strong>必须把整个项目文件夹复制到那台远程电脑上</strong>，不能只在自己这边打开 Windows 窗口。这是原手册特别强调的一点，很多人在这里搞错。</li>
+      <li><strong>情况 C：</strong>你没有 Wind，只是想先看看 → 那这件事今天做不了。先联系给你这份材料的人，问清楚 Wind 账号和项目包。</li>
+    </ul>
+    <div class="callout ok">
+      <span class="t">怎么算成功</span>
+      你能明确说出「我要在 ___ 这台电脑上操作」，并且那台电脑上能找到项目文件夹。
+    </div>
+    <div class="callout warn">
+      <span class="t">卡住怎么办</span>
+      如果是压缩包还没解压：右键 → 全部解压，别在压缩包里直接运行。解压后路径里<strong>不要有中文和空格</strong>，比如放 <code>D:\qlib_beginner</code> 就好，别放「D:\我的项目\新建文件夹 (2)」。
+    </div>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-head">
+    <input type="checkbox" id="c2">
+    <label for="c2">
+      <span class="st">打开文件夹，确认里面长什么样</span>
+      <span class="sd">目的：验证你拿到的确实是那个项目包</span>
+    </label>
+  </div>
+  <div class="step-body">
+    <p>双击进入项目文件夹，你应该能看到（名字可能略有差异，但大意一致）：</p>
+    <div class="pill-row">
+      <span class="pill">research\ ← 最关键</span>
+      <span class="pill">configs\</span>
+      <span class="pill">data\</span>
+      <span class="pill">run_wind_first_check.ps1</span>
+      <span class="pill">requirements-news.txt</span>
+      <span class="pill">WIND_SUPPORT_REQUEST.txt</span>
+    </div>
+    <div class="callout ok">
+      <span class="t">怎么算成功</span>
+      能看到 <code>research</code> 这个文件夹，点进去有 <code>.py</code> 结尾的文件。只要有它，后面的命令才跑得动。
+    </div>
+    <div class="callout bad">
+      <span class="t">卡住怎么办</span>
+      如果只有 <code>site-packages\qlib</code> 而没有 <code>research</code>，说明你找错地方了 —— 那是 Python 装库的目录，不是项目。回到第 1 步重新找。原手册也专门提醒过这个坑。
+    </div>
+  </div>
+</div>
+
+<h2><span class="num">2</span>打开命令行，站到项目文件夹里</h2>
+
+<div class="step">
+  <div class="step-head">
+    <input type="checkbox" id="c3">
+    <label for="c3">
+      <span class="st">在项目文件夹里打开 PowerShell</span>
+      <span class="sd">目的：让命令行「站在」项目文件夹里，否则它找不到 research</span>
+    </label>
+  </div>
+  <div class="step-body">
+    <p>最简单的办法：<strong>在资源管理器里进入项目文件夹 → 点一下上方地址栏 → 把路径整个删掉，输入 <code>powershell</code> → 回车</strong>。会弹出一个蓝色/黑色的命令行窗口。</p>
+    <p>另一个办法：在文件夹空白处 <kbd>Shift</kbd> + 右键 → 「在此处打开 PowerShell 窗口」。</p>
+    <div class="callout ok">
+      <span class="t">怎么算成功</span>
+      窗口里最前面显示的路径，和你的项目文件夹路径一致。比如 <code>PS D:\qlib_beginner&gt;</code>。
+    </div>
+    <div class="callout warn">
+      <span class="t">卡住怎么办</span>
+      如果路径显示的是 <code>C:\Users\你的名字&gt;</code>，说明没进对地方。补一条命令：<code>cd D:\qlib_beginner</code>（换成你自己的实际路径），再回车。
+    </div>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-head">
+    <input type="checkbox" id="c4">
+    <label for="c4">
+      <span class="st">激活 Python 环境</span>
+      <span class="sd">目的：切换到装了 qlib 的那个环境，不然会报找不到包</span>
+    </label>
+  </div>
+  <div class="step-body">
+    <p>在刚才的窗口里粘贴这一行，回车：</p>
+    <div class="cmd">
+      <pre>conda activate qlib_beginner</pre>
+      <button class="copy">复制</button>
+    </div>
+    <div class="callout ok">
+      <span class="t">怎么算成功</span>
+      命令行最前面会多出一对括号，变成 <code>(qlib_beginner) PS D:\qlib_beginner&gt;</code>。看到括号就对了。
+    </div>
+    <div class="callout warn">
+      <span class="t">卡住怎么办</span>
+      提示「conda 不是内部或外部命令」→ 说明这台电脑没装 conda 或者没配好。但你的本机是装了的（<code>C:\Users\30600\miniconda3</code>），所以更可能是在<strong>另一台机器</strong>上没装。装个 Miniconda 即可，或者问给你材料的人。
+    </div>
+  </div>
+</div>
+
+<h2><span class="num">3</span>跑第一个命令，只生成代码清单</h2>
+
+<div class="step">
+  <div class="step-head">
+    <input type="checkbox" id="c5">
+    <label for="c5">
+      <span class="st">生成股票代码清单（不下载任何数据）</span>
+      <span class="sd">目的：这只是列个名单，最安全的一步，用来验证环境通不通</span>
+    </label>
+  </div>
+  <div class="step-body">
+    <p>这一步只是把「哪些股票要研究」列成一张清单，不碰 Wind、不消耗配额、不下载行情。适合当第一个测试。</p>
+    <div class="cmd">
+      <pre>python -m research.export_wind_codes</pre>
+      <button class="copy">复制</button>
+    </div>
+    <p>跑完会多出两个文件：</p>
+    <ul class="clean">
+      <li><code>configs\wind_codes_historical_csi300.txt</code> —— 历史上沪深300成分股的代码并集，加上基准 <code>000300.SH</code></li>
+      <li><code>data\wind_acquisition\code_list_receipt.json</code> —— 记录这份清单的来源</li>
+    </ul>
+    <div class="callout ok">
+      <span class="t">怎么算成功</span>
+      没报错，并且 <code>configs</code> 文件夹里真的出现了那个 <code>.txt</code> 文件。用记事本打开能看到一堆类似 <code>600000.SH</code> 的代码。
+    </div>
+    <div class="callout bad">
+      <span class="t">卡住怎么办</span>
+      <code>No module named 'research'</code> → 你不在项目文件夹里，回第 2 步。<br>
+      <code>No module named 'pandas'</code> 之类 → 环境没激活，回第 2 步检查有没有那个括号。
+    </div>
+  </div>
+</div>
+
+<h2><span class="num">4</span>一键体检（懒人版，推荐）</h2>
+
+<div class="step">
+  <div class="step-head">
+    <input type="checkbox" id="c6">
+    <label for="c6">
+      <span class="st">运行一键检查脚本</span>
+      <span class="sd">目的：把第 3～6 步自动串起来跑一遍，不下载全量数据</span>
+    </label>
+  </div>
+  <div class="step-body">
+    <p>如果项目里有 <code>run_wind_first_check.ps1</code>，直接跑它，它会依次做四件事：生成代码清单 → 探测行情字段 → 下载 5 只股票样例 → 探测新闻接口。<strong>不会启动全量下载</strong>，可以放心跑。</p>
+    <div class="cmd">
+      <pre>.\run_wind_first_check.ps1</pre>
+      <button class="copy">复制</button>
+    </div>
+    <div class="callout ok">
+      <span class="t">怎么算成功</span>
+      屏幕上依次出现四个环节的输出，最后 <code>data\wind_acquisition\</code> 和 <code>data\news_raw\</code> 里多出若干 json/csv 文件。
+    </div>
+    <div class="callout warn">
+      <span class="t">卡住怎么办</span>
+      提示「无法加载文件……未对文件进行数字签名 / 禁止运行脚本」→ 这是 Windows 的执行策略限制。用这行临时绕过，只对当前窗口生效，不改系统设置：<br>
+      <span style="display:block;margin-top:6px"><code>powershell -ExecutionPolicy Bypass -File .\run_wind_first_check.ps1</code></span>
+      不想折腾就直接跳过这步，手动一条条跑第 3、5、6 步。
+    </div>
+  </div>
+</div>
+
+<h2><span class="num">5</span>探测「成交笔数」到底叫什么</h2>
+
+<div class="step">
+  <div class="step-head">
+    <input type="checkbox" id="c7">
+    <label for="c7">
+      <span class="st">让脚本自己去试字段名</span>
+      <span class="sd">目的：不用你猜 Wind 里「成交笔数」的字段叫什么，让它挨个试</span>
+    </label>
+  </div>
+  <div class="step-body">
+    <p>Wind 里每个数据项都有个英文代号，比如成交额是 <code>amt</code>、成交量是 <code>volume</code>，而「成交笔数」可能是 <code>dealnum</code> —— 但不同账号权限不同，不能想当然。这条命令会让脚本拿一只股票、一个月的数据去挨个试探候选字段：</p>
+    <div class="cmd">
+      <pre>python -m research.data_acquisition_wizard --mode probe --code 600000.SH --start 2025-01-01 --end 2025-01-31</pre>
+      <button class="copy">复制</button>
+    </div>
+    <p><strong>这一步必须在 Wind 已登录的电脑上跑</strong>，否则一定失败。跑完会生成 4 个文件，全在 <code>data\wind_acquisition\</code> 里：</p>
+    <ul class="clean">
+      <li><code>field_probe.csv</code> —— 每个候选字段的错误码、有多少行不是空值、样例值</li>
+      <li><code>field_map_suggestions.json</code> —— 试成功了的字段</li>
+      <li><code>probe_values.csv</code> —— 探测区间里的真实数值样例</li>
+      <li><code>probe_summary.json</code> —— 汇总小结</li>
+    </ul>
+    <div class="callout ok">
+      <span class="t">怎么算成功</span>
+      4 个文件都生成了。<code>field_probe.csv</code> 里能看到有字段的非空数量大于 0。
+    </div>
+    <div class="callout warn">
+      <span class="t">卡住怎么办</span>
+      全部字段都失败 → 大概率是 Wind 没登录、或者账号没这个数据权限。<br>
+      <strong>不要自己瞎猜字段名，也不要用 <code>amount/volume</code> 去冒充成交笔数</strong> —— 那算出来的是成交均价，不是平均单笔金额，结论会完全错。
+    </div>
+  </div>
+</div>
+
+<div class="callout info">
+  <span class="t">这一步为什么重要（一句话版）</span>
+  整个研究要靠「平均每笔成交多少钱」这个指标。它必须用 <code>成交额 ÷ 成交笔数</code> 算。拿不到笔数，这个指标就是假的 —— 所以不能跳过核验。
+</div>
+
+<h2><span class="num">6</span>下 5 只股票试试水</h2>
+
+<div class="step">
+  <div class="step-head">
+    <input type="checkbox" id="c8">
+    <label for="c8">
+      <span class="st">小样本下载（只 5 只，不污染正式目录）</span>
+      <span class="sd">目的：先确认数据长得对不对，再决定要不要批量拉</span>
+    </label>
+  </div>
+  <div class="step-body">
+    <p>探测没问题后，下 5 只股票一年半的数据看看。注意结尾的 <code>--limit 5</code>，它保证只下 5 只：</p>
+    <div class="cmd">
+      <pre>python -m research.data_acquisition_wizard --mode download --codes configs/wind_codes_historical_csi300.txt --start 2024-01-01 --end 2025-05-30 --limit 5</pre>
+      <button class="copy">复制</button>
+    </div>
+    <p>默认写到 <code>data\wind_sample\</code>，不会碰正式的 <code>data\wind_raw\</code>。用 Excel 打开 CSV，检查两件事：有没有 <code>amount</code> 和 <code>trade_count</code> 这两列；日期范围对不对、有没有大片空白。</p>
+    <div class="callout ok">
+      <span class="t">怎么算成功</span>
+      <code>data\wind_sample\</code> 里出现 5 个 CSV，打开能看到日期、开盘、收盘、成交额、成交笔数等列，数值看着合理。
+    </div>
+    <div class="callout warn">
+      <span class="t">卡住怎么办</span>
+      如果最基础的 <code>open/high/low/close/volume/amount</code> 都没通过，脚本会自动停下 —— 这是保护机制，别去改代码硬闯。<br>
+      如果只有 <code>trade_count</code> 失败，脚本会继续下行情，但会明确警告「不能复现理想反转因子」。看到这个警告，说明这个研究做不完整。
+    </div>
+  </div>
+</div>
+
+<h2><span class="num">7</span>新闻部分：现在先别碰</h2>
+
+<div class="step">
+  <div class="step-head">
+    <input type="checkbox" id="c9">
+    <label for="c9">
+      <span class="st">只做一件事：探测新闻接口通不通</span>
+      <span class="sd">目的：确认你的 Wind 账号有没有新闻 API，不下载</span>
+    </label>
+  </div>
+  <div class="step-body">
+    <p>新闻这条路比行情复杂得多（要处理标题、正文、发布时间、防「未来信息泄漏」、还要跑情绪模型）。原手册里 C 之后那一大段（导出、规范化、情绪打分、日频因子）<strong>现在完全不用看</strong>。今天只做这一条：</p>
+    <div class="cmd">
+      <pre>python -m research.wind_news_probe --code 600000.SH --start 2025-01-01 --end 2025-01-31</pre>
+      <button class="copy">复制</button>
+    </div>
+    <p>跑完看 <code>data\news_raw\wind_news_api_probe.json</code> 里两个值：</p>
+    <ul class="clean">
+      <li><code>method_available</code> 和 <code>query_succeeded</code> <strong>都是 true</strong> → 好消息，后面可以继续做</li>
+      <li>有一个是 <strong>false</strong> → 不代表你没买新闻数据，可能只是你这个 WindPy 版本或账号没开这个接口。<strong>别自己猜接口名</strong>，把那个 json 发出去问</li>
+    </ul>
+    <div class="callout warn">
+      <span class="t">卡住怎么办</span>
+      项目里有现成的 <code>WIND_SUPPORT_REQUEST.txt</code>，是写好的中文话术，直接复制发给 Wind 客户经理，问清四件事：有没有 A 股历史新闻 API、字段有哪些、能回溯到哪一年、调用额度多少。
+    </div>
+    <div class="callout bad">
+      <span class="t">一个必须知道的事</span>
+      如果你只能从 Wind 界面<strong>手工点「导出」</strong>，导出的是「当前最新新闻」，<strong>不能拿来做 2010–2025 的历史回测</strong>。想要全历史，必须走 API，手工点几百只股票不现实。
+    </div>
+  </div>
+</div>
+
+<h2><span class="num">8</span>把 4 个小文件发给我</h2>
+
+<div class="step">
+  <div class="step-head">
+    <input type="checkbox" id="c10">
+    <label for="c10">
+      <span class="st">上传诊断文件，等下一步指示</span>
+      <span class="sd">目的：这些文件能看出字段通不通、权限够不够</span>
+    </label>
+  </div>
+  <div class="step-body">
+    <p>先别全量下载。只要把这 4 个文件发过来，就能判断下一步怎么走：</p>
+    <ul class="clean">
+      <li><code>data\wind_acquisition\field_probe.csv</code></li>
+      <li><code>data\wind_acquisition\probe_summary.json</code></li>
+      <li><code>data\wind_acquisition\probe_values.csv</code></li>
+      <li><code>data\news_raw\wind_news_api_probe.json</code></li>
+    </ul>
+    <div class="callout bad">
+      <span class="t">绝对不要发的</span>
+      Wind 登录密码、授权令牌、整个商业数据库原始文件。上面这 4 个文件本身不含密码，是安全的。
+    </div>
+  </div>
+</div>
+
+<h2><span class="num">✓</span>术语对照：看不懂的词查这里</h2>
+
+<div class="glossary">
+  <div class="row"><div class="term">Wind 终端</div><div class="def">万得（Wind）是金融数据软件，国内机构几乎都用。它只能装在指定电脑上，而且要账号登录才能用。</div></div>
+  <div class="row"><div class="term">WindPy</div><div class="def">让 Python 能读取 Wind 数据的那个「转接头」库。没装它，Python 拿不到数据。</div></div>
+  <div class="row"><div class="term">字段 / 字段名</div><div class="def">数据项的名称。比如「收盘价」这个数据项，在 Wind 里的代号是 <code>close</code>。「成交笔数」的代号是 <code>dealnum</code>（待核验）。</div></div>
+  <div class="row"><div class="term">dealnum</div><div class="def">候选的「成交笔数」字段。一定要验证单位——是笔还是手，算错会让整个因子失真。</div></div>
+  <div class="row"><div class="term">conda / 环境</div><div class="def">可以理解成「一间独立的工具房」。<code>qlib_beginner</code> 这间房装了 qlib 等工具，别的房间没有。所以要先 <code>conda activate</code> 进去。</div></div>
+  <div class="row"><div class="term">PowerShell</div><div class="def">Windows 自带的命令行窗口，用来敲命令的地方。不是黑客工具，就是个高级输入框。</div></div>
+  <div class="row"><div class="term">远程桌面 / RDP</div><div class="def">在自己电脑上看到一个别人电脑的窗口，能操作它。关键点：操作的是<strong>那台</strong>电脑，不是你的。所以文件得复制过去。</div></div>
+  <div class="row"><div class="term">API</div><div class="def">程序之间的取数通道。有 API 就能批量自动拿数据；没 API 就只能手工点界面导出，做不了历史回测。</div></div>
+  <div class="row"><div class="term">配额</div><div class="def">Wind 给你的取数次数上限。全量下载会消耗很多，所以要先小样本测试，别一上来就拉十年数据。</div></div>
+  <div class="row"><div class="term">冒烟测试</div><div class="def">行业黑话，意思是「先跑个最小的样本，看会不会炸」。就是先下 5 只股票的意思。</div></div>
+  <div class="row"><div class="term">PIT / 防泄漏</div><div class="def">Point-in-Time，指「当时真的能拿到的信息」。比如某条新闻 3 月 5 日晚 8 点才发布，就不能假装在 3 月 5 日收盘前已经知道它——否则回测收益是假的。</div></div>
+  <div class="row"><div class="term">CG / 代码生成器</div><div class="def">Wind 终端里的一个小工具，能查某个字段的中文含义、单位、有没有权限。</div></div>
+  <div class="row"><div class="term">-m research.xxx</div><div class="def">意思是「运行 research 文件夹里的某个脚本」。所以人必须站在项目文件夹里，否则找不到。</div></div>
+</div>
+
+<h2><span class="num">!</span>小白最容易踩的 6 个坑</h2>
+
+<div class="card">
+  <ul class="clean">
+    <li><strong>坑 1：在自己电脑上敲远程电脑的命令。</strong>远程桌面里敲命令，命令跑在<em>远程那台</em>；你在本地 PowerShell 敲，跑在<em>本地</em>，两边环境完全不同。</li>
+    <li><strong>坑 2：项目文件夹没复制到远程电脑。</strong>原手册专门强调：整个 <code>qlib_beginner</code> 文件夹都要复制过去，包括 <code>research</code>。只复制一部分没用。</li>
+    <li><strong>坑 3：用今天的沪深300成分股回测过去。</strong>这会造成「幸存者偏差」，结论虚高。手册用的是<em>历史</em>成分区间，别图省事换成当前名单。</li>
+    <li><strong>坑 4：拿成交额 ÷ 成交量当「平均单笔金额」。</strong>那是成交均价，单位完全不同。这两个指标长得像，含义天差地别。</li>
+    <li><strong>坑 5：一上来就全量下载十年数据。</strong>配额烧完了才发现字段是错的。永远先 5 只股票试。</li>
+    <li><strong>坑 6：新闻接口没通就说「新闻因子提升了收益」。</strong>手册里写得很清楚：必须先做 Alpha158-only / News-only / 两者结合的三组对照，在同一套滚动样本和成本假设下比较，才能下结论。没做对照之前，这句话不能写进任何材料。</li>
+  </ul>
+</div>
+
+<div class="callout info">
+  <span class="t">最后一句实话</span>
+  这份材料的技术含量不低，但它的核心难点不在敲命令，而在<strong>数据权限</strong>——你有没有 Wind 账号、账号有没有 <code>dealnum</code> 和新闻 API 的权限。这两件事定死了，后面全是机械操作。所以今天你只需要搞定第 1 步和第 8 步，中间的可以等拿到权限再说。
+</div>
+
+<footer>
+  本页仅为操作步骤整理，不构成任何投资建议。命令与文件名以原项目实际内容为准。<br>
+  建议把本页另存或打印，操作时对照勾选。
+</footer>
+
+</div>
+
+<script>
+document.querySelectorAll('.cmd .copy').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var text = btn.parentElement.querySelector('pre').innerText;
+    function ok(){
+      btn.textContent = '已复制';
+      btn.classList.add('done');
+      setTimeout(function(){ btn.textContent='复制'; btn.classList.remove('done'); }, 1500);
+    }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(ok).catch(fallback);
+    } else { fallback(); }
+    function fallback(){
+      var ta = document.createElement('textarea');
+      ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
+      document.body.appendChild(ta); ta.select();
+      try{ document.execCommand('copy'); ok(); }catch(e){}
+      document.body.removeChild(ta);
+    }
+  });
+});
+// 勾选状态本地保存
+var boxes = document.querySelectorAll('.step-head input[type=checkbox]');
+boxes.forEach(function(b){
+  try{
+    if(localStorage.getItem('step_'+b.id)==='1') b.checked = true;
+    b.addEventListener('change', function(){
+      localStorage.setItem('step_'+b.id, b.checked?'1':'0');
+    });
+  }catch(e){}
+});
+</script>
+</body>
+</html>

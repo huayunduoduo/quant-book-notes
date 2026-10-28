@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>学习进度与路线图 · 更新于 2026-10-28</title>
+<style>
+  :root{
+    --bg:#f7f8fa; --card:#fff; --ink:#1a1d23; --ink2:#4a5058; --ink3:#858b94;
+    --line:#e4e7ec; --brand:#0f6e56; --brand-bg:#e7f6f0; --warn:#b45309;
+    --warn-bg:#fdf4e7; --danger:#c0392b; --danger-bg:#fdecea;
+    --blue:#185fa5; --blue-bg:#eaf2ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:15px/1.85 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+  .wrap{max-width:920px;margin:0 auto;padding:40px 24px 100px}
+  header{border-bottom:1px solid var(--line);padding-bottom:24px;margin-bottom:28px}
+  .kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);font-weight:600}
+  h1{font-size:26px;line-height:1.4;margin:10px 0 10px}
+  .src{font-size:13px;color:var(--ink3);margin:0 0 14px}
+  .lede{color:var(--ink2);margin:0;max-width:760px}
+  h2{font-size:20px;margin:48px 0 6px;padding-top:20px;border-top:1px solid var(--line)}
+  h2:first-of-type{border-top:0;padding-top:0}
+  h3{font-size:16px;margin:26px 0 8px}
+  p{margin:0 0 13px}
+  code{font:12.5px/1.6 ui-monospace,Consolas,monospace;background:#eef2ed;padding:2px 5px;border-radius:4px}
+  table.t{width:100%;border-collapse:collapse;font-size:13.5px;background:var(--card);
+          border-radius:10px;overflow:hidden;margin:14px 0}
+  table.t th{text-align:left;background:#fafbfc;color:var(--ink3);font-size:12px;letter-spacing:.04em;
+             padding:10px 12px;border-bottom:1px solid var(--line);font-weight:600}
+  table.t td{padding:10px 12px;border-bottom:1px solid #f0f2f5;vertical-align:top;color:var(--ink2)}
+  table.t tr:last-child td{border-bottom:0}
+  table.t td b{color:var(--ink)}
+  .done{color:#0b5c43;font-weight:600}
+  .next{color:#854f0b;font-weight:600}
+  .skip{color:var(--ink3)}
+  .callout{border-radius:10px;padding:14px 18px;margin:15px 0;border-left:3px solid;font-size:14px}
+  .callout .t{font-weight:600;display:block;margin-bottom:4px}
+  .callout.key{background:var(--blue-bg);border-color:#7eaaf5;color:#12457f}
+  .callout.warn{background:var(--warn-bg);border-color:#e0a33e;color:#6b3f05}
+  .callout.info{background:var(--brand-bg);border-color:#4fb08c;color:#0b5c43}
+  .why{background:#f7f9f6;border:1px dashed #c3d3c9;border-radius:8px;padding:13px 18px;margin:12px 0;
+       font-size:14px;color:var(--ink2)}
+  .why b{color:var(--brand)}
+  .why .h{color:var(--brand);font-weight:600;display:block;margin-bottom:5px;font-size:13px;letter-spacing:.06em}
+  footer{margin-top:50px;padding-top:20px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink3)}
+  @media(max-width:640px){ .wrap{padding:28px 16px 70px} h1{font-size:22px} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">Progress &amp; Roadmap · 更新于 2026-10-28</div>
+  <h1>这本书：目录架构 · 已学章节 · 后续顺序</h1>
+  <p class="src">Velu / Hardy / Nehren《Algorithmic Trading and Quantitative Strategies》· 正文 pp.1–397 · 五部分 11 章</p>
+  <p class="lede">全书结构是一条<b>从市场到机器的流水线</b>：Part I 交易基础 → Part II 统计模型 → Part III 策略与回测 → Part IV 执行 → Part V 技术。你的项目（Qlib × Alpha158 × 切割因子）住在 Part III，工具箱在 Part II 和 §4.6。</p>
+</header>
+
+<h2>一、全书架构（五部分 · 11 章）</h2>
+
+<table class="t">
+  <tr><th style="width:26%">部分</th><th style="width:24%">章</th><th>在整条流水线里的位置</th></tr>
+  <tr><td rowspan="1"><b>Part I</b> 交易入门<br><span class="skip">pp.1–50</span></td><td>1 交易基础（p.3）</td><td>市场怎么运作、数据分几类——<span class="done">✓ 全章已精讲</span></td></tr>
+  <tr><td rowspan="2"><b>Part II</b> 基础模型与实证<br><span class="skip">pp.51–156</span></td><td>2 单变量时间序列（p.53）</td><td>ARIMA、平稳性、收益的典型事实——单资产建模工具箱</td></tr>
+  <tr><td>3 多变量时间序列（p.95）</td><td>回归、降维（PCA）、协整、多元 GARCH——多资产工具箱</td></tr>
+  <tr><td rowspan="3"><b>Part III</b> 交易算法<br><span class="skip">pp.157–268</span><br><b>你的主场</b></td><td>4 进阶话题（p.125）</td><td>状态空间、regime 切换、点过程、<b>机器学习（§4.6）</b></td></tr>
+  <tr><td>5 统计策略与回测（p.159）</td><td><b>全书核心</b>：规则、回测、检验、信号、仓位、ML</td></tr>
+  <tr><td>6 动态组合管理（p.215）</td><td>组合理论、正则化配置、<b>交易成本（§6.5）</b></td></tr>
+  <tr><td rowspan="1"><b>Part III 续</b></td><td>7 新闻分析（p.251）</td><td>情绪与注意力 → 交易（你的新闻支线）</td></tr>
+  <tr><td rowspan="3"><b>Part IV</b> 执行算法<br><span class="skip">pp.269–380</span></td><td>8 交易数据建模（p.271）</td><td>日内归一化、限价簿动态——日内微观结构</td></tr>
+  <tr><td>9 市场冲击模型（p.313）</td><td>冲击成本怎么估——上线前才需要</td></tr>
+  <tr><td>10 执行策略（p.335）</td><td>VWAP/TWAP、下单拆分、智能路由</td></tr>
+  <tr><td><b>Part V</b> 技术考量<br><span class="skip">p.383–</span></td><td>11 技术栈（p.383）</td><td>基础设施——研究阶段用不到</td></tr>
+</table>
+
+<h2>二、已学章节与产出（6 块）</h2>
+
+<table class="t">
+  <tr><th style="width:22%">章节</th><th style="width:30%">主题</th><th>产出文件 · 掌握的核心</th></tr>
+  <tr><td><span class="done">✓</span> 第 1 章（p.3）</td><td>交易基础</td><td><code>第1章中文精讲.html</code> · §1.4 数据分类（对你选数据最有用）</td></tr>
+  <tr><td><span class="done">✓</span> §5.7（p.176 起）</td><td>回测与数据窥探</td><td><code>5.7节_回测与数据窥探_中译注.html</code> + <code>5.7公式精讲_小白版.html</code> · 置信区间 √n、块 bootstrap、Reality Check/SPA/FDR——<b>你的检验方法论</b></td></tr>
+  <tr><td><span class="done">✓</span> §5.10（pp.189–198）</td><td>外在信号：量价</td><td><code>5.10节_外在信号_中译注.html</code> · 切割=赋权、M 因子对照、IC 曲线诊断、w ∝ IC/σ²——<b>你因子的改进地图</b></td></tr>
+  <tr><td><span class="done">✓</span> §5.12（pp.202–204）</td><td>下单规模</td><td><code>5.12节_下单规模_中译注.html</code> · Kelly、朱–周 (5.59)–(5.64)、μ₁=0 的连锁结论——<b>仓位层</b></td></tr>
+  <tr><td><span class="done">✓</span> §5.2（pp.160–161）</td><td>策略评价口径</td><td><code>5.2节_策略评价口径_中译注.html</code> · (5.1) 一条回归长出四比率 + 索提诺/卡玛 + Lo 年化修正——<b>组合层报告口径</b></td></tr>
+  <tr><td><span class="done">✓</span> §4.6.3（pp.152–154）</td><td>多指标与 Boosting</td><td><code>4.6.3节_多指标与Boosting_中译注.html</code> · 表 4.1 组合预测、AdaBoost 四行、gradient boosting=拟合残差——<b>你 LGBM 的理论出处</b></td></tr>
+</table>
+
+<div class="callout info">
+  <span class="t">进度读法：Part III 的“检验三角”已经闭环</span>
+  §5.2（<b>报什么</b>）+ §5.7（<b>算不算数</b>）+ §5.10/§5.12（<b>信号与仓位</b>）合起来，正好覆盖“从因子到论文”的完整链条。第 5 章还剩 §5.1、§5.3–5.6、§5.8、§5.9、§5.11、§5.13——其中和你项目直接相关的只有 <b>§5.9（横截面动量）和 §5.13（ML 进交易）</b>两个。
+</div>
+
+<h2>三、后续建议顺序（更新版）</h2>
+
+<h3>第一档：接下来就读（按序，三块收掉第 5–6 章主战场）</h3>
+
+<table class="t">
+  <tr><th style="width:8%">序</th><th style="width:26%">章节</th><th>为什么是它 · 预计篇幅</th></tr>
+  <tr><td class="next">①</td><td><b>§5.9 横截面动量策略</b>（pp.184–188）</td><td><b>你因子的“正身”。</b>这一节讲“排序键 → 分档 → 组合”这条策略模板的原型（Lo–MacKinlay 三源分解）与实证（TSMOM、成交量分档、外汇动量）。约 5 页。</td></tr>
+  <tr><td class="next">②</td><td><b>§5.13 机器学习方法在交易中的应用</b>（p.204）</td><td><b>紧接 §4.6.3</b>：boosting 讲完“怎么练”，这节讲“怎么进策略”。你的 LGBM 用法在这里找理论背书。学完第 5 章正式收尾。</td></tr>
+  <tr><td class="next">③</td><td><b>§6.5 交易成本、做空与流动性约束</b>（p.230）</td><td><b>论文必答题</b>：E1/E2 那点增量够不够付手续费+冲击？这节给判断框架。老版阅读路线就把它列为必读，现在到了该读的位置。</td></tr>
+</table>
+
+<h3>第二档：论文方法论补强（写论文期间穿插）</h3>
+
+<table class="t">
+  <tr><th style="width:8%">序</th><th style="width:26%">章节</th><th>为什么 · 预计篇幅</th></tr>
+  <tr><td class="next">④</td><td>§2.6 模型构建关键步骤 + §2.7 平稳性</td><td>方法论 hygiene：你做滚动训练前后的口径检查能引用它。约 4 页。</td></tr>
+  <tr><td class="next">⑤</td><td>§3.2 降维方法（PCA 等）</td><td>Alpha158 + cut 特征几十上百个、高度相关——PCA/特征压缩在这里讲。约 3 页。</td></tr>
+  <tr><td class="next">⑥</td><td>§5.3.2 移动平均变体与振荡器</td><td>选读。§5.7 检验的“几百条技术规则”长什么样，这里看一眼就够。</td></tr>
+</table>
+
+<h3>第三档：支线与上线前（按项目里程碑触发）</h3>
+
+<table class="t">
+  <tr><th style="width:8%">序</th><th style="width:26%">章节</th><th>触发条件</th></tr>
+  <tr><td class="skip">⑦</td><td>§7 新闻分析（p.251）</td><td>新闻 API 支线重启时读（§7.2 自动新闻、§7.3 用于交易）</td></tr>
+  <tr><td class="skip">⑧</td><td>§9.3 交易成本建模 + §9.8 实证估计</td><td>策略要“上线/实盘模拟”时读；§9.5 冲击的典型形状也值得看</td></tr>
+  <tr><td class="skip">⑨</td><td>§6.1 现代组合理论 + §6.3 动态组合选择</td><td>如果做完 §5.12 想把仓位层做实（均值–方差、多期配置）</td></tr>
+  <tr><td class="skip">⑩</td><td>§4.2 regime 切换与变点模型</td><td>若诊断发现因子表现随市场状态剧烈漂移，回来查它</td></tr>
+</table>
+
+<h3>明确跳过</h3>
+<p class="skip">§5.1（策略史）、§5.4–5.6（模式发现/分解/公允价值）、§5.8（配对交易，A股融券受限价值低）、§5.11（多市场）、§8（日内微观结构，§8.1 归一化除外）、§10（执行算法）、§11（技术栈）。<b>这些不是不好，是和“因子研究 + 回测论文”这条主线正交。</b></p>
+
+<div class="why">
+  <span class="h">为什么第一档是这个顺序</span>
+  <b>§5.9 放最前</b>：它直接给你正在做的事一个文献坐标——“按某个排序键分档再加权”这条模板的原型、三源利润分解和一系列实证变体（含按成交量分档的 Lee–Swaminathan），立刻有用。<b>§5.13 第二</b>：你刚学完 §4.6.3，boosting 的记忆还热着，顺势讲“ML 信号怎么变成策略”，第 5 章就此闭环，之后整章可以合上。<b>§6.5 第三</b>：它是“泼冷水”的一节——成本一算，很多回测增量归零；读它之前最好已经知道自己的增量是多少（你已经有 E1/E2 的 CI），带着数字去读，代入感完全不同。
+</div>
+
+<div class="callout warn">
+  <span class="t">读法提醒（沿用 5.7 的教训）</span>
+  每节读完，回填一行到对应产出文件里的“项目对照表”——<b>这本书对你的价值全在那张对照表里</b>，原文本身大多是 2019 年前的美国市场证据，结论不能直接搬来 A 股。
+</div>
+
+<footer>
+  目录依据 PDF 原书 Contents（pp.v–ix）逐条整理；页码为印刷页码；进度截至 2026-10-28。
+</footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第 5 章导论 · 前半程逐节讲解（§5.1–§5.8）</title>
+<style>
+  :root{
+    --bg:#f7f8fa; --card:#fff; --ink:#1a1d23; --ink2:#4a5058; --ink3:#858b94;
+    --line:#e4e7ec; --brand:#0f6e56; --brand-bg:#e7f6f0; --warn:#b45309;
+    --warn-bg:#fdf4e7; --danger:#c0392b; --danger-bg:#fdecea;
+    --blue:#185fa5; --blue-bg:#eaf2ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:15px/1.85 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+  .wrap{max-width:920px;margin:0 auto;padding:40px 24px 100px}
+  header{border-bottom:1px solid var(--line);padding-bottom:24px;margin-bottom:28px}
+  .kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);font-weight:600}
+  h1{font-size:26px;line-height:1.4;margin:10px 0 10px}
+  .src{font-size:13px;color:var(--ink3);margin:0 0 14px}
+  .lede{color:var(--ink2);margin:0;max-width:760px}
+  h2{font-size:20px;margin:48px 0 6px;padding-top:20px;border-top:1px solid var(--line)}
+  h2:first-of-type{border-top:0;padding-top:0}
+  h3{font-size:16px;margin:26px 0 8px}
+  p{margin:0 0 13px}
+  ul,ol{padding-left:22px;margin:0 0 14px}
+  li{margin:6px 0;color:var(--ink2)}
+  li strong{color:var(--ink)}
+  code{font:12.5px/1.6 ui-monospace,Consolas,monospace;background:#eef2ed;padding:2px 5px;border-radius:4px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 24px;margin:16px 0}
+  table.t{width:100%;border-collapse:collapse;font-size:13.5px;background:var(--card);
+          border-radius:10px;overflow:hidden;margin:14px 0}
+  table.t th{text-align:left;background:#fafbfc;color:var(--ink3);font-size:12px;letter-spacing:.04em;
+             padding:10px 12px;border-bottom:1px solid var(--line);font-weight:600}
+  table.t td{padding:10px 12px;border-bottom:1px solid #f0f2f5;vertical-align:top;color:var(--ink2)}
+  table.t tr:last-child td{border-bottom:0}
+  table.t td b{color:var(--ink)}
+  .callout{border-radius:10px;padding:14px 18px;margin:15px 0;border-left:3px solid;font-size:14px}
+  .callout .t{font-weight:600;display:block;margin-bottom:4px}
+  .callout.info{background:var(--brand-bg);border-color:#4fb08c;color:#0b5c43}
+  .callout.warn{background:var(--warn-bg);border-color:#e0a33e;color:#6b3f05}
+  .callout.danger{background:var(--danger-bg);border-color:#e07a6e;color:#7d2418}
+  .callout.key{background:var(--blue-bg);border-color:#7eaaf5;color:#12457f}
+  .say{background:var(--card);border-left:4px solid var(--brand);border-radius:0 12px 12px 0;
+       padding:16px 22px;margin:18px 0}
+  .say .h{font-size:12.5px;letter-spacing:.1em;color:var(--brand);font-weight:600;margin-bottom:6px}
+  .say p:last-child{margin-bottom:0}
+  .eq{background:#f4f8f2;border:1px solid #cfe0d5;border-radius:10px;padding:16px 20px;margin:14px 0}
+  .eq .no{font:11px/1 ui-monospace,Consolas,monospace;color:var(--brand);
+          background:var(--brand-bg);padding:4px 8px;border-radius:4px;display:inline-block;margin-bottom:10px}
+  .eq .body{font-family:"Cambria Math",Cambria,Georgia,serif;font-size:16.5px;line-height:2.2;text-align:center}
+  .eq .cap{display:block;font-family:inherit;font-size:12.5px;color:var(--ink3);text-align:left;
+           margin-top:8px;line-height:1.75}
+  .note{background:#fbfbfc;border:1px solid #e6e9ee;border-radius:8px;padding:11px 15px;margin:12px 0;
+        font-size:13px;color:var(--ink2)}
+  .note .h{font-weight:600;color:var(--ink);display:block;margin-bottom:4px;font-size:12.5px}
+  sub,sup{font-size:.66em}
+  .link{color:var(--blue);font-weight:550}
+  footer{margin-top:50px;padding-top:20px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink3)}
+  @media(max-width:640px){
+    .wrap{padding:28px 16px 70px} h1{font-size:22px} .eq .body{font-size:14px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">Algorithmic Trading and Quantitative Strategies · Ch.5 导论</div>
+  <h1>第 5 章导论：前半程逐节讲解<br><span style="font-size:16px;color:var(--ink3)">§5.1–§5.8 · Statistical Trading Strategies and Back-Testing</span></h1>
+  <p class="src">原文 pp.159–184（页索引 175–200，pypdf）· 本页覆盖 §5.9 之前的全部小节 · §5.2/§5.7 已有专页，此处只做衔接</p>
+  <p class="lede">第 5 章前半程有一条暗线：<b>预测对象始终是"这只资产自己下一期的收益"，信息集始终是"它自己的过去"</b>——所谓"在一条价格序列上做文章"。本页逐节讲完这条线，最后看 §5.9 如何换轴。</p>
+</header>
+
+<div class="say">
+  <div class="h">前半程主旨（一句话）</div>
+  <p>前半章每一节都在回答"**这条序列的下一步往哪走**"，只是换了不同的序列和工具：原始价格（滤波/均线）→ 平滑后的价格（形态识别）→ 幅度×方向（分解算法）→ 因子残差（公允价值）→ 价差（配对交易）。而 §5.9 第一次把问题改成"**这一只相对其他 N 只，下一步谁强**"——排序对象从"时间点"变成"股票"。读懂这个换轴，第 5 章的地图就完整了。</p>
+</div>
+
+<h2>一、全章地图</h2>
+
+<table class="t">
+  <tr><th style="width:30%">小节</th><th style="width:12%">页码</th><th style="width:38%">一句话</th><th>学习状态</th></tr>
+  <tr><td><b>§5.1</b> 出身与历史</td><td>p.159</td><td>策略三大类 + 统计套利的正式定义</td><td><span class="chip">本页讲</span></td></tr>
+  <tr><td><b>§5.2</b> 评价口径</td><td>pp.160–161</td><td>CAPM 回归长出六个比率 + 报告清单</td><td><span class="chip">已有专页</span></td></tr>
+  <tr><td><b>§5.3</b> 交易规则总论</td><td>pp.161–162</td><td>技术分析成立的前提条件</td><td><span class="chip">本页讲</span></td></tr>
+  <tr><td><b>§5.3.1</b> 滤波规则</td><td>pp.162–164</td><td>x% 突破买入卖出；被佣金判死刑</td><td><span class="chip">本页讲</span></td></tr>
+  <tr><td><b>§5.3.2</b> 均线与振荡器</td><td>pp.164–166</td><td>SMA/EWA/BWMA、布林带、RSI 的概率化解读</td><td><span class="chip">本页讲</span></td></tr>
+  <tr><td><b>§5.4</b> 模式识别</td><td>pp.166–168</td><td>核回归把"看图"变成统计检验</td><td><span class="chip">本页讲</span></td></tr>
+  <tr><td><b>§5.5</b> 分解算法</td><td>pp.168–170</td><td>收益 = 幅度 × 方向，分开建模</td><td><span class="chip">本页讲</span></td></tr>
+  <tr><td><b>§5.6</b> 公允价值模型</td><td>p.170</td><td>因子残差 = 交易机会（你 E2 的出处）</td><td><span class="chip">本页讲</span></td></tr>
+  <tr><td><b>§5.7</b> 回测与数据窥探</td><td>pp.171–174</td><td>Reality Check / SPA / FDR 总审判</td><td><span class="chip">已有专页 ×2</span></td></tr>
+  <tr><td><b>§5.8</b> 配对交易</td><td>pp.174–184</td><td>孪生股价差回归；距离法与协整</td><td><span class="chip">本页讲</span></td></tr>
+  <tr><td><b>§5.9–§5.13</b></td><td>pp.184 起</td><td>换轴之后的世界</td><td><span class="chip">各有专页</span></td></tr>
+</table>
+
+<h2>二、逐节讲解</h2>
+
+<h3>§5.1 出身与历史（p.159）</h3>
+
+<div class="card">
+<p><b>三大类策略的谱系。</b>跑赢市场的尝试古已有之——原文追溯到日本投机商本间宗久（Munehisa Homma）在大米市场用"蜡烛图"形态发财，以及道氏理论"市场在某些阶段可预测"的主张。现代分类是三分法：</p>
+<ul>
+  <li><b>动量策略</b>：买入表现好的、卖出表现差的（Jegadeesh–Titman 1993）；</li>
+  <li><b>反转策略</b>：买过去的输家、卖过去的赢家；</li>
+  <li><b>价值策略</b>：买入价值股、卖出成长股（Lakonishok et al. 1994），用 PE、分红、B/M、现金流、销售增长当价值指标。</li>
+</ul>
+<p><b>统计套利的正式定义</b>（Hogan, Jarrow, Teo &amp; Warachka 2004）——"产生无风险利润的长周期交易机会"，四个条件：①自融资、初始成本为零；②极限下期望折现利润为正；③亏损概率收敛到零；④时间平均方差收敛到零。它的价值在于：<b>拒绝市场有效不依赖任何均衡模型</b>——直接检验"策略是否构成统计套利"即可。</p>
+<p><b>全章立场声明</b>：开发策略的公共难题是交易成本（直接佣金 + 进出场间接成本）、防过拟合的交叉验证、换市场环境不保业绩；"<b>没有任何单一策略一直有效，所以要养一篮子策略</b>"。这一句是理解全章布局的钥匙——后面每节就是在往篮子里放一种工具。</p>
+</div>
+
+<h3>§5.2 评价口径（pp.160–161）——已有专页</h3>
+
+<div class="callout info">
+  <span class="t">衔接说明</span>
+  CAPM 回归 (5.1) 长出超额收益 / 夏普 / 特雷诺 / 信息比率 / 索提诺 / 卡玛六个比率与回测报告清单（盈亏笔数、最大单笔盈亏、净滑点、佣金、权益曲线）。逐比率讲解、DR ≠ 最大回撤辨析、比率分歧的数值验证，见学习门户中的 <span class="link">§5.2 策略评价口径</span> 专页。这里只需记住它在全章的角色：<b>它是给后面所有策略准备度量衡的，放在最前面。</b>
+</div>
+
+<h3>§5.3 交易规则总论（pp.161–162）</h3>
+
+<div class="card">
+<p>技术分析（Chartist analysis）= 从价格与量的过去形态做归纳预测。原文开篇引 Menkhoff–Taylor (2007) 的困惑：按最弱形式的市场有效假说，过去的信息应该已经反映在现价里，技术分析"要么无利可图，要么利润伴随着不可接受的风险暴露"——但它在实践中（尤其外汇市场）被广泛使用。原文给的调和是：<b>基本面能解释长期，但没有任何基本面模型能预测短期</b>——短期预测这块地，技术分析去占。</p>
+<p><b>技术分析成立的两个前提</b>：①价格运动有某种规律性、可复现的形态；②这些形态必须持续得足够久，<b>撑得过交易成本和假信号</b>，投资才能变成利润。然后是全章引用率最高的一句判决（Fama–Blume 1966）：</p>
+<p style="text-align:center;color:var(--ink)"><b>"在漂移为零或为正的随机游走市场里，任何机械规则用于单个证券，都不会持续跑赢简单地买入持有。"</b></p>
+<p>过去的走势有用，当且仅当<b>相继价格变化之间存在某种依赖</b>——注意原文补刀：序列相关这种度量<b>未必能捕捉到复杂的依赖结构</b>（这句话为 §5.5 的非线性分解、§5.4 的核方法、乃至你的 LGBM 留了口子）。</p>
+</div>
+
+<h3>§5.3.1 滤波规则（pp.162–164）</h3>
+
+<div class="card">
+<p><b>规则本体</b>（Alexander 1961, 1964）：从某低点上涨至少 x% → 买入持有；从随后的高点下跌至少 x% → 卖出并做空；做空后从某低点又涨 x% → 回补转多。小于 x% 的移动一律忽略。背后的逻辑是"<b>涨了 x% 的东西，更可能先涨满下一个 x% 而不是先跌 x%</b>"——直接赌随机游走不成立。</p>
+<p><b>实证判决的三部曲</b>（原文讲得很完整）：</p>
+<table class="t">
+  <tr><th style="width:30%">研究</th><th>结论</th></tr>
+  <tr><td>Alexander (1961)，标普工业指数日频</td><td>5%、6%、8% 滤波的毛利润跑赢买入持有——<b>但没算交易成本</b></td></tr>
+  <tr><td>后续研究加上每往返 2% 佣金</td><td>只有约 46% 的大滤波勉强跑赢，其余全部不比买入持有好</td></tr>
+  <tr><td><b>Fama–Blume (1966)</b>，道指 30 只股逐只、1957–1962</td><td>"<b>算上佣金，滤波技术的大利润属于经纪人</b>；不算佣金，回报确实大幅改善，但仍不及买入持有"</td></tr>
+</table>
+<p><b>随机游走下的模型化</b>：r<sub>t</sub> = ln P<sub>t</sub> − ln P<sub>t−1</sub> = μ<sub>t</sub> + a<sub>t</sub>，a<sub>t</sub>~N(0,σ²)。滤波规则赌的是：入场时刻 t₀ 之后漂移 μ<sub>t</sub> 从 0 变成正数 μ。若漂移真的持续，规则赚；<b>所以滤波规则的本质是"入场时点对漂移变化的检测器"</b>，退出规则（r<sub>t</sub> &lt; r 就走）负责截断亏损。原文还提醒 Mandelbrot (1963) 的批评：价格在成交瞬间是<b>跳跃</b>的，买价卖价不会像规则要求的那样精确衔接——这是滑点的理论前身。</p>
+</div>
+
+<div class="eq">
+  <span class="no">式 (5.2)、(5.3)：Sweeney (1988) 的风险调整检验</span>
+  <div class="body">x = R<sub>F</sub> − (1−f)·R<sub>BH</sub>　　X = R<sup>I</sup><sub>F</sub> − R<sub>BH</sub></div>
+  <span class="cap">f = 未持仓天数占比。直觉：<b>过滤器有 (1−f) 的时间躲在无风险资产里，本来就该少赚风险溢价</b>，所以公平的比较是"滤波单位持仓天数收益" vs "扣除该份溢价后的买入持有"。在原假设（E(x)=0）下有精确的均值方差，可以做检验。式 (5.4) 把它推广到时变风险溢价，(5.5) 指出 Fama–Blume 原统计量的一个系统性偏差（对成功滤波规则不利）。</span>
+</div>
+
+<h3>§5.3.2 均线变体与振荡器（pp.164–166）</h3>
+
+<div class="card">
+<p><b>三种均线</b>（式 5.6 前后）：简单均线 SMA（等权）、指数加权 EWA（λ<sup>i+1</sup> 衰减加权）、Bollinger 加权 BWMA（按 (m−i) 线性递减）。<b>通用规则形态</b>：比值 P̂<sup>(m)</sup><sub>t</sub>/P<sub>t</sub> 突破上界 U 或跌破下界 L 就交易。原文点明这类指标只在<b>有明确趋势的市场</b>里赚，所以叫"趋势跟随"（trend-following）指标。</p>
+<p><b>反转 vs 动量的分界</b>：两者规则形式相同，差别只在<b>入场时点</b>——反转派找局部极小值进场，动量派找局部极大值进场。</p>
+<p><b>布林带</b>：P̂<sup>(m)</sup><sub>t</sub> ± 2σ̂<sup>(m)</sup><sub>t</sub>，破上带卖、破下带买，带内不动——概念上就是制造业的"过程质量控制图"搬进金融。</p>
+<p><b>RSI 的概率化解读</b>（对你最有启发的一段）：RSI &gt; 70 超买、&lt; 30 超卖这种"拍脑袋"阈值，原文用随机游走模型反解——r̄<sub>n</sub> 的分布在自协方差全为零时退化为正态，于是"上涨概率 vs 下跌概率"的<b>赔率比</b> = [1−Φ(−μ/σ)] / Φ(−μ/σ)，而 RSI &gt; 70 恰好对应<b>赔率比 &gt; 2.33</b>。原文的结论是全章的枢纽句：</p>
+</div>
+
+<div class="callout key">
+  <span class="t">枢纽句（原文 p.166）</span>
+  "本节所述的所有规则都可以写成收益底层分布的 c.d.f. 形式。<b>这种基于模型的规则解读，可以帮助我们把成交量等其他因子更正式地纳入模型，并评估它们对策略业绩的增值。</b>"——这扇门走进去就是 §5.10（量价信号），也就是你的 M 因子地盘：<b>原文自己承认，"规则 → 概率模型 → 加新变量"是技术分析的正规化路径</b>，你的 cut() 家族正走在这条路上。
+</div>
+
+<h3>§5.4 模式识别：核回归（pp.166–168）</h3>
+
+<div class="card">
+<p><b>问题</b>：看图识形态（头肩顶、双底……）几十年来的致命伤是"解读全凭主观"（"often in the eyes of the beholder"）。Lo–Mamaysky–Wang (LMW, 2000) 的方案：<b>用非参数核回归把形态识别自动化</b>。</p>
+<p><b>四步流水线</b>：</p>
+<ul>
+  <li><b>模型</b> (5.9)：P<sub>t</sub> = m(x<sub>t</sub>) + a<sub>t</sub>——价格 = 光滑信号 + 噪声，m 任意；</li>
+  <li><b>估计</b> (5.11)：Nadaraya–Watson 核估计 m̂<sub>h</sub>(x) = ΣK<sub>h</sub>(x−x<sub>t</sub>)P<sub>t</sub> / ΣK<sub>h</sub>(x−x<sub>t</sub>)——K 取标准正态密度，<b>离 x 近的价格权重大、远的权重小</b>；</li>
+  <li><b>带宽 h</b>：太小磨不平、太平滑丢细节，用<b>交叉验证</b> (5.12)(5.13) 选——逐个把 P<sub>t</sub> 拿出估计集、看拟合误差；LMW 发现价格序列上最优 h 偏大，建议打 0.3 折；</li>
+  <li><b>形态匹配</b> (5.14)：在滑动窗口内估核回归，<b>用 m̂ 的导数变号找局部极值</b>，按几何性质定义十种形态。</li>
+</ul>
+<p><b>检验与判决</b>：用 KS 检验比较"形态出现条件下的收益分布"与"无条件分布"——结论是核回归<b>略</b>好于随机。Jegadeesh (2000) 的讨论击中要害：图表派相信"历史形态会重演"，但形态判定本身主观性极强；实践者的真实用法是把视觉形态与宏观事件等大信息<b>组合</b>起来择时。</p>
+</div>
+
+<h3>§5.5 分解算法（pp.168–170）</h3>
+
+<div class="card">
+<p><b>动机</b>：前面规则都是趋势跟随，而收益的可预测性按有效市场理论本来就该弱——但原文指出：<b>收益的"方向"和"波动"的时间依赖性比收益本身强得多</b>。Anatolyev–Gospodinov (2010) 据此把收益拆开：</p>
+</div>
+
+<div class="eq">
+  <span class="no">式 (5.15)：恒等分解</span>
+  <div class="body">r<sub>t</sub> = c + |r<sub>t</sub> − c| · sgn(r<sub>t</sub> − c) = c + |r<sub>t</sub> − c| · (2·I(r<sub>t</sub> &gt; c) − 1)</div>
+  <span class="cap">c 由使用者定：可以是 σ 的倍数、交易成本、无风险利率或任何基准。<b>收益 = 基准 + 幅度 × 方向</b>。方向用 Bernoulli/logit (5.19) 建模（协变量可含已实现方差 RV、双幂变差 BPV、已实现偏度峰度），幅度用 ACD 型 Weibull (5.17)(5.18) 建模（可含宏观预测变量），两者用 copula (5.20) 缝合成联合分布。</span>
+</div>
+
+<div class="card">
+<p><b>为什么值得拆</b>：(5.16) 显示条件期望 E<sub>t−1</sub>(r<sub>t</sub>) 可以写成 RV<sub>t−1</sub> 的<b>非线性函数</b>（含 RV² 项）——分解天然容纳非线性。<b>即使价格真是随机游走、收益是白噪声，这个框架也能捕捉部分时间依赖</b>。策略用法：预测超额收益为正就投股票、为负就投债券，实证上分解法略优。</p>
+<p><b>神经网络亲戚</b> (5.21)–(5.23)：AR(p) 加入振荡器信号 s<sup>m,n</sup><sub>t</sub>（短长均线之差）→ 扩展线性模型 → 前馈神经网络（logistic 激活）。Gencay (1998) 用 1877–1998 道指日频数据证明振荡器信号里<b>存在非线性可预测性</b>。<b>你的 LGBM 在概念上就是这件事的现代版：不直接猜收益，让模型自己从特征里找可预测结构。</b></p>
+</div>
+
+<h3>§5.6 公允价值模型（p.170）</h3>
+
+<div class="callout key">
+  <span class="t">这一节是你 E2 residualize() 的直系祖先</span>
+  逻辑：股票的"公允价格"由<b>共同因子</b>驱动（CAPM、Fama–French 三/五因子、Carhart）。用因子模型拟合后，<b>因子解释不掉的大偏离 = 异常 = 交易机会</b>。这就是"公允价值"得名的原因：它给策略业绩提供了"合理基准"。具体到 (5.1)：模型成立则 α=0，<b>α≠0 就是风险调整后的超额业绩</b>；(5.24) 把 α 写成均值与 β 的函数；(5.25) 承认高频下残差有序列依赖 ε<sub>t</sub> = a<sub>t</sub> − φa<sub>t−1</sub>（MA(1)），估计用迭代广义最小二乘；泛化为多因子 (5.26)：r<sub>t</sub> = α + β′f<sub>t</sub> + ε<sub>t</sub>。<br><br>
+  <b>对照你的项目</b>：<code>preprocess.py::residualize()</code>（同日横截面岭回归取残差）就是这个思想在横截面上的实现——剥掉市场/风格共性，看每只股票剩下什么。E2 的设计哲学与本节一字不差。
+</div>
+
+<h3>§5.7 回测与数据窥探（pp.171–174）——已有专页 ×2</h3>
+
+<div class="callout info">
+  <span class="t">衔接说明</span>
+  §5.3–5.6 收集了满满一篮子规则，§5.7 建立法庭：White Reality Check (5.27)–(5.31)、逐步 SPA (5.32)、FDR 视角；Sullivan 等人 7846 条规则的判决——Brock 等经典均线规则的显著业绩是<b>数据窥探的伪结果</b>，1987–2000 年间"不进场"的日子平均收益反而更高。逐公式拆解与手算见 <span class="link">§5.7 中译注</span> 与 <span class="link">5.7 公式精讲（小白版）</span>。注意 Bajgrowicz–Scaillet (2012) 的收尾句很诚实："我们的结果对其他市场、其他频率、更复杂的规则说得很少"——<b>这句也是给你的负结果留的后门</b>。
+</div>
+
+<h3>§5.8 配对交易（pp.174–184）</h3>
+
+<div class="card">
+<p><b>思想</b>：市场中性策略——找价格同涨同跌的一对相似证券，价差显著偏离时<b>做多低估的、做空高估的</b>，等错定价自我修正时获利。价差幅度 = 错定价程度 = 潜在利润空间。因为利润与基本面变化无关，这类交易有时被称为"噪声交易"；配对策略反过来还能用来<b>度量噪声交易者风险</b>。</p>
+<p><b>教科书案例：孪生股</b>。Royal Dutch/Shell 合并前按 60:40 分红，理论平价比 = 0.6×Shell 股数 ÷ 0.4×Royal Dutch 股数；Unilever NV/PLC 有"一股 NV = 1.67 股 PLC"的平价协议——<b>实际价差对理论平价的偏离曾高达 27%</b>（1999 年 2 月）。Froot–Dabora (1999) 的补充发现很深刻：股价运动跟随的<b>不是基本面而是交易发生地的市场</b>。自然孪生股难找，实践中用"同行业、长久期、宏观暴露相似"的成熟公司凑对。</p>
+<p><b>距离法算法</b>（Gatev–Goetzmann–Rouwenhorst 2006）：</p>
+<ul>
+  <li>每月末，用<b>过去 12 个月累计收益指数</b>把每只股票价格归一化；</li>
+  <li>对每对股票计算归一化价差序列的均值 d 与标准差；</li>
+  <li><b>价差偏离超过 2 个标准差 → 买便宜的卖贵的</b>；收敛即平仓；六个月不收敛强制平仓。</li>
+</ul>
+<p>Gatev 等用 1962–2002 日频数据发现配对交易在各大类行业都有利润，且超额收益<b>不能</b>被市场/SMB/HML/动量/反转因子解释——"配对交易与简单的反转策略<b>根本不同</b>，尽管概念上长得一样"。</p>
+<p><b>协整版本</b>（§5.8.2）：若价格向量 p<sub>t</sub> 协整（秩 r），则存在 r 个线性组合是弱依赖的——偏离这个线性组合的部分是<b>暂态的、会回归</b>。写成协整 VAR 让"配对"推广到"一篮子"，参数也有了统计推断的框架。§5.8.3–5.8.4 讨论样本外表现衰减与执行细节（含与做市策略耦合的玩法，原文 p.184 有一段精彩描述）。</p>
+</div>
+
+<h2>三、收束：前半章是一条线，§5.9 是一次换轴</h2>
+
+<table class="t">
+  <tr><th style="width:26%">小节</th><th style="width:37%">在预测什么</th><th>用的"序列"是什么</th></tr>
+  <tr><td>§5.3 滤波/均线</td><td>这只资产下一步的价格方向</td><td><b>原始价格序列</b>（+ 阈值/均线变换）</td></tr>
+  <tr><td>§5.4 形态识别</td><td>同上，但走形态匹配</td><td><b>平滑后的价格序列</b>（核回归）</td></tr>
+  <tr><td>§5.5 分解算法</td><td>幅度与方向分别预测</td><td><b>幅度×方向两条派生序列</b>（+copula）</td></tr>
+  <tr><td>§5.6 公允价值</td><td>因子解释不掉的残差</td><td><b>因子残差序列</b></td></tr>
+  <tr><td>§5.8 配对交易</td><td>价差的回归</td><td><b>价差序列</b>（两条价格之差）</td></tr>
+  <tr><td><b>§5.9 横截面动量</b></td><td><b>这一只相对其他 N 只的相对强弱</b></td><td><b>横截面</b>（同一天 N 只资产的排序）——换轴</td></tr>
+</table>
+
+<p>你的 <code>cut()</code> 家族在这张地图上的位置很有意思：它把 §5.9 的排序逻辑<b>又搬回了时间轴</b>（窗口内给"天"排序）——等于在两个轴上各取一半，这正是它既有 §5.3–5.8 的时序血统、又需要 §5.9 的"排序→分档→赋权"语言来描述的原因。</p>
+
+<h2>四、项目对照总表</h2>
+
+<table class="t">
+  <tr><th style="width:34%">本页内容</th><th>对你的项目</th></tr>
+  <tr><td><b>§5.3.2 枢纽句（规则 → c.d.f. → 纳入成交量）</b></td><td>M 因子的方法论出处：把成交额"正式纳入"规则的模型化路径，原文亲自指了路。</td></tr>
+  <tr><td><b>§5.6 公允价值残差 = 机会</b></td><td><code>residualize()</code> 的文献出处。E2 的设计哲学 = §5.6 的横截面版，写论文时直接引 CAPM/FF 框架。</td></tr>
+  <tr><td><b>§5.5 分解 + 神经网络 (5.23)</b></td><td>"不直接猜收益，让模型找可预测结构"——LGBM 的方法论先声；答辩被问"为什么用 ML"可引 Gencay (1998)。</td></tr>
+  <tr><td><b>§5.3.1 Fama–Blume 判决</b></td><td>"算上佣金利润属于经纪人"——你论文成本核算小节的经典引用，接 §6.5。</td></tr>
+  <tr><td><b>§5.7 Bajgrowicz–Scaillet 收尾</b></td><td>"对其他市场/频率/更复杂规则说得很少"——你的 A 股 + 股票内切割 + ML 恰好落在这个"很少"里。</td></tr>
+  <tr><td><b>§5.8 Gatev 距离法</b></td><td>A 股融券受限，配对做空难落地——这正是路线图跳过 §5.8 的理由，但距离法的"归一化→阈值→回归"结构对理解你的窗口逻辑有参照价值。</td></tr>
+</table>
+
+<h2>五、诚实说明</h2>
+
+<div class="callout warn">
+  <span class="t">覆盖范围与精度</span>
+  本页是<b>导读级</b>：§5.1/5.3/5.4/5.5/5.6/5.8 逐节讲到"每节在干什么、结论是什么、和你有什么关系"的深度，但<b>没有逐段翻译全文</b>（专页待遇只给了 §5.2/5.7/5.9/5.10/5.12/4.6.3）。式 (5.2)–(5.26) 的完整推导在原文；§5.5 的 ACD/Weibull/copula 细节依赖第 4 章的 (4.33)(4.40)，本页按原文指认、未展开。需要把某一节升级为专页（比如 §5.8 配对交易或 §5.5 分解算法），说一声即可。
+</div>
+
+<footer>
+  原文 pp.159–184（页索引 175–200，pypdf 提取）。姊妹页：§5.2 / §5.7 / §5.9 / §5.10 / §5.12 各有专页（见学习门户目录）。
+</footer>
+
+</div>
+</body>
+</html>

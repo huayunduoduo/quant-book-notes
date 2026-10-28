@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>5.2 策略评价口径 · 中译注</title>
+<style>
+  :root{
+    --bg:#f7f8fa; --card:#fff; --ink:#1a1d23; --ink2:#4a5058; --ink3:#858b94;
+    --line:#e4e7ec; --brand:#0f6e56; --brand-bg:#e7f6f0; --warn:#b45309;
+    --warn-bg:#fdf4e7; --danger:#c0392b; --danger-bg:#fdecea;
+    --blue:#185fa5; --blue-bg:#eaf2ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:15px/1.85 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+  .wrap{max-width:920px;margin:0 auto;padding:40px 24px 100px}
+  header{border-bottom:1px solid var(--line);padding-bottom:24px;margin-bottom:28px}
+  .kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);font-weight:600}
+  h1{font-size:26px;line-height:1.4;margin:10px 0 10px}
+  .src{font-size:13px;color:var(--ink3);margin:0 0 14px}
+  .lede{color:var(--ink2);margin:0;max-width:760px}
+  h2{font-size:20px;margin:48px 0 6px;padding-top:20px;border-top:1px solid var(--line)}
+  h2:first-of-type{border-top:0;padding-top:0}
+  h3{font-size:16px;margin:26px 0 8px}
+  p{margin:0 0 13px}
+  ul,ol{padding-left:22px;margin:0 0 14px}
+  li{margin:6px 0;color:var(--ink2)}
+  li strong{color:var(--ink)}
+  code{font:12.5px/1.6 ui-monospace,Consolas,monospace;background:#eef2ed;padding:2px 5px;border-radius:4px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 24px;margin:16px 0}
+  table.t{width:100%;border-collapse:collapse;font-size:13.5px;background:var(--card);
+          border-radius:10px;overflow:hidden;margin:14px 0}
+  table.t th{text-align:left;background:#fafbfc;color:var(--ink3);font-size:12px;letter-spacing:.04em;
+             padding:10px 12px;border-bottom:1px solid var(--line);font-weight:600}
+  table.t td{padding:10px 12px;border-bottom:1px solid #f0f2f5;vertical-align:top;color:var(--ink2)}
+  table.t tr:last-child td{border-bottom:0}
+  table.t td b{color:var(--ink)}
+  .callout{border-radius:10px;padding:14px 18px;margin:15px 0;border-left:3px solid;font-size:14px}
+  .callout .t{font-weight:600;display:block;margin-bottom:4px}
+  .callout.info{background:var(--brand-bg);border-color:#4fb08c;color:#0b5c43}
+  .callout.warn{background:var(--warn-bg);border-color:#e0a33e;color:#6b3f05}
+  .callout.danger{background:var(--danger-bg);border-color:#e07a6e;color:#7d2418}
+  .callout.key{background:var(--blue-bg);border-color:#7eaaf5;color:#12457f}
+  .tr{background:#fcfdfc;border:1px solid #dfe6e2;border-left:4px solid #9ec2b2;
+      border-radius:0 10px 10px 0;padding:16px 20px;margin:12px 0}
+  .tr .lab{font:11.5px/1 ui-monospace,Consolas,monospace;color:var(--brand);
+           background:var(--brand-bg);padding:4px 8px;border-radius:4px;display:inline-block;margin-bottom:10px}
+  .tr p{margin:0 0 10px;color:#2a3038}
+  .tr p:last-child{margin-bottom:0}
+  .why{background:#f7f9f6;border:1px dashed #c3d3c9;border-radius:8px;padding:13px 18px;margin:12px 0;
+       font-size:14px;color:var(--ink2)}
+  .why b{color:var(--brand)}
+  .why .h{color:var(--brand);font-weight:600;display:block;margin-bottom:5px;font-size:13px;letter-spacing:.06em}
+  .say{background:var(--card);border-left:4px solid var(--brand);border-radius:0 12px 12px 0;
+       padding:16px 22px;margin:18px 0}
+  .say .h{font-size:12.5px;letter-spacing:.1em;color:var(--brand);font-weight:600;margin-bottom:6px}
+  .say p:last-child{margin-bottom:0}
+  .eq{background:#f4f8f2;border:1px solid #cfe0d5;border-radius:10px;padding:16px 20px;margin:14px 0}
+  .eq .no{font:11px/1 ui-monospace,Consolas,monospace;color:var(--brand);
+          background:var(--brand-bg);padding:4px 8px;border-radius:4px;display:inline-block;margin-bottom:10px}
+  .eq .body{font-family:"Cambria Math",Cambria,Georgia,serif;font-size:16.5px;line-height:2.2;text-align:center}
+  .eq .cap{display:block;font-family:inherit;font-size:12.5px;color:var(--ink3);text-align:left;
+           margin-top:8px;line-height:1.75}
+  .note{background:#fbfbfc;border:1px solid #e6e9ee;border-radius:8px;padding:11px 15px;margin:12px 0;
+        font-size:13px;color:var(--ink2)}
+  .note .h{font-weight:600;color:var(--ink);display:block;margin-bottom:4px;font-size:12.5px}
+  sub,sup{font-size:.66em}
+  svg{max-width:100%;height:auto;display:block;margin:16px auto}
+  .figcap{text-align:center;font-size:12.5px;color:var(--ink3);margin:-6px 0 20px}
+  footer{margin-top:50px;padding-top:20px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink3)}
+  @media(max-width:640px){
+    .wrap{padding:28px 16px 70px} h1{font-size:22px} .eq .body{font-size:14px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">Section 5.2 · 中译注 + 逐条讲解</div>
+  <h1>策略评价：各种测度</h1>
+  <p class="src">Velu, Hardy, Nehren《Algorithmic Trading and Quantitative Strategies》· pp.160–161 · 公式 (5.1) 及六个比率</p>
+  <p class="lede">这一节非常短（只有 1.5 页），但它是全书其余部分的<b>度量衡</b>：后面每个策略的表现，都要用这里定义的尺子来量。对你来说，它是把 5.7 的"统计检验"补成"完整回测报告"的那块拼图。</p>
+</header>
+
+<div class="say">
+  <div class="h">主旨一句话</div>
+  <p>评价一个策略不能只看"赚了多少"，要看<b>扣除风险、扣除基准之后还剩多少</b>。这一节从一条回归式 (5.1) 长出四个比率（α、夏普、特雷诺、信息比率），再补两个盯住亏损的比率（索提诺、卡玛），最后给一份<b>标准回测报告清单</b>。</p>
+</div>
+
+<h2>零、先摆清楚你自己的东西（读译文之前必看）</h2>
+
+<div class="callout key">
+  <span class="t">你现在的评价体系缺了一整层</span>
+  你目前所有结论都产自 5.7 的口径：<b>RankIC + 配对增量 + 块 bootstrap 置信区间</b>（E1 −0.001297 [−0.006907, +0.003756]；E2 −0.000251 [−0.001474, +0.000592]）。<br><br>
+  这套口径量的是<b>"信号质量"</b>——信号和未来收益的横截面相关有没有增量。<br><br>
+  但这一节的口径量的是<b>"组合业绩"</b>——真按这个信号买卖（你的月度 top50 等权），账户的收益、波动、回撤长什么样。<b>这是两层不同的度量，论文和答辩两样都要有：</b>
+</div>
+
+<table class="t">
+  <tr><th style="width:18%">层级</th><th style="width:30%">量什么</th><th style="width:26%">你的现状</th><th>本节补给你</th></tr>
+  <tr><td><b>信号层</b></td><td>RankIC、配对增量 CI、多重检验校正</td><td>✓ 已完整（5.7 口径）</td><td>—</td></tr>
+  <tr><td><b>组合层</b></td><td>α、夏普、索提诺、卡玛、回撤、换手、滑点</td><td><b style="color:var(--danger)">✗ 基本空白</b>：top50 等权组合只有收益，没有成体系的报告</td><td>一整套比率 + 一份标准报告清单</td></tr>
+</table>
+
+<div class="why">
+  <span class="h">这一节的文章逻辑：一条回归式长出一家人</span>
+  这一节只有 1.5 页，结构极简单，就三步：<br><br>
+  <b>第 1 步</b>：给一条"标准归因方程"——CAPM 回归 (5.1)。把你的策略收益拆成三块：市场给你的（β·市场）、真正属于策略的（α）、剩下的噪声（ε）。<br>
+  <b>第 2 步</b>：四个比率 = 用方程里不同的零件做分子、不同的风险做分母。<b>它们不是四条独立知识，是同一个拆解的四种读法。</b><br>
+  <b>第 3 步</b>：再补两个盯住"亏损那一侧"的比率（索提诺、卡玛）+ 一份标准报告清单。<br><br>
+  <b>读的时候每遇到一个比率，就问一句：它的分子是哪块、分母在罚什么。这一节就通了。</b>
+</div>
+
+<h2>逐段中译（pp.160–161）</h2>
+
+<h3>① 开篇：这些尺子和执行策略的尺子不是一套（p.160）</h3>
+
+<div class="tr">
+  <span class="lab">原书第 1 段</span>
+  <p>本节要梳理的是<b>交易策略一般如何被评价</b>。这些测度<b>不同于评价执行策略所用的测度</b>——后者将在第四部分讨论。这里关注的是业界通行的基准，它们提供了<b>当策略失灵时需要逐一检查的一组维度</b>。</p>
+</div>
+
+<div class="why">
+  <span class="h">"策略失灵时需要逐一检查的一组维度"——这句是本节的纲</span>
+  每个比率都是一个独立的"体检指标"：夏普差可能是波动大，α 差可能是选股弱，卡玛差可能是一次深回撤拖垮的。<b>一个策略可以夏普合格但卡玛很难看</b>——只报一个数字就发现不了。<b>这就是为什么要有"一组"而不是"一个"。</b>
+</div>
+
+<h3>② 一切的起点：CAPM 回归（公式 5.1）</h3>
+
+<div class="tr">
+  <span class="lab">原书第 2 段</span>
+  <p>标准测度源自资本资产定价模型（CAPM）：</p>
+</div>
+
+<div class="eq">
+  <span class="no">公式 (5.1)</span>
+  <div class="body">r<sub>t</sub> − r<sub>f</sub> = α + β ( r<sub>mt</sub> − r<sub>f</sub> ) + ε<sub>t</sub></div>
+  <span class="cap">
+    r<sub>t</sub> 资产（策略）收益　·　r<sub>f</sub> 无风险收益　·　r<sub>mt</sub> 市场收益<br>
+    斜率 <b>β 度量资产的风险</b>（跟随市场波动多少）　·　<b>α 表示超额收益</b>（市场给不了、纯靠策略本事的部分）
+  </span>
+</div>
+
+<div class="why">
+  <span class="h">手算一遍：α 到底在算什么</span>
+  设你的 top50 组合某年周收益均值 0.30%，同期市场周超额收益均值 0.22%，回归得 β = 0.9，r<sub>f</sub> ≈ 0.008%/周。<br><br>
+  直观读法：市场那周平均涨 0.22% + 无风险 0.008%，β=0.9 意味着"跟着市场你该赚 0.9 × 0.228% ≈ 0.205%"，而你实际平均赚 0.30%。<b>多出来的 ≈0.095%/周，就是你策略的 α。</b><br><br>
+  <b>为什么要先减市场？</b>因为牛市里傻子都赚钱——不把"市场普涨"那部分剥离，你分不清策略是<b>真有本事</b>还是<b>只是坐在了上升的电梯里</b>。
+</div>
+
+<h3>③ 前四个比率：同一条回归的四种读法（p.160）</h3>
+
+<div class="tr">
+  <span class="lab">原书第 2 段（续）</span>
+  <p>令 r̄ 与 s 为评价期内收益的样本均值与标准差（分别替代下述各式中的 E(r<sub>t</sub>) 与 σ）。</p>
+</div>
+
+<div class="eq">
+  <span class="no">超额收益（Excess Return）</span>
+  <div class="body">α</div>
+  <span class="cap">正值代表表现更好，因为它反映的是<b>风险调整后的收益</b></span>
+</div>
+
+<div class="eq">
+  <span class="no">夏普比率（Sharpe Ratio）</span>
+  <div class="body">E( r<sub>t</sub> ) − r<sub>f</sub>　÷　σ</div>
+  <span class="cap">用<b>资产自身的波动率</b>标准化。这是使用最广的基准测度</span>
+</div>
+
+<div class="eq">
+  <span class="no">特雷诺比率（Treynor Ratio）</span>
+  <div class="body">E( r<sub>t</sub> ) − r<sub>f</sub>　÷　β</div>
+  <span class="cap">夏普的替代版：把分母从"总波动 σ"换成"<b>市场风险 β</b>"</span>
+</div>
+
+<div class="eq">
+  <span class="no">信息比率（Information Ratio）</span>
+  <div class="body">α　÷　σ( ε<sub>t</sub> )</div>
+  <span class="cap">超额收益的修正版：用<b>残差波动</b>标准化——每承担一份"独立于市场的风险"，换回多少 α</span>
+</div>
+
+<div class="why">
+  <span class="h">四个比率一起手算：同一组数字，四种读法</span>
+  设某策略：E(r) = 10%，r<sub>f</sub> = 2%，σ = 20%，β = 0.8，σ(ε) = 10%，α = 3%。<br><br>
+  <table class="t">
+    <tr><th style="width:22%">比率</th><th style="width:34%">算式</th><th style="width:14%">结果</th><th>它在问什么</th></tr>
+    <tr><td><b>夏普</b></td><td>(10% − 2%) ÷ 20%</td><td><b>0.40</b></td><td>每承担 1 份<b>总波动</b>，换回多少超额？</td></tr>
+    <tr><td><b>特雷诺</b></td><td>(10% − 2%) ÷ 0.8</td><td><b>0.10</b></td><td>每承担 1 份<b>市场风险</b>，换回多少超额？</td></tr>
+    <tr><td><b>信息比率</b></td><td>3% ÷ 10%</td><td><b>0.30</b></td><td>每承担 1 份<b>独立风险</b>，换回多少 α？</td></tr>
+    <tr><td><b>超额收益 α</b></td><td>回归截距</td><td><b>3%</b></td><td>剥掉市场之后，你还剩多少？</td></tr>
+  </table>
+  <b>注意各比率什么时候会有分歧</b>（下面数字是构造出来验证方向的，不是原文内容）：<br><br>
+  <b>情形一：夏普相同，收益来源不同。</b>A、B 超额收益同为 10%、总波动同为 20%（夏普同为 0.5）。A 的收益全来自市场暴露（β=1.2、σ(ε)≈0、α≈0），B 的收益全来自选股（β=0.2、σ(ε)≈0.20、α=10%）。算出来：<b>特雷诺 A=0.083、B=0.500 → 特雷诺偏爱 B</b>——因为特雷诺的分母<b>只看 β、完全看不见 ε</b>，β 越小它给的分数越高，所以它会系统性高估"β 小但独立风险大"的组合。信息比率也偏爱 B（A 的 α≈0 → IR≈0；B 的 IR≈0.51）——但 IR 偏爱 B 是"对的"：它量的正是选股能力本身。<br><br>
+  <b>情形二：特雷诺和信息比率真正的分歧。</b>两个策略 α 相同（都 2%），但 P 是 β=1.0、σ(ε)=0.10，Q 是 β=0.5、σ(ε)=0.40。特雷诺：P=0.020、Q=0.040 → 偏爱 Q（β 小）；信息比率：P=0.20、Q=0.05 → 偏爱 P（ε 小）。<b>分歧的根源：特雷诺用 β 当分母，信息比率用 σ(ε) 当分母——谁的风险更"便宜"，取决于你的组合观。</b><br><br>
+  <b>比率的选择本身就是一种观点表态。</b>夏普把总波动全算你的账 → 隐含"这是你的全部仓位的钱"；特雷诺只罚市场风险 → 隐含"这只是你充分分散组合里的一小块，独立风险已被分散掉"；信息比率只认 α → 隐含"我要买的是你的本事，别的都不算"。三个隐含假设对应三种出资场景，没有谁绝对正确。
+</div>
+
+<div class="callout key">
+  <span class="t">信息比率和你 E2 的 residualize() 是一家人</span>
+  你 <code>preprocess.py</code> 里的 <code>residualize()</code> 做的是：<b>同日横截面上把收益对常见因子回归、取残差</b>。这本质上就是 (5.1) 的横截面版——<b>把市场/风格暴露剥掉，只留策略自己的那部分</b>。<br><br>
+  所以 <b>E2（residual 后的因子）天然就是"信息比率视角"下的检验</b>：它在问"剥掉市场暴露之后，你的切割信号还剩多少预测力"。而 E1（raw）更像"夏普视角"：不剥，直接量。<br><br>
+  <b>E1 测不出、E2 也测不出</b>，合起来恰好是"夏普视角和信息视角都没有增量"——这个并置可以直接写进论文。
+</div>
+
+<h3>④ 换一套视角：盯住亏损那侧的两个比率（p.160–161）</h3>
+
+<div class="tr">
+  <span class="lab">原书第 2 段（续）</span>
+  <p>上述比率着眼于投资的<b>长期视角</b>；业界另有两个比率，聚焦于策略的<b>执行/亏损方面</b>：</p>
+</div>
+
+<div class="eq">
+  <span class="no">索提诺比率（Sortino Ratio）</span>
+  <div class="body">E( r<sub>t</sub> ) − r<sub>target</sub>　÷　DR( r<sub>t</sub> )</div>
+  <span class="cap">
+    r<sub>target</sub> = 投资者自选的目标利率（可以取 r<sub>f</sub>、市场平均收益、或竞争者的收益）<br>
+    DR(r<sub>t</sub>) = <b>下行波动率</b>（只统计低于目标的那部分波动）
+  </span>
+</div>
+
+<div class="eq">
+  <span class="no">卡玛比率（Calmar Ratio）</span>
+  <div class="body">年化复合收益率　÷　最大回撤</div>
+  <span class="cap">对回撤的重视很重要，因为<b>简单回测选出的策略没有任何未来有效的保证</b></span>
+</div>
+
+<div class="why">
+  <span class="h">辨析：DR（下行波动）不是最大回撤——三个"下行量"各管一摊</span>
+  这两个词都带"亏损"味，最容易混。它们有三个根本区别：<br><br>
+  <table class="t">
+    <tr><th style="width:18%"></th><th style="width:30%"><b>下行波动 DR</b>（索提诺的分母）</th><th><b>最大回撤 MDD</b>（卡玛的分母）</th></tr>
+    <tr><td><b>吃进去的是什么</b></td><td><b>逐期收益率</b>（每月/每日一个数），只挑低于 r<sub>target</sub> 的那些</td><td><b>权益曲线</b>（累计净值），找"从历史最高点跌到谷底"最深的那一段</td></tr>
+    <tr><td><b>数学性质</b></td><td>一个<b>离散度</b>统计量（就是把 σ 改成只算亏损侧），用到<b>所有</b>亏损期</td><td>一个<b>极值</b>（最惨的一次事件），只关心<b>最深那一次</b>，其余深浅不管</td></tr>
+    <tr><td><b>对路径的敏感度</b></td><td><b>与路径无关</b>：把收益顺序打乱，DR 不变</td><td><b>与路径强相关</b>：同样的收益换个顺序（亏损连在一起 vs 之间夹着反弹），MDD 完全不同</td></tr>
+  </table>
+  <br>
+  <b>手算验证"打乱顺序 DR 不变、MDD 大变"</b>（r<sub>target</sub>=0，两策略用的都是同一组月收益 {+5%, −2%, +5%, −2%, +5%}，只是顺序不同）：<br>
+  · 顺序 A（亏损分散）：净值 1.05 → 1.03 → 1.08 → 1.06 → 1.11，每次只从高点回落 2%，<b>MDD ≈ 2.0%</b><br>
+  · 顺序 B（亏损连着来）：净值 1.05 → 1.10 → 1.16 → 1.13 → 1.11，从 1.16 一路跌到 1.11，<b>MDD ≈ 4.0%</b><br>
+  · 而 <b>DR 两者完全相同 ≈ 1.26%</b>（= √[(0.02²+0.02²)/5]，只看亏损期）<br><br>
+  还有一个容易顺手混进来的第三个量——<b>单期最大亏损</b>（回测报告清单里"最大单笔盈亏"那个）：它也只取一个极值，但作用在<b>单期收益</b>上、不看累计净值。<b>一句话总结：DR 管"平均每次亏多疼"，MDD 管"最惨的一次多惨"，单期最大亏损管"单月最多亏过多少"——分别喂给索提诺、卡玛和盈亏统计。</b>
+</div>
+
+<div class="tr">
+  <span class="lab">原书第 3 段</span>
+  <p>后两个比率共同结合了<b>最大化收益（分子）</b>与<b>最小化损失（分母）</b>两个想法。回撤数字本质上由交易者根据自己的<b>经验与风险承受力</b>确定。也有一些研究聚焦于这些准则的统计性质（见 Bertrand 与 Protopopescu（2010）关于信息比率、Lo（2002）关于夏普比率）。</p>
+</div>
+
+<div class="why">
+  <span class="h">为什么"只罚下行"是个大改进：手算对比</span>
+  夏普的分母 σ 把<b>上涨和下跌一视同仁</b>。但想想这两个策略，目标利率 2%：<br><br>
+  <table class="t">
+    <tr><th style="width:24%"></th><th>策略 A</th><th>策略 B</th></tr>
+    <tr><td>收益序列</td><td>+5%, +5%, +5%, −3%（均值 3.0%）</td><td>+8%, −6%, +8%, +2%（均值 3.0%）</td></tr>
+    <tr><td><b>总波动 σ</b></td><td>≈ 3.6%</td><td>≈ 6.4%</td></tr>
+    <tr><td><b>下行波动 DR</b></td><td>≈ 1.8%（只有一个 −3%）</td><td>≈ 3.0%（一个 −6%）</td></tr>
+    <tr><td><b>夏普</b>（σ 罚上涨）</td><td>0.28</td><td>0.16 —— <b>被自己的好日子拖累了名次</b></td></tr>
+    <tr><td><b>索提诺</b>（只罚下跌）</td><td>0.56</td><td>0.33</td></tr>
+  </table>
+  两者的排序一致，但差距被放大了。<b>极端例子：一个"每月稳赚 +2%"的策略，σ≈0，夏普趋于无穷</b>——夏普对"稳定向上"其实给不出有意义的区分，索提诺的框架更贴近投资者真实的痛感：<b>亏钱才难受，赚钱不难受</b>。
+</div>
+
+<div class="why">
+  <span class="h">卡玛比率手算：一个数字暴露"策略是赚出来的还是赌出来的"</span>
+  设两个策略年化复合收益都是 12%：<br><br>
+  · 策略 A 最大回撤 8% → 卡玛 = 12 ÷ 8 = <b>1.5</b><br>
+  · 策略 B 最大回撤 40% → 卡玛 = 12 ÷ 40 = <b>0.3</b><br><br>
+  收益完全一样，<b>但 B 要忍受"账户一度缩水四成"才能拿到</b>。卡玛把这种痛苦量化成一个数。<b>书里那句"回撤数字由交易者根据自己的经验与风险承受力确定"是在提醒：分母取多大没有客观标准，这本身是主观参数。</b>
+</div>
+
+<div class="callout danger">
+  <span class="h" style="display:block;margin-bottom:6px">Lo (2002)：你的年化夏普大概率被高估了</span>
+  原书提到"Lo (2002) 研究夏普比率的统计性质"——这正是你在 5.7 已经撞见过的问题的<b>业绩版</b>：<br><br>
+  日频 Sharpe 年化的标准做法是 ×√252，<b>它假设日收益无自相关</b>。但你的标签是 20 日重叠窗口——<b>重叠自带自相关</b>（5.7 里块 bootstrap 就是在为此付账）。自相关为正时，√252 年化<b>高估</b>真实夏普。<br><br>
+  Lo (2002) 的修正式：SR<sub>年化</sub> = SR<sub>日</sub> × √[ 252 ÷ ( 1 + 2Σρ<sub>k</sub> ) ]，ρ<sub>k</sub> 是收益的 k 阶自相关。<b>和 5.7 的 (σ²/n)(1+2Σρ<sub>k</sub>) 是同一个膨胀因子。</b><br><br>
+  <b>落到项目：</b>如果论文要报组合的年化夏普，要么先算收益的 ρ<sub>k</sub> 做修正，要么用块 bootstrap 给夏普也配一个置信区间——<b>别报一个点估计裸奔。</b>
+</div>
+
+<h3>⑤ 标准回测报告还该有这些（p.161）</h3>
+
+<div class="tr">
+  <span class="lab">原书第 4 段</span>
+  <p>另一种测度是<b>直接把策略收益与买入持有（buy and hold）的收益作比较</b>。在上述测度之外，回测结果的标准报告还应包括：<b>盈利与亏损交易的笔数、最大单笔盈利与亏损、净滑点、总佣金</b>，以及以上各比率的<b>年化版本</b>。所谓<b>权益曲线（equity curve）</b>——即累计收益图，并与买入持有曲线并排画出——可以清晰地展示策略的有效性。</p>
+</div>
+
+<div class="why">
+  <span class="h">"和谁比"这个问题，你有三个天然候选</span>
+  原书说基准"can be r<sub>f</sub> or the average market return or return of the competitors"。对你的项目：<br><br>
+  · <b>r<sub>f</sub></b>：货币基金收益——最低底线；<br>
+  · <b>市场</b>：沪深 300 指数——"不选股"的对照组；<br>
+  · <b>竞争者</b>：<b>你的 E0 就是自己的"竞争者"</b>——"不切割的信号 + 同样的 top50 规则"。<br><br>
+  <b>第三条最有意思：你的实验设计里其实已经内置了书中说的全部三类基准。</b>论文里报组合业绩时，权益曲线应该画三条：E0 组合、E1 组合、沪深 300——<b>一眼看出"切割"值多少钱。</b>
+</div>
+
+<h2>你的回测报告该长什么样（本节的落地清单）</h2>
+
+<table class="t">
+  <tr><th style="width:26%">指标</th><th style="width:24%">怎么算</th><th>你现在的状态 / 要做什么</th></tr>
+  <tr><td><b>α 与 β</b></td><td>(5.1) 对沪深 300 回归</td><td>把 top50 组合月收益对指数月收益回归，取截距（年化）与斜率</td></tr>
+  <tr><td><b>夏普比率</b></td><td>(r̄ − r<sub>f</sub>)/s，年化 ×√12（月频）</td><td>注意 Lo 修正：先查收益自相关，正自相关时 √12 会高估</td></tr>
+  <tr><td><b>信息比率</b></td><td>α ÷ σ(ε)</td><td>回归的残差标准差，直接从 (5.1) 的输出里拿</td></tr>
+  <tr><td><b>索提诺</b></td><td>超额 ÷ 下行波动</td><td>下行波动只算低于 r<sub>target</sub> 的那部分（r<sub>target</sub> 取 0 或 r<sub>f</sub>，说明白即可）</td></tr>
+  <tr><td><b>卡玛</b></td><td>年化收益 ÷ 最大回撤</td><td>最大回撤 = 权益曲线历史最高点到底部的最大跌幅</td></tr>
+  <tr><td><b>盈亏统计</b></td><td>win/loss 笔数、最大单笔盈亏</td><td>每月调仓一批（50 只），天然按"月度批次"统计</td></tr>
+  <tr><td><b>滑点与佣金</b></td><td>net slippage、总佣金</td><td><b style="color:var(--danger)">你目前完全没有</b>——先按双边固定费率（如 0.1%）+ 冲击成本做敏感性，§6.5 有完整框架</td></tr>
+  <tr><td><b>权益曲线</b></td><td>累计收益图 ×3 条</td><td>E0 组合 / E1 组合 / 沪深 300 并排——这是你论文的招牌图</td></tr>
+</table>
+
+<div class="callout warn">
+  <span class="t">一个诚实的提醒：这节的所有比率都能被 5.7 的教训打穿</span>
+  6 个比率全是<b>从同一段历史算出来的点估计</b>——没有置信区间、没有多重检验校正。<b>回测里挑出卡玛最高的那组参数，和 5.7 里"三条策略里挑最好那条"是同一个数据窥探陷阱，只是换了个马甲。</b><br><br>
+  所以正确的组合拳是：<b>这一节负责"报什么"，5.7 负责"报得算不算数"。</b>论文里每个比率旁边最好带一个块 bootstrap 区间——这是你相对一般研报的最大方法论优势。
+</div>
+
+<h2>术语对照</h2>
+<table class="t">
+  <tr><th style="width:34%">原文</th><th>说明</th></tr>
+  <tr><td>Excess Return</td><td>超额收益——(5.1) 的截距 α，风险调整后仍多出来的部分</td></tr>
+  <tr><td>Sharpe Ratio</td><td>夏普比率——超额收益 ÷ 总波动</td></tr>
+  <tr><td>Treynor Ratio</td><td>特雷诺比率——超额收益 ÷ 市场风险 β</td></tr>
+  <tr><td>Information Ratio</td><td>信息比率——α ÷ 残差波动 σ(ε)</td></tr>
+  <tr><td>Sortino Ratio</td><td>索提诺比率——超额 ÷ <b>下行</b>波动率（只罚下跌）</td></tr>
+  <tr><td>Calmar Ratio</td><td>卡玛比率——年化收益 ÷ 最大回撤</td></tr>
+  <tr><td>Drawdown</td><td>回撤——权益从历史最高点回落的最大幅度</td></tr>
+  <tr><td>Net Slippage</td><td>净滑点——实际成交价与决策价之间的差，扣除后的净值</td></tr>
+  <tr><td>Equity Curve</td><td>权益曲线——累计收益随时间的曲线（与 buy-and-hold 并排画）</td></tr>
+  <tr><td>Benchmark</td><td>基准——用来"跟谁比"的参照（r<sub>f</sub> / 市场 / 竞争者）</td></tr>
+</table>
+
+<h2>关键文献</h2>
+<table class="t">
+  <tr><th style="width:30%">文献</th><th>贡献</th></tr>
+  <tr><td><b>Lo (2002)</b></td><td>指出夏普比率年化的 √T 法则在收益自相关时会失真，给出修正因子 (1+2Σρ<sub>k</sub>)——与你 5.7 的块 bootstrap 同源</td></tr>
+  <tr><td><b>Bertrand &amp; Protopopescu (2010)</b></td><td>信息比率的统计性质</td></tr>
+  <tr><td><b>Fama &amp; French (2015)</b>、<b>Carhart (1997)</b></td><td>(5.1) 的扩展版：五因子（+SMB/HML/RMW/CMA）与动量因子——§5.6 公允价值模型的基础，学 §6 时会再遇到</td></tr>
+</table>
+
+<footer>
+  本页基于原书 §5.2（pp.160–161）逐段译出并讲解。六个比率的算式按 PDF 文本层还原；手算例子为讲解所加，非原文内容。<br>
+  上一篇：5.7 / 5.10 / 5.12 中译注 · 同系列：这本书该读哪几章
+</footer>
+
+</div>
+</body>
+</html>

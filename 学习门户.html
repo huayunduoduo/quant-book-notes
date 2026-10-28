@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>学习门户 · Algorithmic Trading and Quantitative Strategies</title>
+<style>
+  :root{
+    --bg:#f7f8fa; --card:#fff; --ink:#1a1d23; --ink2:#4a5058; --ink3:#858b94;
+    --line:#e4e7ec; --brand:#0f6e56; --brand-bg:#e7f6f0; --warn:#b45309;
+    --warn-bg:#fdf4e7; --blue:#185fa5; --blue-bg:#eaf2ff;
+    --side:#fbfcfd;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:15px/1.8 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+
+  /* ---------- 顶栏 ---------- */
+  .top{background:var(--card);border-bottom:1px solid var(--line);padding:14px 22px;
+       display:flex;align-items:center;gap:18px;flex-wrap:wrap;position:sticky;top:0;z-index:20}
+  .top h1{font-size:17px;margin:0;font-weight:650}
+  .top .sub{font-size:12px;color:var(--ink3)}
+  .progress-wrap{flex:1;min-width:220px;display:flex;align-items:center;gap:10px}
+  .progress-bar{flex:1;height:8px;background:#edf0f3;border-radius:99px;overflow:hidden}
+  .progress-bar i{display:block;height:100%;background:linear-gradient(90deg,#0f6e56,#4fb08c);
+                  border-radius:99px;transition:width .35s ease}
+  .progress-num{font-size:12.5px;color:var(--ink2);white-space:nowrap}
+  .progress-num b{color:var(--brand)}
+
+  /* ---------- 主体两栏 ---------- */
+  .layout{display:flex;min-height:calc(100vh - 61px)}
+  .side{width:280px;flex-shrink:0;background:var(--side);border-right:1px solid var(--line);
+        overflow-y:auto;padding:18px 0 60px;position:sticky;top:61px;height:calc(100vh - 61px)}
+  .main{flex:1;min-width:0;display:flex;flex-direction:column}
+
+  /* ---------- 侧栏 ---------- */
+  .side .grp{margin-bottom:4px}
+  .side .grp>.gt{font-size:11.5px;letter-spacing:.08em;color:var(--ink3);font-weight:650;
+                 padding:10px 20px 4px;text-transform:uppercase}
+  .nav-item{display:flex;align-items:flex-start;gap:8px;padding:8px 14px 8px 20px;cursor:pointer;
+            border-left:3px solid transparent;transition:background .15s}
+  .nav-item:hover{background:#f1f4f2}
+  .nav-item.on{background:var(--brand-bg);border-left-color:var(--brand)}
+  .nav-item .txt{flex:1;min-width:0}
+  .nav-item .t{font-size:13.5px;font-weight:550;color:var(--ink);display:block;line-height:1.45}
+  .nav-item.on .t{color:var(--brand)}
+  .nav-item .m{font-size:11.5px;color:var(--ink3);display:block;line-height:1.5}
+  .nav-item .chk{margin-top:3px;flex-shrink:0;cursor:pointer;accent-color:var(--brand);width:15px;height:15px}
+  .nav-item .done-dot{display:inline-block;width:6px;height:6px;border-radius:99px;background:#4fb08c;
+                      margin-left:6px;vertical-align:2px}
+  .side .plan-entry{margin:10px 14px 0;padding:10px 14px;border:1px dashed #c3d3c9;border-radius:10px;
+                    cursor:pointer;font-size:13.5px;color:var(--brand);font-weight:600;background:#f7faf8}
+  .side .plan-entry:hover{background:var(--brand-bg)}
+  .side .plan-entry.on{background:var(--brand-bg);border-style:solid}
+  .side .plan-entry .d{font-size:11.5px;color:var(--ink3);font-weight:400;display:block}
+
+  /* ---------- 阅读区 ---------- */
+  .reader{flex:1;display:none;flex-direction:column;min-height:0}
+  .reader.show{display:flex}
+  .reader .bar{display:flex;align-items:center;gap:12px;padding:9px 18px;background:var(--card);
+               border-bottom:1px solid var(--line);font-size:12.5px;color:var(--ink3);flex-wrap:wrap}
+  .reader .bar .fn{font-family:ui-monospace,Consolas,monospace;color:var(--ink2);
+                   background:#eef2ed;padding:2px 8px;border-radius:4px}
+  .reader .bar a{color:var(--blue);text-decoration:none;font-weight:550}
+  .reader .bar a:hover{text-decoration:underline}
+  .reader iframe{flex:1;width:100%;border:0;background:#fff;min-height:calc(100vh - 110px)}
+
+  /* ---------- 计划页 ---------- */
+  .plan{display:none;padding:34px 30px 80px;max-width:880px;margin:0 auto}
+  .plan.show{display:block}
+  .plan h2{font-size:20px;margin:38px 0 10px;padding-top:22px;border-top:1px solid var(--line)}
+  .plan h2:first-of-type{border-top:0;padding-top:0;margin-top:0}
+  .plan h3{font-size:15px;margin:20px 0 8px}
+  .plan p{color:var(--ink2);margin:0 0 12px}
+  .stat-row{display:flex;gap:14px;flex-wrap:wrap;margin:18px 0}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 20px;flex:1;min-width:150px}
+  .stat .n{font-size:26px;font-weight:700;color:var(--brand);line-height:1.2}
+  .stat .l{font-size:12px;color:var(--ink3)}
+  .stat.blue .n{color:var(--blue)}
+  .stat.warn .n{color:var(--warn)}
+  table.t{width:100%;border-collapse:collapse;font-size:13.5px;background:var(--card);
+          border-radius:10px;overflow:hidden;margin:14px 0}
+  table.t th{text-align:left;background:#fafbfc;color:var(--ink3);font-size:12px;letter-spacing:.04em;
+             padding:10px 12px;border-bottom:1px solid var(--line);font-weight:600}
+  table.t td{padding:10px 12px;border-bottom:1px solid #f0f2f5;vertical-align:top;color:var(--ink2)}
+  table.t tr:last-child td{border-bottom:0}
+  table.t td b{color:var(--ink)}
+  .chip{display:inline-block;font-size:11px;padding:2px 8px;border-radius:99px;font-weight:600;
+        background:var(--brand-bg);color:var(--brand);margin-right:4px}
+  .chip.gray{background:#eef1f4;color:var(--ink3)}
+  .chip.blue{background:var(--blue-bg);color:var(--blue)}
+  .chip.warn{background:var(--warn-bg);color:var(--warn)}
+  .callout{border-radius:10px;padding:14px 18px;margin:15px 0;border-left:3px solid #4fb08c;
+           background:var(--brand-bg);color:#0b5c43;font-size:14px}
+  .callout .t{font-weight:650;display:block;margin-bottom:4px}
+  .callout.blue{border-color:#7eaaf5;background:var(--blue-bg);color:#12457f}
+  .code{background:#1e242b;color:#d7e2dd;font:12.5px/1.7 ui-monospace,Consolas,monospace;
+        border-radius:10px;padding:14px 18px;overflow-x:auto;margin:12px 0;white-space:pre}
+  .code .c{color:#7d9188}
+  .code .k{color:#8fd3b8}
+  .logline{display:flex;gap:14px;padding:9px 0;border-bottom:1px dashed #e8ebee;font-size:13.5px}
+  .logline:last-child{border-bottom:0}
+  .logline .d{font-family:ui-monospace,Consolas,monospace;color:var(--brand);flex-shrink:0;font-size:12.5px;padding-top:2px}
+  .logline .x{color:var(--ink2)}
+  footer{margin-top:46px;padding-top:16px;border-top:1px solid var(--line);font-size:12px;color:var(--ink3)}
+
+  /* ---------- 移动端 ---------- */
+  @media(max-width:860px){
+    .layout{flex-direction:column}
+    .side{width:100%;height:auto;position:static;border-right:0;border-bottom:1px solid var(--line);
+          max-height:38vh}
+    .reader iframe{min-height:70vh}
+    .plan{padding:24px 18px 60px}
+  }
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div>
+    <h1>学习门户</h1>
+    <div class="sub">Algorithmic Trading and Quantitative Strategies · Qlib × Alpha158 × DBD 切割因子项目</div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-bar"><i id="pbar"></i></div>
+    <div class="progress-num" id="pnum"></div>
+  </div>
+</div>
+
+<div class="layout">
+  <nav class="side" id="sidebar"></nav>
+  <div class="main">
+
+    <!-- 阅读视图 -->
+    <div class="reader" id="reader">
+      <div class="bar">
+        <span id="r-title"></span>
+        <span class="fn" id="r-file"></span>
+        <span id="r-pages"></span>
+        <a id="r-open" href="#" target="_blank" rel="noopener">在新窗口打开 ↗</a>
+      </div>
+      <iframe id="r-frame" title="章节内容"></iframe>
+    </div>
+
+    <!-- 计划视图 -->
+    <div class="plan show" id="plan"></div>
+
+  </div>
+</div>
+
+<script src="chapters.js"></script>
+<script>
+(function(){
+  var LS_KEY = 'study-portal-progress-v1';
+  var state = {};
+  try { state = JSON.parse(localStorage.getItem(LS_KEY) || '{}'); } catch(e){ state = {}; }
+  function save(){ try{ localStorage.setItem(LS_KEY, JSON.stringify(state)); }catch(e){} }
+
+  var sidebar = document.getElementById('sidebar');
+  var reader  = document.getElementById('reader');
+  var planEl  = document.getElementById('plan');
+  var frame   = document.getElementById('r-frame');
+
+  /* ---------- 分组 ---------- */
+  var groups = [];
+  var gmap = {};
+  CHAPTERS.forEach(function(c){
+    if(!gmap[c.group]){ gmap[c.group] = []; groups.push(c.group); }
+    gmap[c.group].push(c);
+  });
+
+  /* ---------- 侧栏构建 ---------- */
+  var planEntry = document.createElement('div');
+  planEntry.className = 'plan-entry on';
+  planEntry.innerHTML = '🗺 学习计划与进度<div class="d">下一步读什么 · 更新日志</div>';
+  planEntry.onclick = function(){ showPlan(); };
+  sidebar.appendChild(planEntry);
+
+  groups.forEach(function(g){
+    var wrap = document.createElement('div');
+    wrap.className = 'grp';
+    var gt = document.createElement('div');
+    gt.className = 'gt';
+    gt.textContent = g;
+    wrap.appendChild(gt);
+    gmap[g].forEach(function(c){
+      var item = document.createElement('div');
+      item.className = 'nav-item';
+      item.setAttribute('data-id', c.id);
+      var tags = (c.tags||[]).slice(0,1).map(function(t){return ' <span style="color:#858b94">· '+t+'</span>';}).join('');
+      item.innerHTML =
+        '<input type="checkbox" class="chk" title="标记已读">' +
+        '<div class="txt">' +
+          '<span class="t"></span>' +
+          '<span class="m"></span>' +
+        '</div>';
+      item.querySelector('.t').textContent = c.title;
+      item.querySelector('.m').textContent = c.pages + (c.date ? ' · ' + c.date : '');
+      var chk = item.querySelector('.chk');
+      chk.checked = !!state[c.id];
+      chk.addEventListener('click', function(ev){ ev.stopPropagation(); });
+      chk.addEventListener('change', function(){
+        state[c.id] = chk.checked; save(); refreshProgress(); refreshDots();
+      });
+      item.addEventListener('click', function(){ showChapter(c.id); });
+      wrap.appendChild(item);
+    });
+    sidebar.appendChild(wrap);
+  });
+
+  function refreshDots(){
+    document.querySelectorAll('.nav-item').forEach(function(el){
+      var id = el.getAttribute('data-id');
+      var t = el.querySelector('.t');
+      if(state[id] && !t.querySelector('.done-dot')){
+        var d = document.createElement('span'); d.className='done-dot'; t.appendChild(d);
+      } else if(!state[id]){
+        var d0 = t.querySelector('.done-dot'); if(d0) d0.remove();
+      }
+    });
+  }
+
+  /* ---------- 进度 ---------- */
+  var total = CHAPTERS.length;
+  function refreshProgress(){
+    var done = CHAPTERS.filter(function(c){ return state[c.id]; }).length;
+    var pct = total ? Math.round(done/total*100) : 0;
+    document.getElementById('pbar').style.width = pct + '%';
+    document.getElementById('pnum').innerHTML =
+      '已读 <b>' + done + '</b> / ' + total + ' 篇（' + pct + '%）';
+  }
+
+  /* ---------- 视图切换 ---------- */
+  function showPlan(){
+    planEl.classList.add('show');
+    reader.classList.remove('show');
+    document.querySelectorAll('.nav-item').forEach(function(el){ el.classList.remove('on'); });
+    planEntry.classList.add('on');
+    window.scrollTo(0,0);
+  }
+  function showChapter(id){
+    var c = CHAPTERS.filter(function(x){ return x.id === id; })[0];
+    if(!c) return;
+    planEl.classList.remove('show');
+    reader.classList.add('show');
+    document.getElementById('r-title').textContent = c.title;
+    document.getElementById('r-file').textContent = c.file;
+    document.getElementById('r-pages').textContent = c.pages;
+    document.getElementById('r-open').href = c.file;
+    frame.src = c.file;
+    document.querySelectorAll('.nav-item').forEach(function(el){
+      el.classList.toggle('on', el.getAttribute('data-id') === id);
+    });
+    planEntry.classList.remove('on');
+  }
+
+  /* ---------- 计划页渲染 ---------- */
+  function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function renderPlan(){
+    var done = CHAPTERS.filter(function(c){ return state[c.id]; }).length;
+    var nextReady = PLAN.next.filter(function(x){return x.ready;}).length;
+
+    var h = '';
+    h += '<h2>📊 学习总览</h2>';
+    h += '<div class="stat-row">' +
+         '<div class="stat"><div class="n">' + done + ' / ' + total + '</div><div class="l">已读讲解篇数</div></div>' +
+         '<div class="stat blue"><div class="n">' + (PLAN.next.length) + '</div><div class="l">待读队列（第一档）</div></div>' +
+         '<div class="stat warn"><div class="n">' + nextReady + '</div><div class="l">其中已就绪可立即开始</div></div>' +
+         '</div>';
+    h += '<p>已覆盖的检验三角：<b>§5.2（报什么）→ §5.7（算不算数）→ §5.10/§5.12（信号与仓位）</b>，加上 §4.6.3（模型根基）与 §5.9（排序模板原型）。第 5 章只剩 §5.13 一节即读完。</p>';
+
+    h += '<h2>🎯 下一步队列（第一档 · 按序）</h2>';
+    h += '<table class="t"><tr><th style="width:34%">章节</th><th>为什么 · 状态</th></tr>';
+    PLAN.next.forEach(function(x, i){
+      h += '<tr><td><b>' + esc(x.title) + '</b><br><span style="font-size:12px;color:#858b94">' + esc(x.pages) + '</span></td>' +
+           '<td>' + esc(x.why) + '<br>' +
+           (x.ready ? '<span class="chip">就绪 · 排第 ' + (i+1) + '</span>' : '<span class="chip gray">等前置完成</span>') +
+           '</td></tr>';
+    });
+    h += '</table>';
+
+    h += '<h2>🗓 第二 / 三档（按里程碑触发）</h2>';
+    h += '<table class="t"><tr><th style="width:40%">章节</th><th>什么时候读</th></tr>';
+    PLAN.later.forEach(function(x){
+      h += '<tr><td>' + esc(x.title) + '</td><td>' + esc(x.when) + '</td></tr>';
+    });
+    h += '</table>';
+    h += '<p style="font-size:13px;color:#858b94">明确跳过：' + esc(PLAN.skip) + '</p>';
+
+    h += '<h2>🧭 已读章节一览（点击进入）</h2>';
+    h += '<table class="t"><tr><th style="width:40%">篇目</th><th>一句话 · 状态</th></tr>';
+    CHAPTERS.forEach(function(c){
+      h += '<tr><td><a href="#" data-go="' + c.id + '" style="color:#185fa5;text-decoration:none;font-weight:550">' + esc(c.title) + '</a><br>' +
+           '<span style="font-size:12px;color:#858b94">' + esc(c.pages) + ' · ' + esc(c.date) + '</span></td>' +
+           '<td>' + esc(c.brief) + '<br>' +
+           (state[c.id] ? '<span class="chip">已读 ✓</span>' : '<span class="chip gray">未标记</span>') +
+           (c.tags||[]).map(function(t){ return '<span class="chip blue">' + esc(t) + '</span>'; }).join('') +
+           '</td></tr>';
+    });
+    h += '</table>';
+
+    h += '<h2>📝 更新日志</h2>';
+    PLAN.log.forEach(function(l){
+      h += '<div class="logline"><span class="d">' + esc(l.date) + '</span><span class="x">' + esc(l.item) + '</span></div>';
+    });
+
+    h += '<h2>🔧 如何动态更新这个门户</h2>';
+    h += '<div class="callout blue"><span class="t">三步，不需要动门户代码</span>' +
+         '① 新讲解 HTML 保存到本门户<b>同一文件夹</b>；<br>' +
+         '② 打开同文件夹里的 <b>chapters.js</b>，在 CHAPTERS 数组末尾照格式加一条；<br>' +
+         '③ 在 PLAN.log 最上面加一行日期日志。保存后刷新本页即可。</div>';
+    h += '<div class="code"><span class="c">// chapters.js 里加一条（字段可按需增删）</span>\n' +
+         '{\n  <span class="k">id</span>:   "s513",                    <span class="c">// 唯一英文 id</span>\n' +
+         '  <span class="k">group</span>: "第 5 章 · 策略与回测",       <span class="c">// 分组名（相同则自动归组）</span>\n' +
+         '  <span class="k">file</span>: "5.13节_机器学习_中译注.html",  <span class="c">// 同文件夹的文件名</span>\n' +
+         '  <span class="k">title</span>:"§5.13 机器学习方法在交易中的应用",\n' +
+         '  <span class="k">pages</span>:"p.204 起",\n' +
+         '  <span class="k">brief</span>:"一句话摘要…",\n' +
+         '  <span class="k">tags</span>: ["ML"],\n' +
+         '  <span class="k">date</span>: "2026-11-01"\n}</div>';
+    h += '<div class="callout"><span class="t">进度勾选存在哪里？</span>' +
+         '勾选状态保存在<b>本浏览器的 localStorage</b>（键 study-portal-progress-v1），换浏览器或清缓存会重置，但不影响章节文件本身。左侧目录勾选后条目会亮绿点，顶部进度条同步更新。</div>';
+
+    h += '<footer>门户数据源：chapters.js（' + total + ' 条记录，最后更新 ' + (PLAN.log[0] ? PLAN.log[0].date : '—') + '）。' +
+         '所有章节 HTML 与本页同目录；iframe 内如出现样式异常，可点「在新窗口打开」独立阅读。</footer>';
+
+    planEl.innerHTML = h;
+    planEl.querySelectorAll('[data-go]').forEach(function(a){
+      a.addEventListener('click', function(ev){ ev.preventDefault(); showChapter(a.getAttribute('data-go')); });
+    });
+  }
+
+  refreshProgress();
+  refreshDots();
+  renderPlan();
+  window.__renderPlan = renderPlan;   // 供外部刷新
+})();
+</script>
+</body>
+</html>

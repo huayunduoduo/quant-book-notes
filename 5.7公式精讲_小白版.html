@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>5.7 公式精讲 · 小白版</title>
+<style>
+  :root{
+    --bg:#f7f8fa; --card:#fff; --ink:#1a1d23; --ink2:#4a5058; --ink3:#858b94;
+    --line:#e4e7ec; --brand:#0f6e56; --brand-bg:#e7f6f0; --warn:#b45309;
+    --warn-bg:#fdf4e7; --danger:#c0392b; --danger-bg:#fdecea;
+    --blue:#185fa5; --blue-bg:#eaf2ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:15px/1.85 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+  .wrap{max-width:920px;margin:0 auto;padding:40px 24px 100px}
+  header{border-bottom:1px solid var(--line);padding-bottom:24px;margin-bottom:28px}
+  .kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);font-weight:600}
+  h1{font-size:26px;line-height:1.4;margin:10px 0 10px}
+  .src{font-size:13px;color:var(--ink3);margin:0 0 14px}
+  .lede{color:var(--ink2);margin:0;max-width:760px}
+  h2{font-size:20px;margin:48px 0 6px;padding-top:20px;border-top:1px solid var(--line)}
+  h2:first-of-type{border-top:0;padding-top:0}
+  h2 .lv{font:12px/1 ui-monospace,Consolas,monospace;color:var(--brand);background:var(--brand-bg);
+         padding:5px 9px;border-radius:5px;margin-right:10px;vertical-align:middle}
+  h3{font-size:16px;margin:28px 0 8px}
+  p{margin:0 0 13px}
+  ul,ol{padding-left:22px;margin:0 0 14px}
+  li{margin:6px 0;color:var(--ink2)}
+  li strong{color:var(--ink)}
+  code{font:12.5px/1.6 ui-monospace,Consolas,monospace;background:#eef2ed;padding:2px 5px;border-radius:4px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 24px;margin:16px 0}
+  .card.tight{padding:16px 20px}
+  /* 公式块 */
+  .eq{background:#f4f8f2;border:1px solid #cfe0d5;border-radius:10px;padding:18px 22px;margin:14px 0;
+      font-family:"Cambria Math",Cambria,Georgia,serif;overflow-x:auto}
+  .eq .no{font:11px/1 ui-monospace,Consolas,monospace;color:var(--brand);
+          background:var(--brand-bg);padding:4px 8px;border-radius:4px;display:inline-block;margin-bottom:12px}
+  .eq .body{font-size:17px;line-height:2.4;text-align:center;white-space:nowrap}
+  .eq .cap{display:block;font-family:inherit;font-size:12.5px;color:var(--ink3);
+           text-align:left;margin-top:10px;white-space:normal;line-height:1.7}
+  .frac{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;margin:0 3px}
+  .frac .num{border-bottom:1px solid currentColor;padding:0 5px;line-height:1.5}
+  .frac .den{padding:0 5px;line-height:1.5}
+  sub,sup{font-size:.66em}
+  /* 符号表 */
+  table.sym{width:100%;border-collapse:collapse;font-size:13.5px;background:var(--card);
+            border-radius:10px;overflow:hidden;margin:14px 0}
+  table.sym th{text-align:left;background:#fafbfc;color:var(--ink3);font-size:12px;letter-spacing:.04em;
+               padding:10px 14px;border-bottom:1px solid var(--line)}
+  table.sym td{padding:9px 14px;border-bottom:1px solid #f0f2f5;vertical-align:top}
+  table.sym tr:last-child td{border-bottom:0}
+  table.sym td:first-child{font-family:"Cambria Math",Cambria,Georgia,serif;font-size:16px;
+                           white-space:nowrap;width:110px;color:var(--brand)}
+  /* 讲解件 */
+  .say{background:var(--card);border-left:3px solid var(--brand);border-radius:0 10px 10px 0;
+       padding:14px 20px;margin:14px 0}
+  .say .h{font-size:12px;letter-spacing:.1em;color:var(--brand);font-weight:600;margin-bottom:6px}
+  .why{background:#f7f9f6;border:1px dashed #c3d3c9;border-radius:8px;padding:13px 18px;margin:12px 0;
+       font-size:14px;color:var(--ink2)}
+  .why b{color:var(--brand)}
+  .why .h{color:var(--brand);font-weight:600;display:block;margin-bottom:5px;font-size:13px;letter-spacing:.06em}
+  .callout{border-radius:10px;padding:14px 18px;margin:15px 0;border-left:3px solid;font-size:14px}
+  .callout .t{font-weight:600;display:block;margin-bottom:4px}
+  .callout.info{background:var(--brand-bg);border-color:#4fb08c;color:#0b5c43}
+  .callout.warn{background:var(--warn-bg);border-color:#e0a33e;color:#6b3f05}
+  .callout.danger{background:var(--danger-bg);border-color:#e07a6e;color:#7d2418}
+  .callout.key{background:var(--blue-bg);border-color:#7eaaf5;color:#12457f}
+  /* 迷你例子 */
+  table.mini{width:100%;border-collapse:collapse;font-size:12.5px;background:var(--card);
+             border-radius:10px;overflow:hidden;margin:12px 0;
+             font-family:ui-monospace,Consolas,monospace}
+  table.mini th{background:#fafbfc;color:var(--ink3);font-size:11.5px;padding:8px 9px;
+                border-bottom:1px solid var(--line);text-align:right;font-weight:400}
+  table.mini th:first-child{text-align:left}
+  table.mini td{padding:7px 9px;border-bottom:1px solid #f0f2f5;text-align:right}
+  table.mini td:first-child{text-align:left;color:var(--ink3)}
+  table.mini tr:last-child td{border-bottom:0}
+  table.mini tr.hl td{background:var(--brand-bg);font-weight:600}
+  table.mini tr.win td{background:var(--warn-bg);font-weight:600}
+  .up{color:#c0392b}.down{color:#0f6e56}
+  /* 步骤 */
+  .step{display:flex;gap:14px;margin:14px 0;align-items:flex-start}
+  .step .n{flex:0 0 26px;height:26px;border-radius:50%;background:var(--brand);color:#fff;
+           font:13px/26px ui-monospace,Consolas,monospace;text-align:center;margin-top:2px}
+  .step .c{flex:1}
+  .step .c b{display:block;margin-bottom:3px}
+  svg{max-width:100%;height:auto;display:block;margin:16px auto}
+  .figcap{text-align:center;font-size:12.5px;color:var(--ink3);margin:-6px 0 20px}
+  footer{margin-top:50px;padding-top:20px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink3)}
+  @media(max-width:640px){
+    .wrap{padding:28px 16px 70px} h1{font-size:22px} .eq .body{font-size:15px}
+    table.sym td:first-child{width:auto}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">Section 5.7 · 公式精讲</div>
+  <h1>5.7 里的六个公式，一个一个拆开讲</h1>
+  <p class="src">原书 Algorithmic Trading and Quantitative Strategies · pp.171–173 · 公式 (5.27)–(5.32)</p>
+  <p class="lede">这一页只干一件事：把书上那六个公式的<b>每一个符号</b>翻译成人话，然后用一个 5 天、3 条规则的小例子，把数字一步步算出来给你看。看完你不仅能读懂公式，还能自己手算一遍。</p>
+</header>
+
+<div class="card">
+  <h3 style="margin-top:0">先说一句让你安心的话</h3>
+  <p style="margin-bottom:0">这六个公式看起来吓人，其实<b>只有三件事</b>：① 怎么给一条规则打分（5.28）；② 怎么把很多天的分平均起来（5.27）；③ 怎么判断"这个分是不是运气"（5.29–5.32）。剩下的全是符号的花样。</p>
+</div>
+
+<div class="callout warn">
+  <span class="t">书上的顺序会让你卡住</span>
+  书上先印 (5.27) 再印 (5.28)，但 (5.27) 里用了 (5.28) 才定义的东西。<b>理解顺序要反过来：先看 5.28（一天怎么打分），再看 5.27（把 n 天平均）。</b>这一页就按好懂的顺序讲。
+</div>
+
+<!-- ============ 第 0 关 ============ -->
+<h2><span class="lv">第 0 关</span>符号破译：先把这堆符号认全</h2>
+
+<p>公式看不懂，八成不是数学难，是<b>符号不认识</b>。下面这张表把本节所有符号列全了。建议先扫一遍，回头看公式时对照着查。</p>
+
+<table class="sym">
+  <tr><th>符号</th><th>念什么</th><th>人话</th></tr>
+  <tr><td>t</td><td>"现在"</td><td>你站在今天这个时点。所有规则、所有决策，只能用 <b>t 之前</b>的数据。</td></tr>
+  <tr><td>n</td><td>期数</td><td>你要验证的<b>未来有多少天</b>。t+1 到 t+n，一共 n 天。</td></tr>
+  <tr><td>j</td><td>第 j 天</td><td>在 t 之后的第 j 天，也就是 t+j。只是个循环计数器。</td></tr>
+  <tr><td>r<sub>t+j</sub></td><td>收益率</td><td>第 t+j 天市场的涨跌幅。+0.01 就是涨 1%。</td></tr>
+  <tr><td>s<sub>k</sub></td><td>信号</td><td>第 k 条规则给的<b>仓位指令</b>。只有三个值：做多 = 1，做空 = −1，空仓 = 0。</td></tr>
+  <tr><td>s<sub>0</sub></td><td>基准信号</td><td>拿来对比的那个"参照规则"。书上常取"始终空仓"，即 s<sub>0</sub> = 0。</td></tr>
+  <tr><td>k</td><td>第 k 条</td><td>规则的编号，k = 1, 2, …, l。</td></tr>
+  <tr><td>l</td><td>规则总数</td><td>你一共考察了多少条规则。Sullivan 等人那篇用了 <b>l = 7846</b>。</td></tr>
+  <tr><td>f<sub>k,t+j</sub></td><td>单日得分</td><td>第 k 条规则在<b>第 t+j 这一天</b>，比基准多赚了多少（对数口径）。</td></tr>
+  <tr><td>f̄<sub>k</sub></td><td>f bar</td><td>第 k 条规则在 n 天里的<b>平均</b>每日得分。上面那一横 = 取平均。</td></tr>
+  <tr><td>̂f (f 上面戴帽子)</td><td>f hat</td><td>表示"估计出来的"，不是真实值。真实值永远不知道，只能估。</td></tr>
+  <tr><td>*</td><td>星号</td><td>表示"<b>这个数是 bootstrap 假造的</b>"。凡是带星号的，都来自重抽样，不是真实历史。</td></tr>
+  <tr><td>i</td><td>第 i 次</td><td>第 i 次重抽样。一共抽 B 次，i = 1, 2, …, B（B 常取 1000）。</td></tr>
+  <tr><td>√n</td><td>根号 n</td><td>一个"放大镜"，把日均得分换算成"攒了这么多天的证据强度"。后面单独讲。</td></tr>
+  <tr><td>max<sub>k=1..l</sub></td><td>取最大</td><td>在 l 条规则里挑<b>分数最高</b>的那条。这是多重检验的命门。</td></tr>
+  <tr><td>E[·]</td><td>期望</td><td>"如果无限重复，平均会是多少"。可以理解成<b>这条规则的真实水平</b>。</td></tr>
+  <tr><td>H<sub>0</sub></td><td>原假设</td><td>"被告是无辜的"那个假设。统计检验默认它成立，直到证据足够推翻它。</td></tr>
+</table>
+
+<div class="why">
+  <span class="h">两个符号习惯，记住就不会再懵</span>
+  <b>① 戴帽子 = 估计值。</b>凡是 f̂（f hat），都在提醒你"这是用样本算出来的，不是真相"。<br>
+  <b>② 带星号 = 假数据。</b>凡是 f*（f star），都在提醒你"这是 bootstrap 造出来的平行世界，不是真实历史"。
+</div>
+
+<!-- ============ 第 1 关 ============ -->
+<h2><span class="lv">第 1 关</span>公式 (5.28)：一条规则，一天，怎么打分</h2>
+
+<p>这是整个小节的地基。后面所有公式都是它的变形。<b>搞懂这一个，后面五个都好办。</b></p>
+
+<div class="eq">
+  <span class="no">(5.28)</span>
+  <div class="body">f<sub>k,t+j</sub> &nbsp;=&nbsp; ln( 1 + r<sub>t+j</sub> · s<sub>k</sub> ) &nbsp;−&nbsp; ln( 1 + r<sub>t+j</sub> · s<sub>0</sub> )</div>
+  <span class="cap">左边：第 k 条规则在第 t+j 天的得分。右边：这条规则的对数收益，减去基准的对数收益。</span>
+</div>
+
+<div class="say">
+  <div class="h">人话版（一句话）</div>
+  <p style="margin:0"><b>「你按这条规则下单，今天赚的（对数）收益，减去如果你按基准操作能赚的（对数）收益。」</b>——差就是这条规则今天"额外贡献"了多少。</p>
+</div>
+
+<h3>把它拆成三个动作，一步步走</h3>
+
+<div class="step"><div class="n">1</div><div class="c"><b>市场给你一个收益 r</b><br>比如今天市场涨 1%，那么 r = +0.01。这一步跟你的规则无关，是市场给的。</div></div>
+
+<div class="step"><div class="n">2</div><div class="c"><b>乘上你的仓位 s，得到"你的收益"</b><br>
+  <ul style="margin:6px 0 0">
+    <li>你做多（s = 1）→ 你的收益 = r = +0.01，跟着市场赚</li>
+    <li>你空仓（s = 0）→ 你的收益 = 0，不赚不亏</li>
+    <li>你做空（s = −1）→ 你的收益 = −r = −0.01，市场涨你亏</li>
+  </ul>
+  一个乘法就把三种仓位全处理了，这就是 s 只取 1 / 0 / −1 的巧处。
+</div></div>
+
+<div class="step"><div class="n">3</div><div class="c"><b>取 ln(1 + …)，再减去基准的同样一项</b><br>
+  先取对数变成"对数收益"，再把基准的减掉。<b>减完的结果才是这条规则的净贡献。</b>
+</div></div>
+
+<svg viewBox="0 0 680 190" xmlns="http://www.w3.org/2000/svg" role="img">
+<title>公式 5.28 的三个动作</title>
+<desc>市场收益 r 乘上仓位 s 得到你的收益，取对数后减去基准的对数收益，得到这条规则今天的净得分。</desc>
+<defs>
+  <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+</defs>
+<g font-family="-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Microsoft YaHei,sans-serif">
+  <rect x="40" y="60" width="120" height="52" rx="9" fill="#EAF2FF" stroke="#185FA5" stroke-width="0.5"/>
+  <text x="100" y="80" text-anchor="middle" font-size="14" font-weight="500" fill="#12457f">市场收益 r</text>
+  <text x="100" y="98" text-anchor="middle" font-size="12" fill="#185FA5">今天涨 1%</text>
+
+  <line x1="168" y1="86" x2="212" y2="86" stroke="#888780" stroke-width="1.5" marker-end="url(#ar)"/>
+  <text x="190" y="76" text-anchor="middle" font-size="12" fill="#5F5E5A">× s</text>
+
+  <rect x="220" y="60" width="130" height="52" rx="9" fill="#E7F6F0" stroke="#0F6E56" stroke-width="0.5"/>
+  <text x="285" y="80" text-anchor="middle" font-size="14" font-weight="500" fill="#0b5c43">你的收益</text>
+  <text x="285" y="98" text-anchor="middle" font-size="12" fill="#0F6E56">r × s = +0.01</text>
+
+  <line x1="358" y1="86" x2="402" y2="86" stroke="#888780" stroke-width="1.5" marker-end="url(#ar)"/>
+  <text x="380" y="76" text-anchor="middle" font-size="12" fill="#5F5E5A">ln(1+ )</text>
+
+  <rect x="410" y="60" width="130" height="52" rx="9" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.5"/>
+  <text x="475" y="80" text-anchor="middle" font-size="14" font-weight="500" fill="#633806">对数收益</text>
+  <text x="475" y="98" text-anchor="middle" font-size="12" fill="#854F0B">ln(1.01) = 0.00995</text>
+
+  <line x1="548" y1="86" x2="592" y2="86" stroke="#888780" stroke-width="1.5" marker-end="url(#ar)"/>
+  <text x="570" y="76" text-anchor="middle" font-size="12" fill="#5F5E5A">−基准</text>
+
+  <rect x="600" y="60" width="44" height="52" rx="9" fill="#FDECEA" stroke="#A32D2D" stroke-width="0.5"/>
+  <text x="622" y="80" text-anchor="middle" font-size="14" font-weight="500" fill="#7d2418">f</text>
+  <text x="622" y="98" text-anchor="middle" font-size="11" fill="#A32D2D">得分</text>
+
+  <text x="40" y="146" font-size="13" fill="#4a5058">基准若取「始终空仓」，s₀ = 0，那么 ln(1 + r·0) = ln(1) = 0</text>
+  <text x="40" y="168" font-size="13" fill="#0b5c43">→ 减的那一项直接等于 0，于是 f 就等于你的对数收益本身</text>
+</g>
+</svg>
+<div class="figcap">公式 (5.28) 的三个动作。基准取空仓时，最后一步的减法就不起作用了。</div>
+
+<h3>为什么非要取 ln？直接减不行吗？</h3>
+
+<div class="why">
+  <span class="h">理由一：对数收益可以相加，普通收益不行</span>
+  今天涨 10% 明天跌 10%，你的真实结果是 1.1 × 0.9 = 0.99，<b>亏了 1%</b>，不是打平。但如果用对数：ln(1.1) + ln(0.9) = 0.0953 − 0.1054 = <b>−0.0101</b>，正好约等于亏 1%。<br>
+  → 因为我们要把 n 天的得分<b>加起来再平均</b>（这就是 5.27），所以必须用能相加的口径，否则平均出来的数是错的。
+</div>
+
+<div class="why">
+  <span class="h">理由二：做空的时候不会算出"负的本金"</span>
+  做空时 s = −1，你的收益是 −r。万一某天市场暴涨 150%（现实中少见，但理论上有），直接算收益会变成 1 + (−1.5) = −0.5，<b>本金成了负数</b>，再取对数就报错了。<br>
+  → 用 ln(1 + r·s) 这个写法，配合实际收益率范围，能保证括号里恒为正。数学上更稳。
+</div>
+
+<div class="why">
+  <span class="h">理由三：它衡量的是"钱的复合增长"，跟长期收益直接挂钩</span>
+  对数收益加起来 = 你这段时间资金曲线的总增长。所以最大化对数收益，等价于最大化长期复合收益。<br>
+  → 这也是为什么它和夏普比率能放在同一个框架里比较（书上说"同样的假设也可以对夏普比率来提"）。
+</div>
+
+<div class="callout info">
+  <span class="t">顺手记住这个近似</span>
+  当 r 很小的时候（日频数据基本都满足），<b>ln(1 + x) ≈ x</b>。<br>
+  所以 ln(1.01) = 0.00995 ≈ 0.01，差别只有万分之五。<b>你心算的时候直接拿 r·s 当近似值就行，不会错到哪去。</b>
+</div>
+
+<h3>一个小陷阱：s 只能用"当时已经知道的信息"</h3>
+
+<div class="callout danger">
+  <span class="t">书上原话的隐含条件</span>
+  书上写：<b>"信号函数当然只能基于截至 t 时刻可得的数据与信息。"</b><br><br>
+  这句话是整节的合规底线。意思是：第 t+j 天的仓位 s，必须是用<b>第 t+j 天开盘之前</b>的数据算出来的，不能偷看当天收盘价。<br><br>
+  <b>这跟你项目里的 PIT 问题是同一件事</b>——你新闻数据那个 <code>published_at</code> 和 <code>available_at</code> 的区分，还有撮合引擎时间和接收时间的区分，都是在守这条线。一旦 s 偷看了未来，f 就是假的，后面所有检验全部作废。
+</div>
+
+<!-- ============ 第 2 关 ============ -->
+<h2><span class="lv">第 2 关</span>公式 (5.27)：把 n 天平均起来</h2>
+
+<div class="eq">
+  <span class="no">(5.27)</span>
+  <div class="body">
+    <span class="frac"><span class="num">1</span><span class="den">n</span></span>
+    &nbsp;·&nbsp; <span style="font-size:22px">Σ</span><sub style="font-size:11px">j=1..n</sub> &nbsp; f̂<sub>t+j</sub>
+    &nbsp;&nbsp;=&nbsp;&nbsp; f̄
+  </div>
+  <span class="cap">Σ（sigma）= 求和。整式的意思是：把 t+1 到 t+n 这 n 天的得分加起来，再除以 n。</span>
+</div>
+
+<div class="say">
+  <div class="h">人话版（一句话）</div>
+  <p style="margin:0"><b>「这条规则平均每天比基准多赚多少。」</b></p>
+</div>
+
+<div class="why">
+  <span class="h">为什么要平均，而不是看总和？</span>
+  因为<b>总和没有可比性</b>。你把一条规则跑 100 天的总分，和跑 1000 天的总分放在一起比，毫无意义——后者天然更大。<br>
+  平均掉天数以后，"每天多赚 0.05%"这个数就跟跑了多久无关了，可以直接横向比。
+</div>
+
+<div class="why">
+  <span class="h">为什么书上写的是 f̂<sub>t+j</sub>（没有下标 k）？</span>
+  因为 (5.27) 是在说"<b>任意一个</b>绩效度量怎么平均"，还没特指哪条规则。到了 (5.30)，它就会写成 f̄<sub>k</sub>，带上 k 表示"第 k 条规则的平均分"。<b>同一个 f̄，加不加下标 k，取决于在不在讨论多条规则的场合。</b>
+</div>
+
+<!-- ============ 第 3 关 ============ -->
+<h2><span class="lv">第 3 关</span>公式 (5.29)：原假设到底在说什么</h2>
+
+<div class="eq">
+  <span class="no">(5.29)</span>
+  <div class="body">H<sub>0</sub> :&nbsp; max<sub>k=1..l</sub> &nbsp; E[ f<sub>k</sub> ] &nbsp; ≤ &nbsp; f<sub>0</sub></div>
+  <span class="cap">原假设：所有 l 条规则里最好的那条，它的真实水平也不比基准强。</span>
+</div>
+
+<div class="say">
+  <div class="h">人话版（一句话）</div>
+  <p style="margin:0"><b>「这 l 条规则里，没有一条是真的有本事的。你看到最好的那条好看，纯属走运。」</b></p>
+</div>
+
+<h3>这里有两个"反直觉"，必须讲清楚</h3>
+
+<p>回看 (5.29)，里面其实只有两个特别的记号：<b>max</b> 和 <b>E[·]</b>。下面两张卡片，各是一张"记号说明书"——不先说清楚，你几乎必然会把这两个记号读错，而读错的代价是后面整节都白看。</p>
+
+<div class="callout key">
+  <span class="t">反直觉一：max —— 原假设是"全都烂"，不是"这条烂"</span>
+  <b>先看一个抛硬币的例子。</b>让 1000 个人每人抛 10 次硬币。哪怕人人都是乱抛，"正面次数最多的人"也很可能抛出 9 次。你能说他是"抛硬币高手"吗？不能——他只是<b>1000 人里运气最好的那一个</b>。"从一堆人里挑冠军"这个动作，本身就一定会制造出好看的成绩。<br><br>
+  现在回到公式。普通 t 检验问的是"这一条规则行不行"；这里的 <b>max</b> 让它一次性问"这 l 条里，<b>最好的那条</b>行不行"。<br><br>
+  为什么要这样？因为你真正会拿去用的，就是挑出来的那条最好的。<b>检验的对象必须是你实际会做的那个动作</b>——而"从一堆里挑最好的"本身，就是你这个动作的一部分。<br><br>
+  如果只检验单条，那你挑 7846 条里最好的一条去检验，等于只验运动员、不验选拔赛——把"挑选"这个动作偷偷排除在检验之外了，作弊。
+</div>
+
+<div class="callout key">
+  <span class="t">反直觉二：E[·] —— "真实水平"和"你看见的成绩"是两个数</span>
+  <b>先看一个投篮的例子。</b>一个球员这个月命中率 60%。"这个月 60%"（你看见的）和"他的真实水平"（看不见的）是两个数——这个月 60%，可能是他真实水平就高，也可能只是超常发挥。<br><br>
+  公式里同理：E[f<sub>k</sub>] 是这条规则<b>在无限长的时间里</b>平均能赚多少——这是你永远不知道的真相。<br>
+  f̄<sub>k</sub> 是它在<b>你这 n 天样本里</b>实际赚了多少——这是你能看见的。<br><br>
+  麻烦在于：<b>你只能看见 f̄，永远看不见 E。</b>两者的差，就是<b>运气</b>。整个 5.7 节做的事情只有一件：估算"运气能把 f̄ 抬高多少"，然后看你的 f̄ 有没有超出这个范围。<br><br>
+  如果不区分这两个概念，你会直接拿 f̄ 下结论——"日均多赚 0.5%，所以有本事"——这就把运气当本事了。
+</div>
+
+<div class="why">
+  <span class="h">这两张卡是后面所有内容的地基</span>
+  记住这层对应：(5.31) 里减掉 f̄<sub>k</sub>，减的就是"你看见的"，把平行世界强行搬到"<b>真实水平 E = 0</b>"（大家都没本事）的世界里；而 max 出现在原假设里，所以 bootstrap 时也要在 l 条规则里取 max——"运气能撞出的最好成绩"，本来就是 max 的运气。
+</div>
+
+<!-- ============ 第 4 关 ============ -->
+<h2><span class="lv">第 4 关</span>公式 (5.30)：那个 √n 是干嘛的</h2>
+
+<div class="eq">
+  <span class="no">(5.30)</span>
+  <div class="body">v<sub>l</sub> &nbsp;=&nbsp; max<sub>k=1..l</sub> &nbsp;( &nbsp;√n &nbsp;·&nbsp; f̄<sub>k</sub> &nbsp;)</div>
+  <span class="cap">检验统计量：把每条规则的平均分乘上根号 n，再取最大的那个。</span>
+</div>
+
+<div class="say">
+  <div class="h">人话版（一句话）</div>
+  <p style="margin:0"><b>「把这 l 条规则里最好的那个成绩，放大到'证据强度'的尺度上。」</b></p>
+</div>
+
+<h3>先建立一个画面：真本事和运气，长得不一样快</h3>
+
+<p>假设一条规则真有点本事，每天平均多赚 <b>μ = 0.5%</b>；而市场每天的随机波动是 <b>σ = 2%</b>。现在看"观察 n 天之后，这两样东西各自攒了多少"：</p>
+
+<table class="mini">
+  <tr><th>观察天数 n</th><th>真本事攒下 μ×n</th><th>运气攒下 σ×√n</th><th>谁占上风</th></tr>
+  <tr><td>5 天</td><td>2.5%</td><td class="down">4.5%</td><td class="down">运气盖过真本事，看不出来</td></tr>
+  <tr><td>16 天</td><td>8.0%</td><td>8.0%</td><td>平手，分界点</td></tr>
+  <tr><td>25 天</td><td>12.5%</td><td>10.0%</td><td>真本事刚冒头</td></tr>
+  <tr><td>100 天</td><td>50%</td><td>20%</td><td class="up">真本事是运气的 2.5 倍</td></tr>
+  <tr><td>500 天</td><td>250%</td><td>44.7%</td><td class="up">真本事是运气的 5.6 倍</td></tr>
+</table>
+
+<div class="why">
+  <span class="h">为什么运气只按 √n 长？</span>
+  因为<b>涨跌会互相抵消</b>。今天 +2% 明天 −2%，两天加起来不是 ±4%，而是更接近 0。数学上，n 个独立随机量相加，总幅度按 <b>√n</b> 增长，而不是按 n。<br><br>
+  真本事不一样——它每天都往同一个方向贡献 0.5%，不会抵消，所以<b>老老实实按 n 线性累加</b>。
+</div>
+
+<p>于是两者的比值就是：</p>
+
+<div class="eq" style="padding:14px 22px">
+  <div class="body" style="font-size:16px">真本事 ÷ 运气 &nbsp;=&nbsp; ( μ × n ) ÷ ( σ × √n ) &nbsp;=&nbsp; <span style="font-size:19px">( μ / σ ) × √n</span></div>
+</div>
+
+<p><b>这个 √n，就是从上面那个除法里掉出来的。</b>n 翻 100 倍，比值才翻 10 倍。</p>
+
+<h3>那 √n 在公式里到底干了什么</h3>
+
+<p>把 f̄<sub>k</sub>（日均得分）拆成两块看：</p>
+
+<div class="eq" style="padding:14px 22px">
+  <div class="body" style="font-size:16px">f̄ &nbsp;=&nbsp; 真本事 μ &nbsp;+&nbsp; 运气（幅度 σ/√n）</div>
+  <span class="cap">运气那一块幅度是 σ/√n：n 越大越准，这就是"取平均能消噪"。真本事那一块就是 μ，不随 n 变。</span>
+</div>
+
+<p>现在两边同时乘上 √n：</p>
+
+<div class="eq" style="padding:14px 22px">
+  <div class="body" style="font-size:16px">√n × f̄ &nbsp;=&nbsp; <span style="color:#0F6E56">√n × μ</span> &nbsp;+&nbsp; <span style="color:#B45309">σ</span></div>
+  <span class="cap">左边绿色那块随 √n 变大，右边橙色那块<b>被钉死了，再也不随 n 变</b>。</span>
+</div>
+
+<div class="callout key">
+  <span class="t">这就是整个操作的目的</span>
+  <b>乘 √n，等于把"运气的音量旋钮"固定住。</b><br><br>
+  之前：真本事和运气混在一起，你不知道看见的 0.5% 里各占多少。<br>
+  之后：运气那一块被标准化成固定大小 σ，于是统计量上剩下的刻度，<b>纯粹就是真本事的强度</b>。<br><br>
+  类比：收音机里有个很弱的台，信号和杂音混在一起。√n 就是把杂音音量锁死，这样音量表上的读数才只反映信号强弱。
+</div>
+
+<h3>那为什么不是乘 n？</h3>
+
+<div class="why">
+  <span class="h">乘 n 会让噪声跟着一起涨，永远定不下临界值</span>
+  如果乘 n：<span style="font-family:ui-monospace,Consolas,monospace">n × f̄ = n×μ + n×(运气)</span>，运气那一块的幅度会变成 <b>√n × σ</b>——随着 n 一路涨，永不停。<br><br>
+  后果：观察天数一变，这个统计量的波动幅度就变，那"临界值"就没法给出一个通用数字，不同研究之间也没法比。<br><br>
+  <b>乘 √n 之后，波动幅度被固定成 σ，分布形状不再随 n 大幅变化</b>（这是中心极限定理的直接结果）。分布稳定了，临界值才能定下来，bootstrap 也才好模仿这个分布。<br><br>
+  这就是书里写 √n 而不是 n 的原因。
+</div>
+
+<h3>一句话记住</h3>
+
+<div class="say">
+  <div class="h">√n 是"含金量放大镜"</div>
+  <p style="margin:0">同样是"日均多赚 0.5%"，观察 5 天和观察 500 天，含金量差 <b>√(500/5) = 10 倍</b>。而 f̄ 这个数本身<b>看不出这个差别</b>——乘上 √n，差别才显式地写出来。</p>
+</div>
+
+<h3>落到你项目上：把这句话拆开</h3>
+
+<p>先说公式是哪来的，三步：</p>
+
+<div class="step"><div class="n">1</div><div class="c"><b>标准误 SE = σ / √n</b><br>σ 是单个观测的波动（你每天那个增量本身的抖动）。n 是观测天数。<b>SE 衡量的就是"你算出来的这个平均值，有多大不确定性"。</b></div></div>
+
+<div class="step"><div class="n">2</div><div class="c"><b>95% 区间 = 估计值 ± 1.96 × SE</b><br>1.96 没什么神秘的：正态分布下，<b>95% 的概率落在 ±1.96 个标准差以内</b>。换个置信水平就换个系数。</div></div>
+
+<div class="step"><div class="n">3</div><div class="c"><b>宽度 = 2 × 1.96 × σ / √n</b><br>把上一步的两倍算出来，就是这句话里的公式。<b>width 与 √n 成反比</b>——这就是为什么 n 翻 4 倍，宽度才减半。</div></div>
+
+<div class="why">
+  <span class="h">为什么是 √n 而不是 n（一句话复述）</span>
+  平均值的误差按 √n 缩小，所以想让精度翻倍，就得付 4 倍数据。这就是"边际收益递减"。
+</div>
+
+<h3>你项目里的真实数字</h3>
+
+<p>在 <code>results_research_lgb/paired_increment_test.json</code> 里：</p>
+
+<table class="mini">
+  <tr><th></th><th>E1_raw_cut</th><th>E2_residual_cut</th></tr>
+  <tr><td>n（样本日数）</td><td>856</td><td>856</td></tr>
+  <tr><td>mean_delta</td><td class="down">−0.001297</td><td class="down">−0.000251</td></tr>
+  <tr><td>ci_low</td><td>−0.006907</td><td>−0.001474</td></tr>
+  <tr><td>ci_high</td><td>+0.003756</td><td>+0.000592</td></tr>
+  <tr><td>block</td><td>21</td><td>21</td></tr>
+  <tr><td>replications</td><td>500</td><td>500</td></tr>
+  <tr class="hl"><td>区间宽度</td><td>0.010663</td><td>0.002066</td></tr>
+</table>
+
+<p><b>n = 856 个交易日 ≈ 3.4 年。</b>这是你研究区间里"可用的日度 IC 观测数"。</p>
+
+<h3>同一个 −0.001297，n 不同会怎样</h3>
+
+<p>宽度按 <span style="font-family:ui-monospace,Consolas,monospace">W(n) = 0.010663 × √(856/n)</span> 缩放：</p>
+
+<table class="mini">
+  <tr><th>n</th><th>相当于</th><th>区间宽度</th><th>是否跨 0</th><th>结论</th></tr>
+  <tr><td>200</td><td>约 10 个月</td><td>0.0221</td><td class="down">跨 0</td><td class="down">宽到什么都判断不了</td></tr>
+  <tr class="hl"><td>856</td><td>约 3.4 年</td><td>0.0107</td><td class="down">跨 0</td><td class="down">你现在的结论：证据不足</td></tr>
+  <tr><td>2000</td><td>约 8 年</td><td>0.0070</td><td class="down">跨 0</td><td class="down">仍然跨 0</td></tr>
+  <tr><td>5000</td><td>约 20 年</td><td>0.0044</td><td class="down">跨 0</td><td class="down">仍然跨 0</td></tr>
+  <tr><td>14500</td><td>约 57 年</td><td>0.0026</td><td class="up">刚好不跨</td><td class="up">这时才勉强显著</td></tr>
+</table>
+
+<div class="callout warn">
+  <span class="t">一个诚实但很重要的结论</span>
+  <b>E1 的"证据不足"，不是样本量不够造成的，而是效应量太小。</b><br><br>
+  把数据量从 856 天堆到 5000 天（20 年），区间仍然跨 0。<b>要让这个 −0.001297 变得统计显著，需要约 14500 个交易日——差不多 57 年。</b><br><br>
+  这句话的真实含义是：<b>这个增量小到几乎没有实际意义，也几乎不可能被证明。</b>所以"证据不足"是一个非常稳的结论，不会因为以后数据变多就翻盘。
+</div>
+
+<div class="callout key">
+  <span class="t">你比别人多做对的一件事：block = 21</span>
+  你的 <code>paired_bootstrap</code> 用的是<b>循环移动块 bootstrap</b>，块长 21 天，刚好盖住 20 日重叠标签。<b>这是正确的做法。</b><br><br>
+  如果偷懒按"单日独立"重抽，置信区间会<b>窄大约 √21 ≈ 4.6 倍</b>——宽度只剩 0.0023，看起来会"显著"得多，但那是假的。因为相邻 20 天的标签共享 19/20 的信息，它们根本不是独立样本。<br><br>
+  <b>块 bootstrap 就是在为这个"不独立"付账。</b>
+</div>
+
+<h3>先别急着算：「这个区间」到底是什么</h3>
+
+<p>你项目里那个区间，测的<b>不是</b> RankIC 本身，也不是某一天的涨跌。它测的是这样一个东西：</p>
+
+<div class="card tight">
+  <p style="margin-bottom:8px">对<b>每一个交易日</b> t，都算一个差值：</p>
+  <p style="font-family:ui-monospace,Consolas,monospace;font-size:13px;margin-bottom:8px">d<sub>t</sub> = RankIC(E1, 第 t 天) − RankIC(E0, 第 t 天)</p>
+  <p style="margin-bottom:0">你一共有 <b>n = 856</b> 个这样的 d，它们的平均是 <b>−0.001297</b>。这个平均就是<b>点估计</b>——你最好的一个猜测。</p>
+</div>
+
+<div class="why">
+  <span class="h">区间 = 撒出去的一张网</span>
+  点估计是一个<b>点</b>，但它有误差，所以你<b>不敢说真值正好等于它</b>。<br><br>
+  于是你在它周围撒一张网：<b>网的范围就是置信区间</b>。网撒得越宽，说明你越不敢确定。<br><br>
+  −0.001297 是"我猜是这个数"；[−0.006907, +0.003756] 是"<b>真值可能在这么大一片里</b>"。
+</div>
+
+<div class="callout key">
+  <span class="t">95% 到底在说什么（这句话最容易讲错）</span>
+  <b>错误的说法</b>："真值有 95% 的概率落在这个区间里。"<br>
+  <b>正确的说法</b>："<b>如果这套做法重复很多次，这样造出来的区间里，有 95% 会盖住真值。</b>"<br><br>
+  差别在于：真值是一个<b>固定的数</b>，不是随机变量；<b>随机的是这张网</b>——你换一批日子重算，网的位置和大小就变了。<br><br>
+  类比：渔夫说"我这套撒网手法，100 次里有 95 次能罩住鱼"。<b>鱼没在动，动的是网。</b>
+</div>
+
+<div class="callout warn">
+  <span class="t">这个区间回答什么、不回答什么</span>
+  <table class="mini" style="margin-top:6px">
+    <tr><th style="width:50%">它回答</th><th>它<b>不</b>回答</th></tr>
+    <tr><td style="text-align:left">这个增量<b>大概有多大</b></td><td style="text-align:left"><b>多条一起</b>检验时谁是真的（单条区间给不出，见下节）</td></tr>
+    <tr><td style="text-align:left">我的估计<b>有多不确定</b></td><td style="text-align:left">策略<b>赚不赚钱</b>（那是费用后 CAGR 的事）</td></tr>
+    <tr><td style="text-align:left">真值<b>不可能离得更远</b>到什么程度</td><td style="text-align:left">真值的<b>概率分布</b>（频率派不给这个）</td></tr>
+  </table>
+</div>
+
+<div class="callout info">
+  <span class="t">为什么"跨 0"这么要命</span>
+  区间中间那条红线是 <b>0 = 切割因子完全没用</b>。<br><br>
+  <b>区间把 0 包进去了</b> → "可能没用"这个选项<b>还没被排除</b>，所以你不能说它有用。<br>
+  <b>区间整条在 0 右边</b> → 连"没用"都被排除了，才谈得上有用。<br><br>
+  你的 E1、E2 两条区间<b>都把 0 包在里面</b>，所以结论都是"不能说有用"。区别只在于：<b>E1 的网大到连方向都说不清，E2 的网很小，能确定"就算有用也小到没意义"</b>。
+</div>
+
+<h3>为什么判据偏偏是"不跨 0"</h3>
+
+<div class="why">
+  <span class="h">因为 0 有一个精确含义：加了等于没加</span>
+  你的 d<sub>t</sub> = RankIC(E1) − RankIC(E0)，是"加了切割因子以后，RankIC 变了多少"。<br><br>
+  如果切割因子<b>一点信息都没有</b>，那它加进去跟没加一样，这个差值的<b>真实平均值就应该正好是 0</b>。<br><br>
+  所以 0 不是随手画的线，它是"<b>这个因子毫无用处</b>"这句话的数学写法。
+</div>
+
+<div class="callout key">
+  <span class="t">判据背后是一条法律原则：无罪推定</span>
+  你要证明的是"<b>这个因子有用</b>"，但统计不允许你直接证明它——<b>它只负责帮你排除"没用"</b>。<br><br>
+  <b>法庭类比：</b>不能因为"他看起来有点像凶手"就定罪。必须<b>先把"他是无辜的"这个可能性排除掉</b>，才能判有罪。<br><br>
+  <b>新药类比：</b>一款新药必须证明"比安慰剂好"。如果测得的效果是 [−2 分, +5 分]，包含 0 —— 意思是"也可能跟糖片一样"，药监局就不批。<br><br>
+  <b>区间跨 0，就是"没用"这个可能性还好好地坐在里面，你排除不掉它。</b>排除不掉，就不能宣布有用。
+</div>
+
+<div class="callout info">
+  <span class="t">一句等价，答辩时能救命</span>
+  <table class="mini" style="margin-top:4px">
+    <tr><th style="width:50%">置信区间的说法</th><th>假设检验的说法</th></tr>
+    <tr><td style="text-align:left">95% 区间<b>不跨 0</b></td><td style="text-align:left">双尾检验 <b>p &lt; 0.05</b></td></tr>
+    <tr><td style="text-align:left">95% 区间<b>跨 0</b></td><td style="text-align:left">双尾检验 <b>p ≥ 0.05</b></td></tr>
+  </table>
+  <p style="margin-bottom:0;margin-top:8px">这不是两个判据，是<b>同一件事的两种说法</b>。所以你看到"p 值"和看到"区间跨不跨 0"，得到的结论<b>永远一致</b>。</p>
+</div>
+
+<div class="callout warn">
+  <span class="t">两个必须自己加上的警告（不跨 0 ≠ 有用）</span>
+  <b>① 还有 5% 的假阳性。</b>"不跨 0"的保证是：<b>如果因子真的毫无用处</b>，你有 95% 的概率正确地说"说不清"，<b>但仍有 5% 的概率会错误地宣布"有用"</b>。<br>
+  更严重的是：<b>你同时看了 E1 和 E2 两条（甚至更多）</b>，每看一条就多一次 5% 的机会。<b>三条一起看，至少一条假阳性的概率约 14%，不是 5%。</b>这正是 5.7 节 White / SPA / FDR 要解决的问题。<br><br>
+  <b>② 统计显著 ≠ 经济上有意义。</b>假设以后数据多了，E2 的区间缩到 [−0.0009, −0.0001]——不跨 0 了，"显著"了。<br>
+  但 RankIC 提升 0.0001，<b>扣掉双边千一到千三的费用，一分钱都不剩</b>。所以你手册里要求 RankIC 和费用后 CAGR 一起报，就是为了堵这个洞。
+</div>
+
+<h3>两个减号不是一回事（你抓得很准）</h3>
+
+<p>你可能会问：<b>d<sub>t</sub> = RankIC(E1) − RankIC(E0) 里明明也有减号，为什么说"判断是不是 0 需要 (5.31) 那个减号"？</b></p>
+
+<p>因为这是<b>两个完全不同层次</b>的减法：</p>
+
+<div class="card tight">
+  <table class="mini">
+    <tr><th style="width:70px"></th><th style="width:150px">减号 ①（你代码里的）</th><th>减号 ②（(5.31) 里的）</th></tr>
+    <tr>
+      <td><b>减在哪</b></td>
+      <td style="text-align:left"><b>数据层</b>，每一天各减一次</td>
+      <td style="text-align:left"><b>统计量层</b>，每次重抽都要减</td>
+    </tr>
+    <tr>
+      <td><b>减的是谁</b></td>
+      <td style="text-align:left"><b>另一个模型</b>（E1 减 E0）</td>
+      <td style="text-align:left"><b>它自己</b>（f̄*<sub>k</sub> 减 f̄<sub>k</sub>）</td>
+    </tr>
+    <tr>
+      <td><b>解决的问题</b></td>
+      <td style="text-align:left">剔除<b>当天大盘涨跌</b>这个两人共有的因素，让比较变成"同一条跑道"</td>
+      <td style="text-align:left">把平行世界<b>搬到"真值 = 0"</b>的世界里，才问得出"是不是 0"</td>
+    </tr>
+    <tr>
+      <td><b>回答什么</b></td>
+      <td style="text-align:left">"增量是<b>多少</b>"</td>
+      <td style="text-align:left">"增量<b>是不是 0</b>"</td>
+    </tr>
+  </table>
+</div>
+
+<div class="callout key">
+  <span class="t">一句话区分</span>
+  减号 ① 是<b>把两个选手放在同一天比</b>，消掉赛道难度差异；<br>
+  减号 ② 是<b>把整条赛道的原点挪到"零差距"</b>，然后问"这个成绩算不算超常"。<br><br>
+  你做了 ①，所以你知道"差 −0.0013"；<b>但 ① 不会告诉你这个 −0.0013 有没有超出运气范围</b>。
+</div>
+
+<div class="callout warn">
+  <span class="t">顺便更正我前面一句说得太绝对的话</span>
+  我前面写"置信区间不回答'是不是 0'"——<b>这句话说过头了，谢谢你抓住。</b><br><br>
+  准确的说法是：<b>对单个参数，置信区间和检验是"对偶"的</b>。<br>
+  数学上：<b>θ₀ 不在 (1−α) 置信区间里 ⟺ 在水平 α 下拒绝 H₀: θ = θ₀。</b><br>
+  所以当原假设正好是 0 时，<b>"区间不跨 0"和"p &lt; 0.05"就是同一件事</b>（这也是上一节那张表的依据）。<br><br>
+  <b>真正会断掉的是这三种情况：</b>
+  <ol style="margin-top:6px;margin-bottom:0">
+    <li><b>多条一起检验。</b>你同时看 E1、E2——原假设变成 <span style="font-family:ui-monospace,Consolas,monospace">max E[f<sub>k</sub>] ≤ 0</span>，是"最好的那条"而不是"这一条"。<b>单条 CI 完全失效</b>，必须用 (5.31) 那套"中心化 + 取 max"的 bootstrap，也就是 White / SPA。</li>
+    <li><b>要的是校正后的判据。</b>做了 FWE 或 FDR 校正后，临界值不再是 1.96，单条 CI 的宽度对不上。</li>
+    <li><b>关心的是经济阈值而不是 0。</b>比如问"增量是否 &gt; +0.002（够不够覆盖双边费用）"——这时要看的是<b>区间下界 vs 0.002</b>，不是"跨不跨 0"。</li>
+  </ol>
+</div>
+
+<h3>底牌：把这些公式一次性摊开</h3>
+
+<p>图里每根横条，背后只有下面这条链。<b>每一步都在上一步后面加一样东西</b>，没有一步是凭空冒出来的。</p>
+
+<div class="card tight">
+  <table class="mini">
+    <tr><th style="width:52px">步</th><th style="width:330px">公式</th><th>它在说什么</th></tr>
+    <tr>
+      <td>①</td>
+      <td><span style="font-family:ui-monospace,Consolas,monospace">Var(x̄) = σ² / n</span></td>
+      <td style="text-align:left">n 个观测相加，方差累加 n 次得 nσ²，再除以 n²。<b>独立</b>让所有协方差项变成 0，否则这一步不成立</td>
+    </tr>
+    <tr>
+      <td>②</td>
+      <td><span style="font-family:ui-monospace,Consolas,monospace">SD(x̄) = σ / √n</span></td>
+      <td style="text-align:left">把 ① 开方，这就是<b>标准误 SE</b>。<b>√n 是在这一步第一次出现的</b></td>
+    </tr>
+    <tr>
+      <td>③</td>
+      <td><span style="font-family:ui-monospace,Consolas,monospace">CI₉₅ = x̄ ± 1.96 · σ/√n</span></td>
+      <td style="text-align:left">正态分布下 95% 的概率落在 ±1.96 个标准差内。<b>1.96 = 标准正态的 97.5% 分位点</b>（z<sub>0.975</sub> = 1.959964）</td>
+    </tr>
+    <tr>
+      <td>④</td>
+      <td><span style="font-family:ui-monospace,Consolas,monospace">W(n) = 2 × 1.96 × σ/√n = 3.92σ/√n</span></td>
+      <td style="text-align:left">全宽 = 上界 − 下界，± 各占一份。<b>图里每根条的长度就是这个 W</b></td>
+    </tr>
+    <tr>
+      <td>⑤</td>
+      <td><span style="font-family:ui-monospace,Consolas,monospace">W(n₂) / W(n₁) = √(n₁ / n₂)</span></td>
+      <td style="text-align:left">两个 W 相除，<b>3.92 和 σ 全部约掉</b>，只剩 √n。这就是图上 ÷1.41 / ÷2 / ÷2.83 / ÷4 的来历</td>
+    </tr>
+    <tr>
+      <td>⑥</td>
+      <td><span style="font-family:ui-monospace,Consolas,monospace">n₂ = n₁ · (W₁ / 2m)²</span></td>
+      <td style="text-align:left">反解：<b>要让半宽 W/2 小于效应量 |m| 才不跨 0</b>。代入你的数：856 × (0.010663 ÷ 0.002594)² ≈ <b>14 464 天</b></td>
+    </tr>
+  </table>
+</div>
+
+<div class="callout info">
+  <span class="t">第 ① 步那个"独立"，是你项目里最大的坑</span>
+  ① 成立的前提是 n 个观测<b>互不相关</b>。你的标签是 20 日重叠的——相邻两天共享 19/20 的信息，协方差项<b>不为 0</b>。<br><br>
+  严格写法要乘一个膨胀因子：<br>
+  <span style="font-family:ui-monospace,Consolas,monospace">Var(x̄) = (σ²/n) · (1 + 2·Σ<sub>k≥1</sub> ρ<sub>k</sub>)</span><br><br>
+  其中 ρ<sub>k</sub> 是滞后 k 阶的自相关。重叠 20 天意味着 ρ<sub>1</sub>…ρ<sub>19</sub> 都很接近 1，这个括号会变得很大。<br><br>
+  <b>好消息：你不用自己算它。</b>循环移动块 bootstrap（block = 21）就是用"整块整块地重抽"来<b>把这个膨胀因子连同分布形状一起测出来</b>，所以你的区间已经是付过账的版本。
+</div>
+
+<h3>所以"必须报 n"到底在报什么</h3>
+
+<div class="card tight">
+  <ul style="margin-bottom:0">
+    <li><b>报 n，等于报"这个结论有多稳"。</b>同样看到 −0.0013，n = 200 的人是"什么都不知道"，n = 856 的你是"证据不足但方向明确"，n = 5000 的人才有一点资格谈结论。</li>
+    <li><b>报 n，别人才能反推 σ。</b>区间宽度里藏着 σ，但 σ 本身没写出来。有 n 和宽度，就能反算数据波动有多大，判断你的样本质量。</li>
+    <li><b>报 n，评审才能判断覆盖度。</b>856 天 ≈ 3.4 年，只经历了一轮牛熊的一小段。<b>样本期覆盖了哪些市场状态，比 n 本身更重要。</b></li>
+    <li><b>报 n，才能暴露"有效样本"问题。</b>856 个日度观测，扣掉 20 日重叠后真正独立的只有约 856/21 ≈ 41 块。<b>41 个独立单位，这才是你这个结论的真实信息量。</b></li>
+  </ul>
+</div>
+
+<!-- ============ 插播 bootstrap ============ -->
+<h2><span class="lv">插播</span>bootstrap 到底是什么</h2>
+
+<p>前面一直在说"重抽样""平行世界"，却从没解释过 bootstrap 本身。<b>不搞懂这个，(5.31) 一定看不懂。</b>这一节只讲本质。</p>
+
+<div class="say">
+  <div class="h">一句话本质</div>
+  <p style="margin:0">你手上<b>只有一份数据</b>，却想知道"<b>如果重来一次会怎样</b>"。bootstrap 说：那就把你这一份数据<b>当成整个世界</b>，从它里面反复抽。</p>
+</div>
+
+<p>名字来自英语 <i>pull yourself up by your own bootstraps</i>（拽着自己的鞋带把自己提起来）——<b>用自己仅有的数据，把自己提起来。</b></p>
+
+<h3>它要解决的那个死结</h3>
+
+<p>统计学里几乎所有有用的东西——误差、置信区间、p 值——都需要知道"<b>这个统计量的波动有多大</b>"。</p>
+
+<p>而"波动"按定义就需要<b>很多份样本</b>：同一件事重复做 1000 次，看结果散得多开。</p>
+
+<div class="callout danger">
+  <span class="t">死结：历史不能重来</span>
+  你只有一份历史。你没法让 2024 年再走一遍，看看"另一种运气"下你的策略会怎样。<br><br>
+  <b>一份样本，测不出波动。</b>
+</div>
+
+<h3>它怎么解开：三步</h3>
+
+<div class="step"><div class="n">1</div><div class="c"><b>把样本当成整个总体</b><br>你手上这 n 个观测，就是你对"真实世界长什么样"的<b>最好猜测</b>——事实上也是唯一的猜测。所以，<b>从样本里抽，近似等于从真实世界里抽。</b></div></div>
+
+<div class="step"><div class="n">2</div><div class="c"><b>有放回地抽 n 次，得到一个「伪样本」</b><br>注意是<b>有放回</b>：摸一颗、记下、放回去、再摸。所以同一个观测可能被抽中好几次，也可能一次都没被抽中。</div></div>
+
+<div class="step"><div class="n">3</div><div class="c"><b>重复 B 次（通常 1000 次以上）</b><br>每个伪样本算一遍你关心的统计量，得到 B 个值。<b>这 B 个值的分布，就是你要的那个"波动"。</b>数一数有几个超过你的真实值，除以 B，就是 p 值。</div></div>
+
+<svg viewBox="0 0 680 300" xmlns="http://www.w3.org/2000/svg" role="img">
+<title>bootstrap 一次重抽发生了什么</title>
+<desc>从仅有的 6 个观测中有放回地抽 6 次，得到第 1 个伪样本，其中第二个观测被抽中三次，第三第四第六个一次都没被抽中。</desc>
+<defs>
+  <marker id="ab2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+</defs>
+<g font-family="-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Microsoft YaHei,sans-serif">
+
+  <text x="40" y="34" font-size="13.5" font-weight="500" fill="#1a1d23">你手上唯一的那份样本（n = 6）</text>
+
+  <circle cx="110" cy="72" r="21" fill="#F1EFE8" stroke="#888780" stroke-width="0.5"/>
+  <text x="110" y="72" text-anchor="middle" dominant-baseline="central" font-size="15" fill="#2C2C2A">①</text>
+  <circle cx="200" cy="72" r="21" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.5"/>
+  <text x="200" y="72" text-anchor="middle" dominant-baseline="central" font-size="15" fill="#633806">②</text>
+  <circle cx="290" cy="72" r="21" fill="none" stroke="#B4B2A9" stroke-width="1" stroke-dasharray="3 3"/>
+  <text x="290" y="72" text-anchor="middle" dominant-baseline="central" font-size="15" fill="#888780">③</text>
+  <circle cx="380" cy="72" r="21" fill="none" stroke="#B4B2A9" stroke-width="1" stroke-dasharray="3 3"/>
+  <text x="380" y="72" text-anchor="middle" dominant-baseline="central" font-size="15" fill="#888780">④</text>
+  <circle cx="470" cy="72" r="21" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.5"/>
+  <text x="470" y="72" text-anchor="middle" dominant-baseline="central" font-size="15" fill="#633806">⑤</text>
+  <circle cx="560" cy="72" r="21" fill="none" stroke="#B4B2A9" stroke-width="1" stroke-dasharray="3 3"/>
+  <text x="560" y="72" text-anchor="middle" dominant-baseline="central" font-size="15" fill="#888780">⑥</text>
+
+  <text x="110" y="108" text-anchor="middle" font-size="12" fill="#5F5E5A">×1</text>
+  <text x="200" y="108" text-anchor="middle" font-size="12" fill="#854F0B">×3</text>
+  <text x="290" y="108" text-anchor="middle" font-size="12" fill="#B4B2A9">×0</text>
+  <text x="380" y="108" text-anchor="middle" font-size="12" fill="#B4B2A9">×0</text>
+  <text x="470" y="108" text-anchor="middle" font-size="12" fill="#854F0B">×2</text>
+  <text x="560" y="108" text-anchor="middle" font-size="12" fill="#B4B2A9">×0</text>
+
+  <line x1="340" y1="122" x2="340" y2="142" stroke="#0F6E56" stroke-width="1.5" marker-end="url(#ab2)"/>
+  <text x="352" y="137" font-size="12.5" fill="#0F6E56">闭眼摸一颗，记下，放回去，摸满 6 次</text>
+
+  <text x="40" y="164" font-size="13.5" font-weight="500" fill="#1a1d23">得到第 1 个「伪样本」（跟原来已经不一样了）</text>
+
+  <circle cx="110" cy="196" r="21" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.5"/>
+  <text x="110" y="196" text-anchor="middle" dominant-baseline="central" font-size="15" fill="#633806">②</text>
+  <circle cx="200" cy="196" r="21" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.5"/>
+  <text x="200" y="196" text-anchor="middle" dominant-baseline="central" font-size="15" fill="#633806">②</text>
+  <circle cx="290" cy="196" r="21" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.5"/>
+  <text x="290" y="196" text-anchor="middle" dominant-baseline="central" font-size="15" fill="#633806">⑤</text>
+  <circle cx="380" cy="196" r="21" fill="#F1EFE8" stroke="#888780" stroke-width="0.5"/>
+  <text x="380" y="196" text-anchor="middle" dominant-baseline="central" font-size="15" fill="#2C2C2A">①</text>
+  <circle cx="470" cy="196" r="21" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.5"/>
+  <text x="470" y="196" text-anchor="middle" dominant-baseline="central" font-size="15" fill="#633806">⑤</text>
+  <circle cx="560" cy="196" r="21" fill="#FAEEDA" stroke="#854F0B" stroke-width="1.5"/>
+  <text x="560" y="196" text-anchor="middle" dominant-baseline="central" font-size="15" fill="#633806">②</text>
+
+  <text x="40" y="240" font-size="13" fill="#1a1d23">② 被抽中 3 次，⑤ 被抽中 2 次，而 ③④⑥ <tspan fill="#B45309">一次都没中</tspan>。</text>
+  <text x="40" y="262" font-size="13" fill="#4a5058">正是这种「有的重复、有的缺席」，制造出了变化 —— 而变化才是我们想测的东西。</text>
+  <text x="40" y="288" font-size="13" fill="#4a5058">如果<tspan fill="#B45309">不放回</tspan>，每次抽到的必然还是原来那 6 个，算出来的数一模一样，等于白抽。</text>
+</g>
+</svg>
+<div class="figcap">一次重抽。重复 1000 次，你就有了 1000 个"平行世界"。</div>
+
+<h3>为什么「有放回」是灵魂</h3>
+
+<div class="why">
+  <span class="h">如果不放回会怎样</span>
+  无放回地抽 n 个，抽出来的必然是原来那 n 个，只是顺序变了。<b>而顺序不影响统计量</b>——每次算出来一模一样，B 次全一样，波动是 0。<b>等于白抽。</b><br><br>
+  有放回才有重复、有缺席，样本的组成才会变，统计量才会变。<br>
+  <b>整个 bootstrap 的信息，全部来自"有放回"这三个字。</b>
+</div>
+
+<h3>为什么这样做是合法的</h3>
+
+<div class="callout info">
+  <span class="t">唯一的前提：样本的分布 ≈ 总体的分布</span>
+  bootstrap 的全部合法性，建立在"<b>你手上这份数据的经验分布，是真实分布的一个好猜测</b>"之上。<br><br>
+  样本越大，这个猜测越准，bootstrap 越可靠。<b>样本小的时候，它也会跟着不准——而且它自己不知道</b>（给出的置信区间会显得比实际更窄，让你过度自信）。
+</div>
+
+<h3>它不能干什么（诚实边界）</h3>
+
+<div class="callout warn">
+  <span class="t">它造不出样本里没有的信息</span>
+  <b>它不创造新信息，只是把已有信息重新排列组合。</b>
+  <ul style="margin:8px 0 0">
+    <li>你的 5 天数据里没出现过暴跌 → bootstrap 也造不出暴跌</li>
+    <li>你没有 2008 年的数据 → 它也给不了你"危机时会怎样"</li>
+    <li>你只有 3 条规则 → 它变不出第 4 条</li>
+  </ul>
+  这个"不能无事生非"的特性，既限制了它的能力，也是它可信的原因。
+</div>
+
+<h3>在 5.7 里，它变了个小花样</h3>
+
+<p>标准 bootstrap 是"<b>从样本里重抽样本点</b>"。但 5.7 要检验的是"<b>信号和市场之间有没有真实的对应关系</b>"，所以它换了个更针对性的抽法：</p>
+
+<div class="why">
+  <span class="h">固定规则，重抽市场</span>
+  不重抽"样本点"，而是重抽"<b>日子</b>"——把市场收益率序列打乱重排，<b>规则序列原封不动</b>。<br><br>
+  为什么？因为如果规则真有本事，它就应该能配上市场的节奏。把日子打乱，这个对应关系就被破坏了，规则自然赚不到钱。<br>
+  <b>"打乱后还能不能赚钱"，就是它有没有真本事最直接的检验。</b>
+</div>
+
+<div class="callout key">
+  <span class="t">同一件事的四种叫法</span>
+  <b>重抽样</b>（resampling）——强调动作；<b>平行世界</b>——强调它造出来的是什么；<b>"如果重来一次"</b>——强调它在回答什么问题；<b>bootstrap / 自助法 / 拔靴法</b>——三个名字，同一个东西。
+</div>
+
+<div class="callout warn">
+  <span class="t">你的项目里其实已经在用它了，但用法不一样</span>
+  你 E0/E1/E2 那套配对 bootstrap 置信区间（E1 的 [−0.006907, +0.003756]），就是标准 bootstrap：重抽<b>日期</b>，每次重算 RankIC 增量，抽 500 次得 500 个增量，取 2.5% 和 97.5% 分位点。<br><br>
+  <b>但你的代码里没有 (5.31) 那个减 f̄<sub>k</sub> 的动作。</b>因为两件事不一样：<br>
+  · <b>置信区间</b>回答"这个数大概是多少" → 不减，直接看分布<br>
+  · <b>假设检验</b>回答"这个数是不是 0" → 必须减，把分布搬到原假设下<br><br>
+  这正是你上次问"为什么 E2 区间窄就说'确定基本没有'"时，我一直强调的那个区别。
+</div>
+
+<!-- ============ 第 5 关 ============ -->
+<h2><span class="lv">第 5 关</span>公式 (5.31)：最难的一步，也是全节的灵魂</h2>
+
+<div class="eq">
+  <span class="no">(5.31)</span>
+  <div class="body">v*<sub>l,i</sub> &nbsp;=&nbsp; max<sub>k=1..l</sub> &nbsp;(&nbsp; √n &nbsp;·&nbsp; ( &nbsp;f̄*<sub>k,i</sub> &nbsp;−&nbsp; f̄<sub>k</sub> &nbsp;) &nbsp;)</div>
+  <span class="cap">第 i 次 bootstrap 重抽样得到的统计量。注意它减了一个 f̄<sub>k</sub>。</span>
+</div>
+
+<div class="say">
+  <div class="h">人话版（一句话）</div>
+  <p style="margin:0"><b>「假设这 l 条规则其实全都没本事，那么在纯粹的运气作用下，最好的那条能撞出多好的成绩？把这个'运气上限'算出来。」</b></p>
+</div>
+
+<h3>第一步：这里的 bootstrap 抽的是什么</h3>
+
+<p>前面插播讲过，bootstrap 的本质是"<b>把样本当成整个世界，有放回地反复抽</b>"。但 5.7 里抽的不是样本点，而是<b>日子</b>。</p>
+
+<p>White 的办法是：把市场收益率序列反复<b>打乱重排</b>，而<b>规则序列一动不动</b>，造出很多个平行世界。</p>
+
+<svg viewBox="0 0 680 300" xmlns="http://www.w3.org/2000/svg" role="img">
+<title>bootstrap 打乱重排示意</title>
+<desc>真实发生的五天按时间顺序排列，bootstrap 有放回地抽五天，顺序打乱且可重复，但规则的仓位序列保持不变。</desc>
+<defs>
+  <marker id="ar2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+</defs>
+<g font-family="-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Microsoft YaHei,sans-serif">
+
+  <text x="40" y="30" font-size="13" font-weight="500" fill="#1a1d23">真实发生过的 5 天（按时间顺序，不可更改）</text>
+  <text x="40" y="58" font-size="12" fill="#858b94">市场 r</text>
+  <rect x="88" y="44" width="66" height="30" rx="6" fill="#FCEBEB" stroke="#A32D2D" stroke-width="0.5"/>
+  <text x="121" y="60" text-anchor="middle" font-size="13" fill="#A32D2D">+1%</text>
+  <rect x="162" y="44" width="66" height="30" rx="6" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+  <text x="195" y="60" text-anchor="middle" font-size="13" fill="#0F6E56">−2%</text>
+  <rect x="236" y="44" width="66" height="30" rx="6" fill="#FCEBEB" stroke="#A32D2D" stroke-width="0.5"/>
+  <text x="269" y="60" text-anchor="middle" font-size="13" fill="#A32D2D">+3%</text>
+  <rect x="310" y="44" width="66" height="30" rx="6" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+  <text x="343" y="60" text-anchor="middle" font-size="13" fill="#0F6E56">−1%</text>
+  <rect x="384" y="44" width="66" height="30" rx="6" fill="#FCEBEB" stroke="#A32D2D" stroke-width="0.5"/>
+  <text x="417" y="60" text-anchor="middle" font-size="13" fill="#A32D2D">+2%</text>
+
+  <text x="40" y="96" font-size="12" fill="#858b94">规则 s</text>
+  <rect x="88" y="82" width="66" height="30" rx="6" fill="#F1EFE8" stroke="#888780" stroke-width="0.5"/>
+  <text x="121" y="98" text-anchor="middle" font-size="13" fill="#2C2C2A">多</text>
+  <rect x="162" y="82" width="66" height="30" rx="6" fill="#F1EFE8" stroke="#888780" stroke-width="0.5"/>
+  <text x="195" y="98" text-anchor="middle" font-size="13" fill="#2C2C2A">空</text>
+  <rect x="236" y="82" width="66" height="30" rx="6" fill="#F1EFE8" stroke="#888780" stroke-width="0.5"/>
+  <text x="269" y="98" text-anchor="middle" font-size="13" fill="#2C2C2A">多</text>
+  <rect x="310" y="82" width="66" height="30" rx="6" fill="#F1EFE8" stroke="#888780" stroke-width="0.5"/>
+  <text x="343" y="98" text-anchor="middle" font-size="13" fill="#2C2C2A">空</text>
+  <rect x="384" y="82" width="66" height="30" rx="6" fill="#F1EFE8" stroke="#888780" stroke-width="0.5"/>
+  <text x="417" y="98" text-anchor="middle" font-size="13" fill="#2C2C2A">多</text>
+
+  <line x1="121" y1="122" x2="121" y2="150" stroke="#0F6E56" stroke-width="1.5" marker-end="url(#ar2)"/>
+  <text x="140" y="142" font-size="12.5" fill="#0F6E56">有放回地随机抽 5 天</text>
+
+  <text x="40" y="182" font-size="13" font-weight="500" fill="#1a1d23">bootstrap 造出来的平行世界（第 i 次）</text>
+  <text x="40" y="210" font-size="12" fill="#858b94">市场 r*</text>
+  <rect x="88" y="196" width="66" height="30" rx="6" fill="#FCEBEB" stroke="#A32D2D" stroke-width="0.5"/>
+  <text x="121" y="212" text-anchor="middle" font-size="13" fill="#A32D2D">+1%</text>
+  <rect x="162" y="196" width="66" height="30" rx="6" fill="#FCEBEB" stroke="#A32D2D" stroke-width="0.5"/>
+  <text x="195" y="212" text-anchor="middle" font-size="13" fill="#A32D2D">+1%</text>
+  <rect x="236" y="196" width="66" height="30" rx="6" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+  <text x="269" y="212" text-anchor="middle" font-size="13" fill="#0F6E56">−1%</text>
+  <rect x="310" y="196" width="66" height="30" rx="6" fill="#FCEBEB" stroke="#A32D2D" stroke-width="0.5"/>
+  <text x="343" y="212" text-anchor="middle" font-size="13" fill="#A32D2D">+2%</text>
+  <rect x="384" y="196" width="66" height="30" rx="6" fill="#FCEBEB" stroke="#A32D2D" stroke-width="0.5"/>
+  <text x="417" y="212" text-anchor="middle" font-size="13" fill="#A32D2D">+3%</text>
+  <text x="470" y="212" font-size="12" fill="#B45309">顺序乱了，+1% 还抽重了</text>
+
+  <text x="40" y="248" font-size="12" fill="#858b94">规则 s</text>
+  <rect x="88" y="234" width="66" height="30" rx="6" fill="#F1EFE8" stroke="#888780" stroke-width="0.5"/>
+  <text x="121" y="250" text-anchor="middle" font-size="13" fill="#2C2C2A">多</text>
+  <rect x="162" y="234" width="66" height="30" rx="6" fill="#F1EFE8" stroke="#888780" stroke-width="0.5"/>
+  <text x="195" y="250" text-anchor="middle" font-size="13" fill="#2C2C2A">空</text>
+  <rect x="236" y="234" width="66" height="30" rx="6" fill="#F1EFE8" stroke="#888780" stroke-width="0.5"/>
+  <text x="269" y="250" text-anchor="middle" font-size="13" fill="#2C2C2A">多</text>
+  <rect x="310" y="234" width="66" height="30" rx="6" fill="#F1EFE8" stroke="#888780" stroke-width="0.5"/>
+  <text x="343" y="250" text-anchor="middle" font-size="13" fill="#2C2C2A">空</text>
+  <rect x="384" y="234" width="66" height="30" rx="6" fill="#F1EFE8" stroke="#888780" stroke-width="0.5"/>
+  <text x="417" y="250" text-anchor="middle" font-size="13" fill="#2C2C2A">多</text>
+  <text x="470" y="250" font-size="12" fill="#185FA5">规则原封不动</text>
+
+  <text x="40" y="284" font-size="13.5" fill="#4a5058">规则没变，变的是它碰上了哪串日子 —— 这就是「如果它其实没本事，能撞出多好的成绩」。</text>
+</g>
+</svg>
+<div class="figcap">bootstrap 的关键：<b>规则固定，市场打乱</b>。红涨绿跌。</div>
+
+<div class="callout key">
+  <span class="t">"规则原封不动"是什么意思？为什么规则不能动？</span>
+  图里上下两行<b>地位完全不同</b>：<br><br>
+  · <b>规则 s 那一行，是已经发生的历史决定。</b>"第 1 天做多、第 2 天做空……"这些不是随机量，是<b>写死了的事实</b>——你没有第二次机会"重新决定"，所以没东西可抽。<br>
+  · <b>市场 r* 那一行，才是抽签抽的东西。</b>平行世界问的是：<b>如果市场这些日子换一串顺序来，这条规则会赚多少？</b>规则当然不变——变的是它碰上的日子。<br><br>
+  <b>为什么不把规则也重抽？</b>因为你检验的对象就是<b>这条规则</b>。把规则也改了，你测的就是另一台机器，跟原假设"这条规则没本事"毫无关系。<br><br>
+  <b>类比：查一个学生是不是蒙的。</b>他的答案卷子是固定的（历史决定），你把<b>标准答案的顺序</b>打乱重新配对，再批一次分：<br>
+  · 他<b>真会</b> → 答案和知识点踩得准 → 乱配后<b>分数暴跌</b>（说明有真货）<br>
+  · 他<b>纯蒙</b> → 答案跟对错本来就没关系 → 乱配前后<b>差不多</b>（说不清）<br><br>
+  你不会去改学生的答案——那就在考另一个人了。<b>能动的是批分的配对方式，不能动的是考卷本身。</b>
+</div>
+
+<h3>第一步补充：抽样单位是「日子」，必须整包走</h3>
+
+<p>你项目里的 <code>paired_bootstrap</code> 有个容易被忽略的细节，但它决定了整个检验成不成立。</p>
+
+<div class="card tight">
+  <p style="margin-bottom:6px">每个交易日 t 是一个<b>包</b>，包里装着<b>两个模型这一天的 RankIC</b>：</p>
+  <p style="font-family:ui-monospace,Consolas,monospace;font-size:13px;margin-bottom:8px">包(t) = ｛ RankIC(E0, t), RankIC(E1, t) ｝</p>
+  <p style="margin-bottom:0">重抽时<b>整包拿走</b>——E0 和 E1 必须是<b>同一个 t</b>，绝不能把 E1 的第 3 天配给 E0 的第 6 天。</p>
+</div>
+
+<svg viewBox="0 0 680 300" width="100%" xmlns="http://www.w3.org/2000/svg" role="img" font-family="var(--font-sans)">
+<title>按天整包重抽与拆开配对的错误做法对比</title>
+<text x="40" y="28" font-size="14" font-weight="500" fill="#2f3437">抽样单位是「一天」，这一天里两个模型的成绩必须绑死</text>
+<text x="40" y="54" font-size="13" fill="#185FA5">① 正确：一天一包，抽签抽的是整个包</text>
+<rect x="42" y="66" width="88" height="58" rx="8" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
+<text x="86" y="82" font-size="12" fill="#888780" text-anchor="middle" dominant-baseline="central">t1</text>
+<text x="86" y="100" font-size="12" fill="#888780" text-anchor="middle" dominant-baseline="central">E0 0.031</text>
+<text x="86" y="114" font-size="12" fill="#888780" text-anchor="middle" dominant-baseline="central">E1 0.030</text>
+<rect x="140" y="66" width="88" height="58" rx="8" fill="#B5D4F4" stroke="#185FA5" stroke-width="0.5"/>
+<text x="184" y="82" font-size="12" fill="#0C447C" text-anchor="middle" dominant-baseline="central">t2</text>
+<text x="184" y="100" font-size="12" fill="#0C447C" text-anchor="middle" dominant-baseline="central">E0 −0.012</text>
+<text x="184" y="114" font-size="12" fill="#0C447C" text-anchor="middle" dominant-baseline="central">E1 −0.013</text>
+<rect x="238" y="66" width="88" height="58" rx="8" fill="#B5D4F4" stroke="#185FA5" stroke-width="0.5"/>
+<text x="282" y="82" font-size="12" fill="#0C447C" text-anchor="middle" dominant-baseline="central">t3</text>
+<text x="282" y="100" font-size="12" fill="#0C447C" text-anchor="middle" dominant-baseline="central">E0 0.045</text>
+<text x="282" y="114" font-size="12" fill="#0C447C" text-anchor="middle" dominant-baseline="central">E1 0.043</text>
+<rect x="336" y="66" width="88" height="58" rx="8" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
+<text x="380" y="82" font-size="12" fill="#888780" text-anchor="middle" dominant-baseline="central">t4</text>
+<text x="380" y="100" font-size="12" fill="#888780" text-anchor="middle" dominant-baseline="central">E0 −0.008</text>
+<text x="380" y="114" font-size="12" fill="#888780" text-anchor="middle" dominant-baseline="central">E1 −0.009</text>
+<rect x="434" y="66" width="88" height="58" rx="8" fill="#B5D4F4" stroke="#185FA5" stroke-width="0.5"/>
+<text x="478" y="82" font-size="12" fill="#0C447C" text-anchor="middle" dominant-baseline="central">t5</text>
+<text x="478" y="100" font-size="12" fill="#0C447C" text-anchor="middle" dominant-baseline="central">E0 0.020</text>
+<text x="478" y="114" font-size="12" fill="#0C447C" text-anchor="middle" dominant-baseline="central">E1 0.018</text>
+<rect x="532" y="66" width="88" height="58" rx="8" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
+<text x="576" y="82" font-size="12" fill="#888780" text-anchor="middle" dominant-baseline="central">t6</text>
+<text x="576" y="100" font-size="12" fill="#888780" text-anchor="middle" dominant-baseline="central">E0 0.033</text>
+<text x="576" y="114" font-size="12" fill="#888780" text-anchor="middle" dominant-baseline="central">E1 0.031</text>
+<text x="40" y="144" font-size="12" fill="#185FA5">抽中的三个包（t2、t3、t5）整包带走，包里的 E0 和 E1 永远是同一天</text>
+<text x="40" y="176" font-size="13" fill="#A32D2D">② 错误：把包拆开，拿 E1 第 3 天去减 E0 第 6 天</text>
+<rect x="110" y="188" width="150" height="48" rx="8" fill="#F7C1C1" stroke="#A32D2D" stroke-width="0.5"/>
+<text x="185" y="212" font-size="12" fill="#791F1F" text-anchor="middle" dominant-baseline="central">E1 第 3 天 = 0.043</text>
+<text x="278" y="212" font-size="14" fill="#A32D2D" text-anchor="middle" dominant-baseline="central">−</text>
+<rect x="296" y="188" width="150" height="48" rx="8" fill="#F7C1C1" stroke="#A32D2D" stroke-width="0.5"/>
+<text x="371" y="212" font-size="12" fill="#791F1F" text-anchor="middle" dominant-baseline="central">E0 第 6 天 = 0.033</text>
+<text x="462" y="212" font-size="13" fill="#A32D2D" dominant-baseline="central">= +0.010，但这是乱配造出来的</text>
+<text x="40" y="258" font-size="13" fill="#2f3437">两个模型不在同一天，大盘涨跌这个共同因素就消不掉，配对白做了</text>
+<text x="40" y="282" font-size="13" fill="#2f3437">所以先做差 dₜ = E1(t) − E0(t) 再抽，「整包」自动成立</text>
+</svg>
+<div class="figcap">蓝框是被抽中的三个包，整包拿走；红框是拆开配对的反面例子。</div>
+
+<div class="callout danger">
+  <span class="t">拆开配对会怎样：造出一个虚假的巨大差值</span>
+  假设第 3 天大盘大涨，E1 拿到 +0.043；第 6 天大盘平平，E0 拿到 0.033。<br>
+  你拿 <span style="font-family:ui-monospace,Consolas,monospace">0.043 − 0.033 = +0.010</span> —— 看起来 E1 完胜。<br><br>
+  <b>但这个 +0.010 不是切割因子带来的，是"你挑了个好日子给 E1、挑了个差日子给 E0"制造出来的。</b><br><br>
+  配对的唯一目的就是<b>让两个模型经历同一天</b>，把当天大盘这个共同因素消掉。<b>一拆开，这个目的就作废了。</b>
+</div>
+
+<div class="callout key">
+  <span class="t">你的代码其实"自动"做到了这一点</span>
+  <code>evaluation.py</code> 里是先做差、再重抽：<br>
+  <span style="font-family:ui-monospace,Consolas,monospace;font-size:12px">d = (b − a).dropna()　→　抽 idx　→　d[idx].mean()</span><br><br>
+  因为 <b>d<sub>t</sub> 本身就已经是"同一天两个模型之差"</b>，差值把两者<b>焊死</b>了，所以"整包"不需要额外写什么——<b>它自动成立</b>。<br><br>
+  如果反过来先抽 E0 的序列、再抽 E1 的序列、然后相减，就必须额外保证两次抽的是<b>同一组日期、同样次数</b>，非常容易写错。<b>先做差再抽，是更简洁也更不容易出错的写法。</b>
+</div>
+
+<div class="callout info">
+  <span class="t">还有第二层"打包"：21 天一整段</span>
+  你的 <code>block = 21</code> 意味着抽签抽的<b>不是单个日子，而是连续 21 天的一整段</b>，而且<b>段内保持原来的先后顺序</b>。<br><br>
+  为什么要这么粗？因为相邻 20 天的标签共享 19/20 的信息，<b>它们不是 21 个独立样本，更像 1 个样本</b>。把它们整段搬走，才能把这种"黏在一起"的结构带进平行世界。<br><br>
+  所以完整的说法是：<b>抽样单位 = 21 天整段；段内顺序不变；段内每一天的两个模型成绩绑死。</b>
+</div>
+
+<div class="callout key">
+  <span class="t">"打乱交易日"和"选股不变"是怎么同时成立的？</span>
+  关键在于：<b>选股行为早就发生了，它已经被"压缩"进包里那个数字了。</b><br><br>
+  拆开一个包看：<b>IC(E1, t3) = +0.043</b> 这一个数，其实是三样东西焊在一起——<br>
+  · <b>选股清单</b>：第 2 天收盘时定好的持仓（<b>历史事实，锁死</b>）<br>
+  · <b>当天市场</b>：这批股票当天的涨跌（也是那天发生的事实）<br>
+  · 两者相乘算出来的<b>成绩</b><br><br>
+  重抽时，抽中的包<b>整包搬到新位置</b>：平行世界的"第 1 天"可能原来是 t3——但 t3 包里的选股还是那次选股，涨跌还是那个涨跌，<b>一个字都不会变</b>。<br><br>
+  所以两件事同时成立：<b>变的是"哪些日子入场、按什么顺序入场"；不变的是"每个日子里的选股行为和当天的配对"。</b>
+</div>
+
+<div class="callout info">
+  <span class="t">两张图是同一原则的两个视角</span>
+  <b>插播那张图</b>（规则固定、市场打乱）是<b>概念示意</b>：告诉你原假设是"信号和涨跌之间没有真实对应"。<br>
+  <b>这张图</b>（整包重抽）是<b>实现方式</b>：因为每个包自带"当天的信号表现 + 当天的涨跌"，所以<b>洗日子的顺序，就自动造成了"信号 ↔ 涨跌"的重新组合</b>——不需要真的去洗市场。<br><br>
+  <b>类比：一沓考卷照片。</b>每张照片里"学生的答案 + 批的分数"都印死在相纸上了（选股不变）；bootstrap 做的只是<b>洗牌重排这沓照片的装订顺序</b>（交易日打乱）。<br><br>
+  一个诚实的小提醒：你的 <code>paired_bootstrap</code> 洗的是"哪些天入选、什么顺序"，<b>不是</b>把信号和涨跌强行重新配对——但因为包自带涨跌，两种写法在"破坏原有时序配对"这件事上效果等价。
+</div>
+
+<div class="callout info">
+  <span class="t">这一步造出来的，就是「运气的基准线」</span>
+  打乱后的成绩 = <b>没有真本事的信号能拿到的成绩</b>。重复 B 次，你就有了 B 条运气基准线。<br><br>
+  接下来要做的事，是让真实成绩去跟这 B 条基准线比。<b>但为了比得公平，还差一步——就是 (5.31) 里那个减号。</b>
+</div>
+
+<h3>第二步（最难）：为什么要减掉 f̄<sub>k</sub>？</h3>
+
+<p>这是整个公式里最容易被跳过、但<b>最不能跳过</b>的一个减号。慢下来讲。</p>
+
+<div class="why">
+  <span class="h">先想一个问题</span>
+  bootstrap 造出来的平行世界，是要模拟"<b>这些规则其实都没本事</b>"的世界。<br>
+  那么在这个世界里，每条规则的真实水平应该是多少？<br>
+  <b>应该是 0。</b>（"没本事" = 长期期望是 0 = 不比基准强）
+</div>
+
+<p>现在看：如果你<b>不减</b> f̄<sub>k</sub>，直接用 f̄*<sub>k,i</sub> 会怎样？</p>
+
+<p>重抽样是从原样本里抽的，所以 f̄*<sub>k,i</sub> 的平均值，会围着 <b>f̄<sub>k</sub></b>（原样本那个值）转，而不是围着 0 转。</p>
+
+<div class="callout danger">
+  <span class="t">不减的后果：检验完全失效</span>
+  你的平行世界，中心不是 0，而是原来那个漂亮的成绩 f̄<sub>k</sub>。<br><br>
+  那你拿真实值 v<sub>l</sub> 去跟这堆平行世界的值比，真实值自然就落在<b>正中间</b>——<b>p 值永远在 0.5 附近</b>，既不会显著，也不会不显著。<br><br>
+  这就等于在说："我假设他真的有那么准，然后问他是真的准吗？"——循环论证，什么问题也回答不了。
+</div>
+
+<svg viewBox="0 0 680 296" xmlns="http://www.w3.org/2000/svg" role="img">
+<title>为什么要减掉 f bar k</title>
+<desc>左图不减 f bar k 时 bootstrap 分布围着真实值转，p 值恒为 0.5 检验失效；右图减掉后分布被搬到 0 点，真实值落在右尾，p 值等于阴影面积。</desc>
+<g font-family="-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Microsoft YaHei,sans-serif">
+  <defs>
+    <clipPath id="cl"><rect x="545" y="80" width="60" height="150"/></clipPath>
+  </defs>
+
+  <text x="40" y="34" font-size="13.5" font-weight="500" fill="#A32D2D">不减 f̄ₖ（错误）：平行世界的中心 ≠ 0</text>
+  <path d="M75 210 C125 210 136 120 185 120 C234 120 245 210 295 210 Z" fill="#888780" opacity="0.14"/>
+  <path d="M75 210 C125 210 136 120 185 120 C234 120 245 210 295 210" fill="none" stroke="#888780" stroke-width="2"/>
+  <line x1="62" y1="210" x2="308" y2="210" stroke="#B4B2A9" stroke-width="0.5"/>
+  <line x1="185" y1="112" x2="185" y2="210" stroke="#A32D2D" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <text x="185" y="104" text-anchor="middle" font-size="12.5" fill="#A32D2D">你的真实成绩</text>
+  <text x="150" y="176" text-anchor="middle" font-size="12" fill="#5F5E5A">正中间</text>
+  <text x="185" y="238" text-anchor="middle" font-size="13" fill="#4a5058">p ≈ 0.5，什么也测不出来</text>
+  <text x="185" y="260" text-anchor="middle" font-size="12.5" fill="#858b94">等于假设它本来就准</text>
+
+  <line x1="345" y1="60" x2="345" y2="230" stroke="#E4E7EC" stroke-width="1"/>
+
+  <text x="380" y="34" font-size="13.5" font-weight="500" fill="#0F6E56">减掉 f̄ₖ（正确）：中心被搬到 0</text>
+  <path d="M365 210 C415 210 426 120 475 120 C525 120 535 210 585 210 Z" fill="#E24B4A" opacity="0.26" clip-path="url(#cl)"/>
+  <path d="M365 210 C415 210 426 120 475 120 C525 120 535 210 585 210" fill="none" stroke="#378ADD" stroke-width="2"/>
+  <line x1="352" y1="210" x2="600" y2="210" stroke="#B4B2A9" stroke-width="0.5"/>
+  <line x1="475" y1="112" x2="475" y2="210" stroke="#888780" stroke-width="1" stroke-dasharray="3 3"/>
+  <text x="475" y="104" text-anchor="middle" font-size="12" fill="#5F5E5A">0（没本事）</text>
+  <line x1="545" y1="112" x2="545" y2="210" stroke="#A32D2D" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <text x="566" y="100" text-anchor="middle" font-size="12.5" fill="#A32D2D">你的真实成绩</text>
+  <text x="566" y="150" font-size="12.5" fill="#A32D2D">这块阴影</text>
+  <text x="566" y="168" font-size="12.5" fill="#A32D2D">就是 p 值</text>
+  <text x="475" y="238" text-anchor="middle" font-size="13" fill="#4a5058">真实值落在尾巴多远，p 就有多小</text>
+  <text x="475" y="260" text-anchor="middle" font-size="12.5" fill="#858b94">这才是「运气能撞出的最好成绩」</text>
+
+  <text x="40" y="286" font-size="13.5" fill="#4a5058">减号的作用：<b>强行把平行世界搬到"大家都没本事"的原假设下</b>，然后才谈得上比较。</text>
+</g>
+</svg>
+<div class="figcap">同一个减号，决定了这个检验是有用的还是废的。</div>
+
+<div class="callout info">
+  <span class="t">一句话记住</span>
+  <b>减掉 f̄<sub>k</sub>，就是在平行世界里"没收"掉这条规则原本的成绩，逼它从零开始，看它光靠运气还能走多远。</b>
+</div>
+
+<h3>第三步：p 值怎么算出来的</h3>
+
+<p>把上面的步骤连起来，一共四步：</p>
+
+<div class="step"><div class="n">1</div><div class="c"><b>算真实值 v<sub>l</sub></b><br>用真实历史，按 (5.30) 算出 v<sub>l</sub> = max<sub>k</sub>(√n · f̄<sub>k</sub>)。这是你要检验的那个数。</div></div>
+<div class="step"><div class="n">2</div><div class="c"><b>重抽样 B 次</b><br>每次都按 (5.31) 算一个 v*<sub>l,i</sub>。B 通常取 1000 或更多。得到 B 个"运气上限"。</div></div>
+<div class="step"><div class="n">3</div><div class="c"><b>把这 B 个数从大到小排成一排</b><br>这就是"如果全是运气，最好成绩能有多好"的分布。</div></div>
+<div class="step"><div class="n">4</div><div class="c"><b>看真实值 v<sub>l</sub> 插在这一排的哪个位置</b><br>
+  <span style="font-family:ui-monospace,Consolas,monospace">p = （v*<sub>l,i</sub> ≥ v<sub>l</sub> 的次数）÷ B</span><br>
+  如果 1000 次里只有 20 次超过了你的真实值，那 <b>p = 0.02</b>，可以拒绝原假设——最好那条规则确实不太像纯运气。
+</div></div>
+
+<div class="callout warn">
+  <span class="t">书上说的两个缺点，现在能看懂了</span>
+  <b>缺点一：检验偏保守。</b>如果你往候选池里塞进一大堆很烂的规则，max 的那条仍然可能来自偶然，但临界值会被这些烂规则撑高，导致真有本事的规则也检不出来。<br>
+  <b>缺点二：只认第一名。</b>整个统计量只回答"最好的那条真不真"，完全不告诉你第二名、第三名怎么样。这就是下一关 SPA 要解决的问题。
+</div>
+
+<!-- ============ 第 6 关 ============ -->
+<h2><span class="lv">第 6 关</span>公式 (5.32)：SPA，一次不只挑一个</h2>
+
+<div class="eq">
+  <span class="no">(5.32)</span>
+  <div class="body">SPA<sub>l</sub> &nbsp;=&nbsp; max ( &nbsp;0 &nbsp;,&nbsp; max<sub>k=1..l</sub> ( &nbsp;√n &nbsp;·&nbsp; f̄<sub>k</sub> &nbsp;) &nbsp;)</div>
+  <span class="cap">在最外层再套一个 max，跟 0 比。</span>
+</div>
+
+<p>你一定会问：<b>这不就是 (5.30) 外面多套了一个 max(0, ·) 吗？</b>对，就这点差别，但含义不小。</p>
+
+<div class="why">
+  <span class="h">为什么要跟 0 比一下？</span>
+  如果所有 l 条规则<b>全都比基准还烂</b>，那么 max<sub>k</sub>(√n·f̄<sub>k</sub>) 会是个负数。一个负数当"证据强度"用，会很别扭——你会陷入"越烂，统计量越负，好像越能说明什么"的荒谬境地。<br><br>
+  套上 max(0, ·) 之后：<b>只要全都烂，统计量就是 0，p 值直接等于 1，明明白白地"完全不显著"。</b>这符合直觉，也让临界值好定。
+</div>
+
+<h3>真正的进步在"逐步"（stepwise）</h3>
+
+<p>书上的四个步骤，用淘汰赛来读特别清楚：</p>
+
+<div class="step"><div class="n">a</div><div class="c"><b>把 l 条规则按分数从高到低排队。</b></div></div>
+<div class="step"><div class="n">b</div><div class="c"><b>检验排第一的那条。</b>如果它的 √n·f̄<sub>k</sub> 超过临界值 → 判它显著，踢出队列；没超过 → 全部结束，一条都不显著。</div></div>
+<div class="step"><div class="n">c</div><div class="c"><b>把被判显著的那条拿掉，用剩下的重新算临界值</b>，再检验新的第一名。</div></div>
+<div class="step"><div class="n">d</div><div class="c"><b>重复 c</b>，直到再也没有能被判显著的为止。</div></div>
+
+<div class="callout key">
+  <span class="t">为什么每踢掉一个，就要重算临界值？</span>
+  <b>因为"运气能撞出的最好成绩"取决于候选池有多大。</b><br><br>
+  类比：100 个人每人抛 10 次硬币，"有人抛出 8 次正面"一点都不稀奇；但如果你已经把抛得最好的那个人剔掉了，剩下 99 个人里再出现 8 次正面，就没那么容易了。<b>候选变少，运气的天花板就跟着降低，门槛必须收紧。</b><br><br>
+  如果不重算、一直用第一轮那个最宽松的门槛，第二轮就会把关不严，把一堆运气好的误判成真本事。
+</div>
+
+<div class="callout info">
+  <span class="t">FWE：这类检验用的是"家族错误率"</span>
+  书上特别点出：(5.29) 是个<b>联合假设</b>（同时管着 l 条规则），所以要用 <b>FWE（Family Wise Error Rate）</b> 来评判。<br><br>
+  FWE 的定义：<b>"至少错误地判显著了一条其实没本事的规则"的概率。</b>控制 FWE = 保证"一个假阳性都不要有"。<br><br>
+  代价是<b>非常保守</b>，容易漏掉真东西。这就是后面 Bajgrowicz 与 Scaillet 改用 FDR（容忍一定比例的假阳性，换取更大检出面）的动机。
+</div>
+
+<!-- ============ 通关 ============ -->
+<h2><span class="lv">通关</span>完整手算：5 天、3 条规则</h2>
+
+<p>上面讲的都是零件。现在把它们装起来，用一个小到能手算的例子，把每一步的数字都摊开。</p>
+
+<div class="callout warn">
+  <span class="t">先声明</span>
+  这个例子 n = 5、l = 3，<b>小得完全不够下任何统计结论</b>。它的唯一目的是让你看清数字怎么流动。真做研究要 n 几百上千、l 成百上千、B 至少 1000。
+</div>
+
+<h3>输入数据</h3>
+
+<p>基准取"始终空仓"，所以 s<sub>0</sub> = 0，这样 (5.28) 里减的那一项恒等于 0，f 就等于 ln(1 + r·s) 本身。</p>
+
+<table class="mini">
+  <tr><th>第 j 天</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr>
+  <tr><td>市场收益 r</td><td class="up">+1%</td><td class="down">−2%</td><td class="up">+3%</td><td class="down">−1%</td><td class="up">+2%</td></tr>
+  <tr><td>规则 1 的 s（一直做多）</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+  <tr><td>规则 2 的 s（隔天做多）</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td></tr>
+  <tr><td>规则 3 的 s（涨多跌空）</td><td>1</td><td>−1</td><td>1</td><td>−1</td><td>1</td></tr>
+</table>
+
+<div class="callout danger">
+  <span class="t">注意规则 3</span>
+  它在这 5 天里<b>每一次都猜对了方向</b>：涨的日子做多，跌的日子做空。它的分数一定会是最高、而且高得离谱。<br>
+  这正是数据窥探的教科书场景——<b>5 次全中，是真本事，还是运气？整节要回答的就是这个问题。</b>
+</div>
+
+<h3>第二步：逐日算 f（套用 5.28）</h3>
+
+<table class="mini">
+  <tr><th>第 j 天</th><th>r</th><th>f₁ = ln(1+r·1)</th><th>f₂ = ln(1+r·s₂)</th><th>f₃ = ln(1+r·s₃)</th></tr>
+  <tr><td>1</td><td class="up">+0.01</td><td>+0.009950</td><td>+0.009950</td><td>+0.009950</td></tr>
+  <tr><td>2</td><td class="down">−0.02</td><td class="down">−0.020203</td><td>0.000000</td><td class="up">+0.019803</td></tr>
+  <tr><td>3</td><td class="up">+0.03</td><td>+0.029559</td><td>+0.029559</td><td>+0.029559</td></tr>
+  <tr><td>4</td><td class="down">−0.01</td><td class="down">−0.010050</td><td>0.000000</td><td class="up">+0.009950</td></tr>
+  <tr><td>5</td><td class="up">+0.02</td><td>+0.019803</td><td>+0.019803</td><td>+0.019803</td></tr>
+  <tr class="hl"><td>合计</td><td></td><td>0.029059</td><td>0.059312</td><td>0.089065</td></tr>
+</table>
+
+<p style="font-size:13px;color:#858b94">第 2 天验算规则 3：s = −1，r = −0.02 → 1 + (−0.02)×(−1) = 1.02 → ln(1.02) = +0.019803。市场跌 2%，做空赚 2%，对上了。</p>
+
+<h3>第三步：平均（套用 5.27），再乘 √n（套用 5.30）</h3>
+
+<p>n = 5，所以 √n = √5 = <b>2.2361</b>。</p>
+
+<table class="mini">
+  <tr><th></th><th>规则 1</th><th>规则 2</th><th>规则 3</th></tr>
+  <tr><td>合计</td><td>0.029059</td><td>0.059312</td><td>0.089065</td></tr>
+  <tr><td>f̄<sub>k</sub>（除以 n=5）</td><td>0.005812</td><td>0.011862</td><td>0.017813</td></tr>
+  <tr><td>√n · f̄<sub>k</sub></td><td>0.012995</td><td>0.026525</td><td>0.039831</td></tr>
+  <tr class="win"><td>v<sub>l</sub> = max</td><td colspan="3">0.039831　← 规则 3 胜出，这就是要被检验的那个数</td></tr>
+</table>
+
+<h3>第四步：bootstrap 第 1 次（套用 5.31）</h3>
+
+<p>有放回地抽 5 天，抽到：+1%, +1%, −1%, +2%, +3%（注意 +1% 抽重了，顺序也乱了）。<b>但规则的 s 序列原封不动。</b></p>
+
+<table class="mini">
+  <tr><th>第 j 天</th><th>r*</th><th>f*₁</th><th>f*₂</th><th>f*₃</th></tr>
+  <tr><td>1</td><td class="up">+0.01</td><td>+0.009950</td><td>+0.009950</td><td>+0.009950</td></tr>
+  <tr><td>2</td><td class="up">+0.01</td><td>+0.009950</td><td>0.000000</td><td class="down">−0.010050</td></tr>
+  <tr><td>3</td><td class="down">−0.01</td><td class="down">−0.010050</td><td class="down">−0.010050</td><td class="down">−0.010050</td></tr>
+  <tr><td>4</td><td class="up">+0.02</td><td>+0.019803</td><td>0.000000</td><td class="down">−0.020203</td></tr>
+  <tr><td>5</td><td class="up">+0.03</td><td>+0.029559</td><td>+0.029559</td><td>+0.029559</td></tr>
+  <tr class="hl"><td>f̄*<sub>k,i</sub></td><td></td><td>0.011842</td><td>0.005892</td><td>−0.000159</td></tr>
+</table>
+
+<p>现在做那个<b>关键的减法</b>——减掉原来的 f̄<sub>k</sub>：</p>
+
+<table class="mini">
+  <tr><th></th><th>规则 1</th><th>规则 2</th><th>规则 3</th></tr>
+  <tr><td>f̄*<sub>k,i</sub></td><td>0.011842</td><td>0.005892</td><td>−0.000159</td></tr>
+  <tr><td>减 f̄<sub>k</sub></td><td>−0.005812</td><td>−0.011862</td><td>−0.017813</td></tr>
+  <tr><td>差</td><td>+0.006031</td><td class="down">−0.005971</td><td class="down">−0.017972</td></tr>
+  <tr><td>√n × 差</td><td>+0.013485</td><td class="down">−0.013351</td><td class="down">−0.040186</td></tr>
+  <tr class="win"><td>v*<sub>l,1</sub> = max</td><td colspan="3">+0.013485</td></tr>
+</table>
+
+<div class="callout key">
+  <span class="t">看出来了没有？一个很重要的现象</span>
+  在真实历史里，规则 3 是冠军（0.039831）。<b>但在平行世界里，冠军变成了规则 1</b>（+0.013485），也就是原来最差的那条。<br><br>
+  为什么？因为减掉 f̄<sub>k</sub> 之后，<b>原来分数高的规则被"没收"得更多，起点就被压得更低</b>。规则 3 被没收了 0.017813，规则 1 只被没收了 0.005812。<br><br>
+  这正是这个检验不偏心的体现——<b>它不会因为某条规则原本分数高就照顾它</b>，所有规则在平行世界里一律从 0 起跑。
+</div>
+
+<h3>第五步：跟真实值比</h3>
+
+<table class="mini">
+  <tr><th></th><th>值</th><th>谁超过了谁</th></tr>
+  <tr><td>真实历史 v<sub>l</sub></td><td>0.039831</td><td rowspan="2" style="text-align:left;vertical-align:middle">真实值更大 —— <b>这一次</b> bootstrap 没能达到真实水平，算作"1 次没超过"</td></tr>
+  <tr><td>第 1 次 bootstrap v*<sub>l,1</sub></td><td>0.013485</td></tr>
+</table>
+
+<p>再来第二次：抽到 +3%, +3%, −2%, +1%, +1%。<b>这一轮规则 3 会摔得很惨</b>——它在第 2 天做空，偏偏碰上市场大涨 3%。</p>
+
+<table class="mini">
+  <tr><th>第 j 天</th><th>r*</th><th>f*₁</th><th>f*₂</th><th>f*₃</th></tr>
+  <tr><td>1</td><td class="up">+0.03</td><td>+0.029559</td><td>+0.029559</td><td>+0.029559</td></tr>
+  <tr><td>2</td><td class="up">+0.03</td><td>+0.029559</td><td>0.000000</td><td class="down">−0.030459</td></tr>
+  <tr><td>3</td><td class="down">−0.02</td><td class="down">−0.020203</td><td class="down">−0.020203</td><td class="down">−0.020203</td></tr>
+  <tr><td>4</td><td class="up">+0.01</td><td>+0.009950</td><td>0.000000</td><td class="down">−0.010050</td></tr>
+  <tr><td>5</td><td class="up">+0.01</td><td>+0.009950</td><td>+0.009950</td><td>+0.009950</td></tr>
+  <tr class="hl"><td>f̄*<sub>k,2</sub></td><td></td><td>0.011763</td><td>0.003861</td><td class="down">−0.004241</td></tr>
+</table>
+
+<table class="mini">
+  <tr><th></th><th>规则 1</th><th>规则 2</th><th>规则 3</th></tr>
+  <tr><td>f̄*<sub>k,2</sub></td><td>0.011763</td><td>0.003861</td><td class="down">−0.004241</td></tr>
+  <tr><td>减 f̄<sub>k</sub></td><td>−0.005812</td><td>−0.011862</td><td>−0.017813</td></tr>
+  <tr><td>√n × 差</td><td>+0.013308</td><td class="down">−0.017891</td><td class="down">−0.049313</td></tr>
+  <tr class="win"><td>v*<sub>l,2</sub> = max</td><td colspan="3">+0.013308　（还是小于 0.039831）</td></tr>
+</table>
+
+<div class="callout warn">
+  <span class="t">两次都不够，说明什么？</span>
+  <b>什么都说明不了</b>——两次远远不够。真实做法是抽 <b>B = 1000 次</b>（甚至 10000 次），把这 1000 个 v*<sub>l,i</sub> 排好，数一数有多少个 ≥ 0.039831，除以 1000 就是 p 值。<br><br>
+  这里的 2 次只是让你看清<b>一次重抽样是怎么算的</b>。真要下结论，必须跑满 B 次，而且 n = 5 这种样本量也根本用不了。
+</div>
+
+<!-- ============ 速查卡 ============ -->
+<h2><span class="lv">速查</span>六个公式一页纸</h2>
+
+<table class="sym">
+  <tr><th>编号</th><th>它在干什么</th><th>一句话记住</th></tr>
+  <tr><td>(5.28)</td><td>一天怎么打分</td><td>你按规则今天赚的，减去按基准今天赚的</td></tr>
+  <tr><td>(5.27)</td><td>把 n 天平均</td><td>这条规则平均每天比基准多赚多少</td></tr>
+  <tr><td>(5.29)</td><td>立原假设</td><td>这 l 条里最好的那条，其实也没本事</td></tr>
+  <tr><td>(5.30)</td><td>算真实证据强度</td><td>把最好的成绩放大 √n 倍</td></tr>
+  <tr><td>(5.31)</td><td>造平行世界</td><td>打乱市场、没收成绩，看运气能撞多高</td></tr>
+  <tr><td>(5.32)</td><td>SPA，逐个筛</td><td>和 (5.30) 只差一个 max(0, ·)，但能一轮轮往下筛</td></tr>
+</table>
+
+<div class="card">
+  <h3 style="margin-top:0">最容易记错的三件事</h3>
+  <ol style="margin-bottom:0">
+    <li><b>星号 = 假数据，不是乘号。</b>f* 是 bootstrap 造出来的，不是历史。</li>
+    <li><b>(5.31) 那个减号不能省。</b>省了检验就废了，p 值永远 0.5。</li>
+    <li><b>max 是在 l 条规则上取的，不是在时间上取的。</b>它问的是"这堆里最好的那个"，这就是多重检验。</li>
+  </ol>
+</div>
+
+<h2><span class="lv">回到</span>这跟你项目什么关系</h2>
+
+<div class="card tight">
+  <ul style="margin-bottom:0">
+    <li><b>E0 / E1 / E2 横向一比，就是 (5.29) 里的那个 max。</b>你现在只有 3 个候选，l = 3；书上 Sullivan 他们用了 l = 7846。数量差很多，但性质一模一样。</li>
+    <li><b>你现在的配对 bootstrap 置信区间，等价于只做了"单条"检验。</b>要给三个模型做联合判断，需要的是这里的 v<sub>l</sub> 与 v*<sub>l,i</sub> 这套东西。</li>
+    <li><b>(5.28) 里"s 只能用 t 时刻之前的信息"这条底线，就是你的 <code>available_at</code> 与 <code>published_at</code> 之分。</b>同一条规则，两种写法，一个合规一个前视。</li>
+    <li><b>√n 提醒你一件事：E1 那个 RankIC 增量 −0.001297，是在多少个样本日上算出来的？</b>样本日一多，同样大小的增量含金量完全不同。你报置信区间的时候，最好把 n 一起报出来。</li>
+  </ul>
+</div>
+
+<footer>
+  本页为 5.7 节公式的中文讲解（含本人推演的迷你算例），供个人研读对照，不替代原书。<br>
+  原书：Algorithmic Trading and Quantitative Strategies（Velu, Hardy, Nehren, CRC Press 2020）· pp.171–173 · 建议配合正版阅读。
+</footer>
+
+</div>
+</body>
+</html>

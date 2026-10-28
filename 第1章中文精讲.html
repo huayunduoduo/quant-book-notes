@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第 1 章中文精讲 · Trading Fundamentals</title>
+<style>
+  :root{
+    --bg:#f7f8fa; --card:#fff; --ink:#1a1d23; --ink2:#4a5058; --ink3:#858b94;
+    --line:#e4e7ec; --brand:#0f6e56; --brand-bg:#e7f6f0; --warn:#b45309;
+    --warn-bg:#fdf4e7; --danger:#c0392b; --danger-bg:#fdecea;
+    --blue:#185fa5; --blue-bg:#eaf2ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:15px/1.8 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+  .wrap{max-width:880px;margin:0 auto;padding:40px 24px 90px}
+  header{border-bottom:1px solid var(--line);padding-bottom:26px;margin-bottom:32px}
+  .kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);font-weight:600}
+  h1{font-size:27px;line-height:1.4;margin:10px 0 12px}
+  .lede{color:var(--ink2);margin:0;max-width:700px}
+  .meta{margin-top:16px;display:flex;gap:8px;flex-wrap:wrap}
+  .tag{font-size:12px;padding:3px 11px;border-radius:20px;background:var(--brand-bg);color:var(--brand)}
+  .tag.gray{background:#f2f4f7;color:var(--ink2)}
+  h2{font-size:20px;margin:44px 0 8px;padding-top:14px;border-top:1px solid var(--line)}
+  h2:first-of-type{border-top:0}
+  h2 .sec{font:12px/1.4 ui-monospace,Consolas,monospace;color:var(--brand);background:var(--brand-bg);
+          padding:4px 8px;border-radius:5px;margin-right:10px;vertical-align:middle}
+  h3{font-size:16px;margin:26px 0 8px}
+  p{margin:0 0 13px}
+  .sec-note{font-size:13px;color:var(--ink3);margin:0 0 16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 24px;margin:16px 0}
+  .callout{border-radius:10px;padding:14px 18px;margin:15px 0;border-left:3px solid;font-size:14px}
+  .callout .t{font-weight:700;display:block;margin-bottom:4px}
+  .callout.info{background:var(--brand-bg);border-color:#4fb08c;color:#0b5c43}
+  .callout.warn{background:var(--warn-bg);border-color:#e0a33e;color:#6b3f05}
+  .callout.danger{background:var(--danger-bg);border-color:#e07a6e;color:#7d2418}
+  .callout.key{background:var(--blue-bg);border-color:#7eaaf5;color:#12457f}
+  ul,ol{padding-left:22px;margin:0 0 14px}
+  li{margin:6px 0;color:var(--ink2)}
+  li strong{color:var(--ink)}
+  .chain{display:flex;flex-direction:column;gap:0;margin:16px 0}
+  .chain .node{position:relative;padding:11px 16px 11px 46px;background:var(--card);
+       border:1px solid var(--line);border-radius:9px;font-size:14px}
+  .chain .node+.node{margin-top:9px}
+  .chain .node:before{content:attr(data-n);position:absolute;left:12px;top:11px;width:22px;height:22px;
+       background:var(--brand);color:#fff;border-radius:50%;text-align:center;font-size:12px;
+       line-height:22px;font-weight:700}
+  .chain .node:after{content:"↓";position:absolute;left:20px;bottom:-12px;color:var(--ink3);font-size:13px}
+  .chain .node:last-child:after{content:""}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px;background:var(--card)}
+  th{text-align:left;background:#fafbfc;color:var(--ink3);font-size:12px;letter-spacing:.04em;
+     padding:10px 13px;border-bottom:1px solid var(--line)}
+  td{padding:10px 13px;border-bottom:1px solid #f0f2f5;vertical-align:top}
+  tr:last-child td{border-bottom:0}
+  td:first-child{font-weight:600}
+  code{font:12.5px/1.6 ui-monospace,Consolas,monospace;background:#eef2ed;padding:2px 5px;border-radius:4px}
+  .en{font-style:italic;color:var(--ink3);font-size:13px}
+  .glossary td:first-child{white-space:nowrap}
+  .quiz{counter-reset:q}
+  .quiz .q{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin:11px 0;font-size:14px}
+  .quiz .q:before{counter-increment:q;content:"Q" counter(q);font-weight:700;color:var(--brand);margin-right:9px}
+  details{margin:8px 0}
+  summary{cursor:pointer;color:var(--brand);font-size:13.5px}
+  .answer{margin-top:9px;padding:11px 14px;background:#f7f9f6;border-radius:7px;font-size:13.5px;color:var(--ink2)}
+  footer{margin-top:56px;padding-top:22px;border-top:1px solid var(--line);color:var(--ink3);font-size:12.5px}
+  @media(max-width:640px){h1{font-size:23px}.wrap{padding:28px 16px 60px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">Chapter 1 · 中文精讲</div>
+  <h1>交易到底是怎么回事<br>——在写策略之前，先搞清楚钱是怎么流走的</h1>
+  <p class="lede">这一章不教你怎么赚钱，它教的是：你的订单从按下按钮到成交，中间经过了谁的手、每一道手要抽走多少。理解这个，你才会明白为什么自己的回测收益一到实盘就被费用吃掉。</p>
+  <div class="meta">
+    <span class="tag">对应原书 pp.3–49</span>
+    <span class="tag gray">1.1 交易简史</span>
+    <span class="tag gray">1.2 市场结构与场所</span>
+    <span class="tag gray">1.3 交易机制</span>
+    <span class="tag gray">1.4 数据分类</span>
+    <span class="tag gray">1.5 微观结构</span>
+  </div>
+</header>
+
+<div class="callout key">
+  <span class="t">本页使用方式</span>
+  这是<b>讲解笔记</b>，不是翻译。每个概念用我自己的话和类比重写了一遍，并标了原书小节号，方便你回 PDF 对照。看完你应该能自己翻原文，而不是继续依赖中文。
+</div>
+
+<h2><span class="sec">1.1</span>人为什么要交易</h2>
+<p class="sec-note">原书 1.1 A Brief History of Stock Trading</p>
+
+<h3>最原始的动力：企业需要钱</h3>
+<p>书里开篇给了一个非常朴素的起点——<strong>公司要运转、要扩张，就需要资本</strong>。搞钱只有两条路：</p>
+
+<table>
+  <tr><td>借钱（Debt）</td><td>借一笔，按期还本付息。公司不稀释股权，但背上刚性债务</td></tr>
+  <tr><td>卖股份（Equity）</td><td>把公司的一部分所有权卖给投资人。投资人成为部分所有者，靠<b>分红</b>分享利润</td></tr>
+</table>
+
+<p>关键在下一句：<strong>股权和债务都是"稀缺资源"，它们的内在价值会随时间变。</strong>价格受这些因素影响——</p>
+<ul>
+  <li>公司自身经营表现</li>
+  <li>当前市场状况</li>
+  <li><strong>对未来</strong>的展望（公司、行业、整个经济）</li>
+  <li>资本的供给与需求</li>
+</ul>
+
+<p>书里举了个特别直观的例子：<strong>利率一变，存量债券的价值立刻跟着变</strong>——因为买家会拿它和市面上新发的、利率更高或更低的债券比。这就是"贴现"最朴素的形态。</p>
+
+<div class="callout info">
+  <span class="t">为什么这一小段值得细看</span>
+  它在提醒你：<b>价格里装的不是过去，是未来预期</b>。你后面所有因子研究，本质上都是在找"哪些公开信息能提前反映未来的预期变化"。搞反了这个方向，研究就变成在噪声里找规律。
+</div>
+
+<h3>改变一切的那次改革：十进制报价</h3>
+<p>这是全章最重要的一条因果链，书里讲得极精彩，我把它拆成五步：</p>
+
+<div class="chain">
+  <div class="node" data-n="1"><b>Decimalization（十进制报价）</b>：美股报价从 1/16 美元这样的<b>分数</b>，改成 1 美分这样的<b>小数</b>。名字听着人畜无害。</div>
+  <div class="node" data-n="2">最小报价单位一下缩小了十几倍 → <b>买卖价差（spread）骤降</b>。</div>
+  <div class="node" data-n="3">价差是做市商的利润来源 → <b>做市商和经纪交易商的利润大幅下滑</b>。</div>
+  <div class="node" data-n="4">赚不到钱，很多做市商<b>退出市场</b> → 市场流动性反而<b>变差</b>。</div>
+  <div class="node" data-n="5">交易所于是推出 <b>Maker-Taker 收费模型</b>：给"提供流动性"的一方（maker，挂单等成交的）<b>返佣 rebate</b>，向"消耗流动性"的一方（taker，主动吃单的）<b>收费</b>。</div>
+</div>
+
+<p>然后出现了书里那句关键的"非预期后果"：</p>
+
+<div class="callout warn">
+  <span class="t">Maker-Taker 意外催生了高频交易</span>
+  既然挂单能拿返佣，那如果我<b>只挂单、尽量不吃单</b>，就能靠返佣赚到一笔风险极小、占用资本极少的稳定小钱。
+  <br><br>
+  但这门生意有两个硬约束：单笔利润<b>极小</b>（所以必须靠巨量交易才能赚到钱），而且<b>订单簿里的排队位置、撤单速度</b>直接决定盈亏（所以必须极快）。
+  <br><br>
+  于是——<b>高频交易（HFT）爆发，以及持续 15 年的超低延迟技术军备竞赛</b>。书里说，HFT 巅峰时期估计<b>贡献了超过 60% 的成交量</b>。
+</div>
+
+<div class="callout key">
+  <span class="t">这跟你有什么关系</span>
+  这条链解释了<b>为什么这本书第四部分（执行算法、市场冲击）值钱</b>。现代市场里，你的订单不是"点一下就成交"，而是被放进一个由返佣、排队、延迟构成的博弈里。<b>同样一个策略，执行方式不同，结果可以天差地别。</b>
+  <br><br>反过来想：你项目里 Alpha158 日频换手被费用吃掉——本质上就是<b>taker 那一侧的成本</b>。你每调一次仓都在给别人付钱。
+</div>
+
+<h2><span class="sec">1.2</span>市场里都有谁，他们在哪交易</h2>
+<p class="sec-note">原书 1.2 Market Structure and Trading Venues</p>
+
+<h3>1.2.1 参与者</h3>
+
+<table>
+  <tr>
+    <td>买方<br><span class="en">Buy Side</span></td>
+    <td>资产管理公司、对冲基金等。<b>你是这一类</b>——用别人的钱或自己的钱去投资，目标是收益</td>
+  </tr>
+  <tr>
+    <td>卖方 / 经纪交易商<br><span class="en">Broker-Dealers</span></td>
+    <td>夹在买方和交易所之间。<b>两种身份完全不同</b>：<br>
+      · 做 <b>Agent（经纪）</b>：代客户下单，赚佣金，不担风险<br>
+      · 做 <b>Principal（做市商）</b>：用<b>自有资金</b>接货，提供流动性，自己承担风险</td>
+  </tr>
+  <tr>
+    <td>HFT / ELP / DMM</td>
+    <td>高频交易商、电子流动性提供方、指定做市商。靠<b>撮合上面这些人</b>赚钱：先提供流动性，再平掉赚差价。技术上最激进，也常充当散户流动性的<b>聚合方</b></td>
+  </tr>
+</table>
+
+<p>书里还点了一个历史转折：<strong>Dodd-Frank 法案</strong>推出后，银行能承担的自营风险被大幅压缩，各家被迫<b>关掉自营交易台</b>，或把它们<b>剥离成独立的对冲基金</b>。</p>
+
+<h3>1.2.2 钱在哪成交</h3>
+<p><strong>交易所（Exchanges）</strong>仍然是主流，书里给的量级是<strong>约 60–70%</strong>。剩下的分散在其他场所（另类交易系统 ATS、暗池等）。</p>
+
+<div class="callout info">
+  <span class="t">为什么这对你重要</span>
+  交易场所一旦分散，同一只股票的流动性就<b>被切成了很多块</b>。你看到的"成交量"是拼起来的，而"最佳买卖价"可能同时在好几个地方。这也解释了为什么书后面要讲撮合、订单簿、做市——<b>流动性不是免费的，也不是集中在一处的</b>。
+</div>
+
+<h2><span class="sec">1.3</span>交易是怎么撮合的（全章硬核段）</h2>
+<p class="sec-note">原书 1.3 The Mechanics of Trading</p>
+
+<h3>1.3.1 双向拍卖：现代交易所的心脏</h3>
+<p>现代电子交易所普遍采用一套叫 <strong>时间/价格优先的连续双向拍卖</strong> 的机制。拆开三个词：</p>
+
+<table>
+  <tr><td>双向拍卖<br><span class="en">Double Auction</span></td><td>普通拍卖是一个拍卖师对一群买家；这里是<b>一堆买家对一堆卖家，同时出价</b></td></tr>
+  <tr><td>连续<br><span class="en">Continuous</span></td><td>交易时段内随时可以成交，不用等集中撮合</td></tr>
+  <tr><td>时间/价格优先</td><td>先比<b>价格</b>（出价更好的排前面）；价格相同，再比<b>时间</b>（先来的排前面）</td></tr>
+</table>
+
+<p>买家卖家通过网络协议把指令发给一套专门的软硬件，叫 <strong>撮合引擎（Matching Engine）</strong>。它由两个部件组成：</p>
+<ul>
+  <li><strong>限价订单簿（Limit Order Book, LOB）</strong>——记录所有排队等着成交的买单和卖单</li>
+  <li><strong>撮合算法（Matching Algorithm）</strong>——决定谁跟谁成交、按什么价成交</li>
+</ul>
+
+<div class="callout key">
+  <span class="t">这是全章最该记住的东西</span>
+  你平时看的 K 线、收盘价、成交量，<b>全都是这个订单簿被"压缩"后的产物</b>。压缩过程会丢掉大量信息：谁在排队、排在哪一档、撤单多快、冰山单下面还藏着多少。
+  <br><br><b>所以：任何只用日线数据的因子，天生就看不见盘口信息。</b>你项目里的 Alpha158 就是这一类。
+</div>
+
+<h3>1.3.2–1.3.4 一天里的三种时段</h3>
+<table>
+  <tr><td>开盘集合竞价<br><span class="en">Open Auction</span></td><td>开盘前累积的订单一次性撮合成一个"开盘价"。目的是消化隔夜积累的信息，避免一开盘价格乱跳</td></tr>
+  <tr><td>连续交易<br><span class="en">Continuous Trading</span></td><td>盘中主流模式，来一单撮一单</td></tr>
+  <tr><td>收盘集合竞价<br><span class="en">Closing Auction</span></td><td>收盘前集中撮合，产生"收盘价"。<b>这一天里流动性最密集的时刻之一</b></td></tr>
+</table>
+
+<div class="callout warn">
+  <span class="t">直接关联你的研究</span>
+  你的标签是 <code>close(t+21)/close(t+1)-1</code>，那个 <b>close 就是收盘竞价撮出来的价</b>。
+  <br><br>这意味着你的收益计算，其实依赖于<b>收盘集合竞价这个特殊时段的流动性</b>。如果你的策略在实盘上只能在连续时段成交、拿不到收盘价，回测和实盘就会对不上。<b>这是"回测很美、实盘打脸"的经典来源之一。</b>
+</div>
+
+<h3>订单类型清单（1.3 后段）</h3>
+<p>书里列了一长串，我挑和你最相关的：</p>
+<table>
+  <tr><td>冰山单<br><span class="en">Iceberg</span></td><td>只露出一小部分数量，成交后再补。<b>注意：只有露出的那部分有时间优先权</b>，补上来的排到队尾</td></tr>
+  <tr><td>隐藏单<br><span class="en">Hidden</span></td><td>可成交，但别人在订单簿里看不见</td></tr>
+  <tr><td>止损 / 移动止损<br><span class="en">Stop / Trailing Stop</span></td><td>不进订单簿，价格触到才激活。移动止损的触发价是<b>动态</b>的</td></tr>
+  <tr><td>全额成交或取消<br><span class="en">All-or-None</span></td><td>数量不够就不成交</td></tr>
+  <tr><td>开盘单 / 收盘单<br><span class="en">On-Open / On-Close</span></td><td>专门要求在开盘价或收盘价成交</td></tr>
+  <tr><td>失衡单<br><span class="en">Imbalance Only</span></td><td>专门用来消化开盘/收盘竞价的<b>买卖失衡</b></td></tr>
+</table>
+
+<div class="callout info">
+  <span class="t">冰山单那条为什么重要</span>
+  因为它说明：<b>你在订单簿上看到的挂单量，不等于真实意图。</b>有人挂着 2000 股，底下可能还有 20000 股。任何"看盘口判断支撑压力"的做法，都得先接受这个前提。
+</div>
+
+<h2><span class="sec">1.4</span>做算法交易要用哪些数据</h2>
+<p class="sec-note">原书 1.4 Taxonomy of Data Used in Algorithmic Trading —— 对你最实用的一节</p>
+
+<p>书里强调：数据的获取、存储、管理和清洗，是交易业务<b>最重要、也最少有人擅长</b>的部分。维护一个"数据湖（Data Lake）"的复杂度足以让人望而却步。</p>
+
+<h3>1.4.1 参考数据 <span class="en">Reference Data</span></h3>
+<p>书里说这是<b>"最容易被当成事后想法，但其实是量化策略稳健性的关键地基"</b>。其中第一条就是：</p>
+
+<div class="callout danger">
+  <span class="t">交易标的清单（Trading Universe）是活的</span>
+  第一个要解决的问题是：<b>今天到底有哪些标的需要交易</b>。这个清单<b>每天都在变</b>——要纳入新股（IPO）、剔除退市。
+  <br><br>要让一个新标的能交易，需要在多个系统里配好一串信息：行情数据要能取到，一些静态字段要设好或者"猜"出来。
+</div>
+
+<div class="callout key">
+  <span class="t">这说的就是你上周卡住的那件事</span>
+  你项目里"历史沪深300成分股名单"的问题，<b>原书 1.4.1 就是在讲这个</b>。
+  <br><br>书里明确说这个清单是<b>每天都在变动的实体</b>，需要保留<b>纳入日、剔除日</b>。这正是我们之前强调的：不能用<b>今天</b>的 300 只去回测过去——那会漏掉所有曾经入选又退出的股票，产生选择偏差。
+</div>
+
+<h3>1.4.2 市场数据 <span class="en">Market Data</span></h3>
+<p>书里这一节有两个点，几乎是<b>为你的项目量身写的</b>：</p>
+
+<h4>① 条件码：不是每一笔成交都该被算进去</h4>
+<p>随着市场结构变复杂，交易所和数据商给每笔成交/报价打上 <strong>条件码（condition codes）</strong>：是拍卖成交、暗池成交、撤单或改单、普通成交、场外协商交易上报、大宗交易、还是来自多腿组合单……</p>
+
+<div class="callout warn">
+  <span class="t">书里的原话精神</span>
+  <b>要正确聚合日内数据，必须先建一张条件码对照表，决定哪些事件保留、哪些剔除。</b>
+  <br><br>举例：为了评估"可获得的流动性"，那些<b>仅为上报目的而发布的场外成交必须剔除</b>——它们不该用来更新日成交量、最高价、最低价这类统计数据。
+</div>
+
+<h4>② 时间戳：成交时间和"你知道成交了"的时间是两回事</h4>
+<div class="callout danger">
+  <span class="t">全章对你最有价值的一段</span>
+  为了建策略，每个事件的时间必须尽可能精确。但请注意：
+  <br><br>· 成交/报价上标注的时间，是<b>交易所撮合引擎的时间</b><br>
+  · 而多数数据库还会另存一个<b>接收时间 / 记录时间</b>，用来反映<b>事件发生后你才知道、才能开始决策</b>的那段延迟
+  <br><br>书里直接点破：<b>不考虑这段真实世界的延迟，是做原始行情数据的研究者必须补上的一课</b>——因为很多机会非常短暂，"不够快"的参与者根本抓不到。
+</div>
+
+<div class="callout key">
+  <span class="t">这就是你项目里的 PIT / 防泄漏问题</span>
+  你手册里反复强调的 <code>published_at</code> vs <code>available_at</code>、新闻不能回填到当日收盘前——<b>背后的道理和这里完全一样</b>。
+  <br><br>撮合引擎时间 = 事件"发生"的时间；接收时间 = 你"知道"的时间。<b>只有后者才能拿来当信号。</b>把前者当后者用，就是未来信息泄漏，回测收益全部是假的。
+</div>
+
+<h3>1.4.3 衍生统计 / 1.4.4 基本面与其他</h3>
+<p>书里接着分了两类：<strong>由行情数据派生出来的统计量</strong>（各种聚合指标、波动率估计等），以及<strong>基本面数据和其他数据集</strong>。</p>
+
+<div class="callout info">
+  <span class="t">顺带回答你一个老问题</span>
+  你现在做的"笔均成交额 = 成交额 ÷ 成交笔数"，严格说属于<b>由行情派生的统计量</b>。它不在交易所的原始数据里，是<b>人造指标</b>。所以之前我说必须核验 <code>dealnum</code> 的口径——<b>人造指标的可靠性完全取决于原料</b>。
+</div>
+
+<h2><span class="sec">1.5</span>微观结构：流动性与做市</h2>
+<p class="sec-note">原书 1.5 Market Microstructure: Economic Fundamentals of Trading</p>
+
+<p>章末引向一个核心概念：<strong>流动性（Liquidity）</strong>与做市。书里的定位是——前面讲了谁在交易、怎么撮合、用什么数据，最后要落到"这笔交易<b>贵不贵</b>"这个经济本质上。</p>
+
+<div class="callout key">
+  <span class="t">为什么这一节是通往第四部分的门</span>
+  全书第四部分专门讲<b>执行算法</b>和<b>市场冲击（Market Impact）</b>——而市场冲击是金融里<b>最复杂、最不被理解</b>的概念之一。
+  <br><br>它的根源就在这一节：你的买单会把价格往上推，你的卖单会把价格往下压。<b>推多少，取决于当时的流动性有多厚。</b>你成交得越多、越快，付的代价就越大。
+</div>
+
+<h2>读完这一章，你的项目该改的三个想法</h2>
+
+<div class="card">
+  <ol>
+    <li><strong>历史成分股名单不是"查一下就好了"，它是一套活的参考数据系统。</strong>要保留每只股票的纳入日和剔除日，明确"剔除当天还算不算成分"这个边界含义。<span class="en">（1.4.1）</span></li>
+    <li><strong>"事件发生时间"和"你获知时间"必须分开存。</strong>你现在新闻那套 <code>available_at</code> 的设计是对的；行情数据同样有这个问题——撮合引擎时间和接收时间是两列。<span class="en">（1.4.2）</span></li>
+    <li><strong>日线数据天生看不到盘口。</strong>Alpha158 这类纯日线因子，永远无法利用排队位置、冰山单、撤单速度这些信息。这不是缺陷，是<b>数据粒度决定了能力上限</b>——写进你研究的"限制"部分，比被人问出来强。<span class="en">（1.3）</span></li>
+  </ol>
+</div>
+
+<h2>术语中英对照</h2>
+<table class="glossary">
+  <tr><td>Decimalization</td><td>十进制报价（把 1/16 美元改成 1 美分）</td></tr>
+  <tr><td>Spread</td><td>买卖价差</td></tr>
+  <tr><td>Maker / Taker</td><td>挂单方（提供流动性）/ 吃单方（消耗流动性）</td></tr>
+  <tr><td>Rebate</td><td>返佣（交易所补给 maker 的钱）</td></tr>
+  <tr><td>HFT</td><td>高频交易</td></tr>
+  <tr><td>ELP / DMM</td><td>电子流动性提供方 / 指定做市商</td></tr>
+  <tr><td>Buy Side / Sell Side</td><td>买方（资管、对冲基金）/ 卖方（经纪交易商）</td></tr>
+  <tr><td>Agent / Principal</td><td>代理（代客） / 自营（用自有资金）</td></tr>
+  <tr><td>Matching Engine</td><td>撮合引擎</td></tr>
+  <tr><td>Limit Order Book (LOB)</td><td>限价订单簿</td></tr>
+  <tr><td>Double Auction</td><td>双向拍卖</td></tr>
+  <tr><td>Time / Price Priority</td><td>时间 / 价格优先</td></tr>
+  <tr><td>Iceberg Order</td><td>冰山单</td></tr>
+  <tr><td>Condition Codes</td><td>条件码（标记成交性质的代码）</td></tr>
+  <tr><td>BBO</td><td>最佳买卖报价（Best Bid and Offer）</td></tr>
+  <tr><td>Trading Universe</td><td>交易标的清单 / 股票池</td></tr>
+  <tr><td>Market Impact</td><td>市场冲击</td></tr>
+</table>
+
+<h2>自测：读完能不能答上来</h2>
+<div class="quiz">
+  <div class="q">十进制报价改革的因果链，最后一步是什么？<details><summary>看答案</summary><div class="answer">交易所引入 Maker-Taker 收费模型：给挂单的返佣、向吃单的收费。而这又意外催生了 HFT——靠返佣赚极小但极稳定的钱，必须靠速度和巨量交易放大。</div></details></div>
+  <div class="q">"价格优先、时间优先"这两个优先，哪个先比？<details><summary>看答案</summary><div class="answer">先比价格。出价更好的排前面；价格完全相同时，才比谁先到。</div></details></div>
+  <div class="q">为什么你的日线因子永远用不上盘口信息？<details><summary>看答案</summary><div class="answer">因为日线的 OHLCV 是订单簿被压缩后的产物。压缩过程丢掉了排队位置、冰山单隐藏量、撤单速度这些信息——不是模型不够强，是原料里已经没有了。</div></details></div>
+  <div class="q">撮合引擎时间和接收时间，做信号该用哪个？<details><summary>看答案</summary><div class="answer">必须用接收时间（也就是你"知道"的时间）。用撮合引擎时间等于假设你知道得比实际早，会造成未来信息泄漏，回测收益全是假的。</div></details></div>
+  <div class="q">Maker 和 Taker，你调仓的时候是哪一方？<details><summary>看答案</summary><div class="answer">Taker。你主动下单去吃掉别人的挂单，所以是你付钱、别人拿返佣。这也是为什么换手率高的策略，费用后收益会被吃掉一大截。</div></details></div>
+</div>
+
+<footer>
+  本页为学习讲解笔记，基于原书第 1 章结构与内容用中文重写，非原文翻译，不替代阅读原书。<br>
+  原书：Algorithmic Trading and Quantitative Strategies（Velu, Hardy, Nehren, CRC Press 2020）· 建议配合正版阅读。
+</footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>4.6.3 多指标与 Boosting · 中译注</title>
+<style>
+  :root{
+    --bg:#f7f8fa; --card:#fff; --ink:#1a1d23; --ink2:#4a5058; --ink3:#858b94;
+    --line:#e4e7ec; --brand:#0f6e56; --brand-bg:#e7f6f0; --warn:#b45309;
+    --warn-bg:#fdf4e7; --danger:#c0392b; --danger-bg:#fdecea;
+    --blue:#185fa5; --blue-bg:#eaf2ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:15px/1.85 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+  .wrap{max-width:920px;margin:0 auto;padding:40px 24px 100px}
+  header{border-bottom:1px solid var(--line);padding-bottom:24px;margin-bottom:28px}
+  .kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);font-weight:600}
+  h1{font-size:26px;line-height:1.4;margin:10px 0 10px}
+  .src{font-size:13px;color:var(--ink3);margin:0 0 14px}
+  .lede{color:var(--ink2);margin:0;max-width:760px}
+  h2{font-size:20px;margin:48px 0 6px;padding-top:20px;border-top:1px solid var(--line)}
+  h2:first-of-type{border-top:0;padding-top:0}
+  h3{font-size:16px;margin:26px 0 8px}
+  p{margin:0 0 13px}
+  ul,ol{padding-left:22px;margin:0 0 14px}
+  li{margin:6px 0;color:var(--ink2)}
+  li strong{color:var(--ink)}
+  code{font:12.5px/1.6 ui-monospace,Consolas,monospace;background:#eef2ed;padding:2px 5px;border-radius:4px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 24px;margin:16px 0}
+  table.t{width:100%;border-collapse:collapse;font-size:13.5px;background:var(--card);
+          border-radius:10px;overflow:hidden;margin:14px 0}
+  table.t th{text-align:left;background:#fafbfc;color:var(--ink3);font-size:12px;letter-spacing:.04em;
+             padding:10px 12px;border-bottom:1px solid var(--line);font-weight:600}
+  table.t td{padding:10px 12px;border-bottom:1px solid #f0f2f5;vertical-align:top;color:var(--ink2)}
+  table.t tr:last-child td{border-bottom:0}
+  table.t td b{color:var(--ink)}
+  .callout{border-radius:10px;padding:14px 18px;margin:15px 0;border-left:3px solid;font-size:14px}
+  .callout .t{font-weight:600;display:block;margin-bottom:4px}
+  .callout.info{background:var(--brand-bg);border-color:#4fb08c;color:#0b5c43}
+  .callout.warn{background:var(--warn-bg);border-color:#e0a33e;color:#6b3f05}
+  .callout.danger{background:var(--danger-bg);border-color:#e07a6e;color:#7d2418}
+  .callout.key{background:var(--blue-bg);border-color:#7eaaf5;color:#12457f}
+  .tr{background:#fcfdfc;border:1px solid #dfe6e2;border-left:4px solid #9ec2b2;
+      border-radius:0 10px 10px 0;padding:16px 20px;margin:12px 0}
+  .tr .lab{font:11.5px/1 ui-monospace,Consolas,monospace;color:var(--brand);
+           background:var(--brand-bg);padding:4px 8px;border-radius:4px;display:inline-block;margin-bottom:10px}
+  .tr p{margin:0 0 10px;color:#2a3038}
+  .tr p:last-child{margin-bottom:0}
+  .why{background:#f7f9f6;border:1px dashed #c3d3c9;border-radius:8px;padding:13px 18px;margin:12px 0;
+       font-size:14px;color:var(--ink2)}
+  .why b{color:var(--brand)}
+  .why .h{color:var(--brand);font-weight:600;display:block;margin-bottom:5px;font-size:13px;letter-spacing:.06em}
+  .say{background:var(--card);border-left:4px solid var(--brand);border-radius:0 12px 12px 0;
+       padding:16px 22px;margin:18px 0}
+  .say .h{font-size:12.5px;letter-spacing:.1em;color:var(--brand);font-weight:600;margin-bottom:6px}
+  .say p:last-child{margin-bottom:0}
+  .eq{background:#f4f8f2;border:1px solid #cfe0d5;border-radius:10px;padding:16px 20px;margin:14px 0}
+  .eq .no{font:11px/1 ui-monospace,Consolas,monospace;color:var(--brand);
+          background:var(--brand-bg);padding:4px 8px;border-radius:4px;display:inline-block;margin-bottom:10px}
+  .eq .body{font-family:"Cambria Math",Cambria,Georgia,serif;font-size:16.5px;line-height:2.2;text-align:center}
+  .eq .cap{display:block;font-family:inherit;font-size:12.5px;color:var(--ink3);text-align:left;
+           margin-top:8px;line-height:1.75}
+  .note{background:#fbfbfc;border:1px solid #e6e9ee;border-radius:8px;padding:11px 15px;margin:12px 0;
+        font-size:13px;color:var(--ink2)}
+  .note .h{font-weight:600;color:var(--ink);display:block;margin-bottom:4px;font-size:12.5px}
+  sub,sup{font-size:.66em}
+  svg{max-width:100%;height:auto;display:block;margin:16px auto}
+  .figcap{text-align:center;font-size:12.5px;color:var(--ink3);margin:-6px 0 20px}
+  footer{margin-top:50px;padding-top:20px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink3)}
+  @media(max-width:640px){
+    .wrap{padding:28px 16px 70px} h1{font-size:22px} .eq .body{font-size:14px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">Section 4.6.3 · 中译注 + 逐式讲解</div>
+  <h1>多指标与 Boosting 方法</h1>
+  <p class="src">Velu, Hardy, Nehren《Algorithmic Trading and Quantitative Strategies》· pp.152–154 · 表 4.1、式 (4.69)(4.70)</p>
+  <p class="lede">这一节是三页纸的“模型集成小百科”：先讲<b>多个预测怎么合成一个</b>（表 4.1 三个估计量），再讲<b>怎么把一堆很笨的规则练成一个强规则</b>（AdaBoost），最后落到 <b>gradient boosting</b>——你项目里 <code>LGBM</code> 的直系祖先就在这一页。</p>
+</header>
+
+<div class="say">
+  <div class="h">主旨一句话</div>
+  <p>单个模型永远是“某一种视角下的近似”，没有唯一正确答案；<b>把多个视角合起来，通常比任何一个单独视角更准</b>——而“怎么合”有两个流派：<b>bagging 靠造多份数据降方差，boosting 靠盯住难样本降偏差</b>。这一节把后者一路推到 gradient boosting，也就是 LightGBM 干活的方式。</p>
+</div>
+
+<h2>零、这一节跟你项目的关系（读之前先看）</h2>
+
+<div class="callout key">
+  <span class="t">你的 LGBM 就是本节最后一段的产物</span>
+  这一节的行文路线是：<b>组合预测（表 4.1）→ 集成的两种类型（bagging / boosting）→ AdaBoost 四行算法 → 神经网络同构 (4.70) → bagging 的 bootstrap → gradient boosting</b>。<br><br>
+  最后这一段的描述——<b>“前向分步地拟合加性模型，每一轮用一个弱学习器去补已有模型的短板，而短板用梯度识别；在回归场景里，这个梯度就是残差”</b>——正是 LightGBM、XGBoost 的训练机制。<b>你 <code>run_research.py</code> 里那一行 LGBM，训练的就是这个公式。</b>
+</div>
+
+<h2>一、文章逻辑：九步链，每步都在补上一步的洞</h2>
+
+<table class="t">
+  <tr><th style="width:22%">步骤</th><th style="width:36%">在做什么</th><th>上一步留下的缺口</th></tr>
+  <tr><td><b>① 起点</b></td><td>没有唯一模型 → 不同模型给出不同预测 → 组合起来通常更好</td><td>—</td></tr>
+  <tr><td><b>② 表 4.1</b></td><td>三个合成方案：完整协方差加权 / 只取对角加权 / 简单平均</td><td>“更好”需要量化成权重，权重从哪来？</td></tr>
+  <tr><td><b>③ 现实修正</b></td><td>Σ<sub>f</sub> 估不准（尤其 regime 切换时），所以实践中常直接用简单平均</td><td>理论最优依赖一个估不准的矩阵</td></tr>
+  <tr><td><b>④ 转向集成</b></td><td>如果各模型在不同市场状态下各有胜场（互补），集成就特别值钱</td><td>加权平均只是“平权/按精度赋权”，没用上“互补”</td></tr>
+  <tr><td><b>⑤ 换问题</b></td><td>把任务简化成二分类：今天进不进场（y ∈ {+1, −1}）</td><td>要讲 boosting，得先有一个能定义“错误率”的框架</td></tr>
+  <tr><td><b>⑥ 式 (4.69)</b></td><td>定义“加权错误率”：err<sub>D</sub>(h) = Pr[h(x) ≠ y]</td><td>“准确率”是平均数，但难样本和易样本不该同权</td></tr>
+  <tr><td><b>⑦ AdaBoost</b></td><td>四行算法：错一次就把该样本权重调大，下一轮专攻它</td><td>有了加权错误率，才知道该往哪儿加力</td></tr>
+  <tr><td><b>⑧ 两条路</b></td><td>bagging：bootstrap 造多份数据、并行训练、平均（降方差）；boosting：串行补短板（降偏差）</td><td>串行与并行是两种不同的“集成哲学”</td></tr>
+  <tr><td><b>⑨ gradient boosting</b></td><td>把“补短板”变成“拟合负梯度”；回归时负梯度 = 残差</td><td>AdaBoost 只适用于分类且用指数损失，要推广到一般损失</td></tr>
+</table>
+
+<h2>二、逐段中译</h2>
+
+<div class="tr">
+  <span class="lab">原书第 1 段 · p.152</span>
+  <p>在建立刻画数据主要特征的模型时，必须注意：<b>模型并不唯一</b>。因此它们会给出不同的预测。预测文献中一个众所周知的事实是：<b>组合预测在总体上通常优于单个预测</b>。若有 T 个模型、因而有 T 个预测 f̂<sub>1</sub>, …, f̂<sub>T</sub>，我们该如何把它们合成一个预测？由于它们都基于同一份数据，这些估计很可能是相关的，从而形成一个协方差矩阵 Σ̂<sub>f</sub>。文献中提出的三个估计量见表 4.1。</p>
+</div>
+
+<div class="why">
+  <span class="h">为什么“相关”这件事直接决定了合成方式</span>
+  如果两个模型<b>完全独立</b>，它们的误差会互相抵消，平均一下就白赚一份降噪；如果两个模型<b>完全相关</b>（其实是同一个模型换了个写法），平均毫无意义。<b>协方差矩阵 Σ<sub>f</sub> 就是“这堆预测之间到底有多重复”的度量</b>，所以最优权重必须由它决定——重复的少给权重，独立的（信息增量大的）多给权重。
+</div>
+
+<div class="eq">
+  <span class="no">表 4.1 · 三个组合估计量</span>
+  <div class="body">
+    ① f̂<sub>w1</sub> = f̂′ Σ̂<sub>f</sub><sup>−1</sup> f̂　　·　　② f̂<sub>w2</sub> = f̂′ (diag Σ̂<sub>f</sub>)<sup>−1</sup> f̂　　·　　③ f̂<sub>avg</sub> = (1/T) Σ<sub>i=1</sub><sup>T</sup> f̂<sub>i</sub>
+  </div>
+  <span class="cap">①＝用<b>完整协方差</b>加权（最优但最脆弱）；②＝只保留<b>各自方差、丢掉交叉相关</b>（折中）；③＝<b>简单平均</b>（最笨但最稳）</span>
+</div>
+
+<div class="note">
+  <span class="h">诚实说明：书里这三个式子是“简写”，我补上标准形式</span>
+  按最小化组合预测方差的标准推导，最优权重是 <b>w ∝ Σ<sub>f</sub><sup>−1</sup><b>1</b></b>（再归一化使权重和为 1），组合预测为 <b>f̂<sub>w</sub> = w′f̂</b>。书里写成 f̂′Σ<sub>f</sub><sup>−1</sup>f̂，<b>漏了归一化和全 1 向量</b>，按字面读量纲也不对。这里按标准形式理解即可——它要表达的意思很明确：<b>用协方差矩阵的逆来分配权重</b>（这就是 Markowitz 组合与 GLS 的同一个数学）。
+</div>
+
+<div class="why">
+  <span class="h">三个估计量的手算对比（两个模型，一步一步走）</span>
+  <b>第 0 步：先搞清楚 Σ 里每个数是什么。</b>两个模型各自的<b>误差方差</b>：σ₁² = 4（模型 1 误差波动 ±2）、σ₂² = 9（模型 2 误差波动 ±3）；相关系数 ρ = 0.5 → 协方差 = 0.5×2×3 = 3（两者误差同向联动的程度）。拼成矩阵：<br>
+  <b>Σ = [[4, 3], [3, 9]]</b>——<b>对角线</b> = 各自准不准，<b>非对角线</b> = 两个模型有多"重复"。<br><br>
+  <b>第 1 步：估计量的 ①（用完整协方差）。</b>二阶矩阵求逆公式 (1/det)·[[d,−b],[−c,a]]，det = 4×9 − 3×3 = 27：<br>
+  Σ⁻¹ = (1/27)·[[9, −3], [−3, 4]]。<br>
+  最优权重 = Σ⁻¹ 乘<b>全 1 向量</b>再归一化（"全 1 向量"就是把每个模型的逆协方差行加起来——一个模型和<b>其他所有模型</b>的联合关系，才是它该得的权重）：<br>
+  Σ⁻¹·<b>1</b> = (1/27)·(9−3, −3+4) = (6/27, 1/27) → 按比例就是 <b>(6, 1)</b> → 归一化（6+1=7）→ <b>w ≈ (0.857, 0.143)</b>。<br><br>
+  <b>第 2 步：估计量的 ②（只看对角线，忽略相关）。</b>直觉版"越准权重越大"：权重 ∝ 1/σ² = (1/4, 1/9) = (0.225, 0.100) → 归一化 → <b>(0.692, 0.308)</b>。注意到它比 ① <b>保守</b>——因为它不知道"模型 1 的信息有一半模型 2 也有"。<br><br>
+  <b>第 3 步：估计量的 ③（简单平均）。</b>什么都不估：<b>(0.5, 0.5)</b>。<br><br>
+  <b>读法：模型 1 精度高（方差 4 &lt; 9）→ 三种方法都给它更多权重，方向一致；但 ① 给得最极端（0.857）</b>——因为 ρ = 0.5 说明两个模型误差大量同向联动（信息重复），① 会把"重复的那份"从模型 2 身上扣掉、再把它独有的部分折算进去，结果权重被拉得更开。<b>② 与 ① 的差别全部来自"知不知道相关"这一件事。</b>
+</div>
+
+<div class="why">
+  <span class="h">为什么是"逆" Σ⁻¹，而不是 Σ 本身？——三个层次，一个比一个深</span>
+  <b>层次一：这是解一道最优化题的结果，不是拍脑袋。</b><br>
+  目标：让组合预测的方差最小，同时权重加总为 1。<br>
+  min<sub>w</sub> Var(w′f) = w′Σw　，subject to　<b>1</b>′w = 1<br>
+  用拉格朗日乘子 λ，一阶条件：2Σw − λ<b>1</b> = 0。把这一步拆成三行，逆出现在第三行：<br><br>
+  <b>(a)</b>　2Σw = λ<b>1</b>　　（把 −λ<b>1</b> 移到右边）<br>
+  <b>(b)</b>　Σw = (λ/2)<b>1</b>　　（两边同除以标量 2）<br>
+  <b>(c)</b>　<b>Σ⁻¹Σw = Σ⁻¹·(λ/2)<b>1</b></b>　→　w = (λ/2)·Σ⁻¹<b>1</b>　　（<b>两边同时左乘 Σ⁻¹</b>，这一步才是"求逆"真正发生的地方）<br><br>
+  <b>注意用词：矩阵不能"移项"。</b>标量方程里 3x = 6 可以写成 x = 6/3，本质是两边乘 1/3；矩阵方程同理，但必须<b>左乘</b>（矩阵乘法不交换，写成 Σ⁻¹Σ = I 才成立，右乘 Σ⁻¹ 得不到单位阵）。<br><br>
+  <b>为什么最后写成 ∝ 而不是 =：</b>λ/2 是个未知标量，由约束 <b>1</b>′w = 1 定死，所以"w 与 Σ⁻¹<b>1</b> 只差一个常数倍"。用本节的数字验算：Σ⁻¹<b>1</b> = (6/27, 1/27)，设 w = c·(6/27, 1/27)，代入 1′w = 1 → c·(7/27) = 1 → c = 27/7 → <b>w = (6/7, 1/7) = (0.857, 0.143)</b>，与前面手算一致。<br><br>
+  <b>所以"逆"是从"求导并令其为 0"这一步自然掉出来的</b>，不是谁选的。求导把二次型 w′Σw 变成线性项 2Σw，要解出 w 就必须两边左乘逆——那一步就是乘逆。<br><br>
+
+  <b>层次二：逆是"换算率"，一维情形一眼看懂。</b><br>
+  Σ 的物理意义是"<b>给定权重，能算出方差</b>"（正向换算）。而我们真正要的是反过来的问题："<b>想让方差小，该给多少权重</b>"——反向换算就要用逆。<br>
+  一个模型时：Var = w²σ²，要"每单位风险换多少权重"，答案正是 w ∝ <b>1/σ²</b>。"除以方差"这件事，在多维、相关的世界里就升级成"<b>乘协方差矩阵的逆</b>"——因为矩阵的逆就是矩阵版的"除以"。<br><br>
+
+  <b>层次三（最深）：Σ⁻¹ 的对角线 = 1/条件方差 = "扣掉别人之后你还剩多少独特信息"。</b><br>
+  回到两个模型的数字（σ₁²=4、σ₂²=9、协方差 3）：<br>
+  · (Σ⁻¹)<sub>11</sub> = 9/27 = <b>0.333</b>，而模型 1 的条件方差 = 4 − 3²/9 = <b>3</b>，1/3 = 0.333 ✓<br>
+  · (Σ⁻¹)<sub>22</sub> = 4/27 = <b>0.148</b>，而模型 2 的条件方差 = 9 − 3²/4 = <b>6.75</b>，1/6.75 = 0.148 ✓<br><br>
+  <b>读法：这不只是数学巧合。</b>Σ 的对角线告诉你模型 1 "自己"的方差是 4；但模型 2 已经提供了相关信息，所以模型 1 <b>真正新增</b>的方差只剩 3。Σ⁻¹ 的对角线量的正是这个"<b>净贡献</b>"（统计学里叫 precision，精度）。<b>两个高度相关的模型，彼此的条件方差都会被放大 → 逆的对角线变小 → 权重被压下去。这就是"惩罚重复"在矩阵层面的实现。</b><br><br>
+  <b>最后一个漂亮的自检：</b>若 ρ = 0（互不重复），Σ 变成对角阵，逆也是对角阵，逆乘全 1 向量再归一化 → <b>(0.692, 0.308)</b>，<b>与估计量 ② 完全一致</b>。所以 <b>② 就是"假装 ρ=0 的 ①"</b>——两者不是两种思路，是同一个公式在"知不知道相关"上的取舍。
+</div>
+
+<div class="tr">
+  <span class="lab">原书第 2 段 · p.152</span>
+  <p>由于对 Σ<sub>f</sub> 的估计存在不确定性——<b>尤其是在可能造成巨大估计误差的 regime 变化期间</b>——<b>简单平均估计量有时反而被提倡</b>。在资产价格建模的语境下，Σ<sub>f</sub> 的元素代表各方法在预测上的表现好坏。要使用上述加权估计量，我们需要持续跟踪各预测方法的表现，原则上<b>预测较差的方法应获得较小权重</b>。但关于其表现的时间跨度，即<b>该用近期数据还是历史数据</b>，仍是一个悬而未决的问题。</p>
+</div>
+
+<div class="callout warn">
+  <span class="t">这一段是全节最“反直觉”也最实用的一句</span>
+  <b>理论上更聪明的权重（①），实践中常常输给最笨的平均（③）</b>——因为 ① 要估一个 T×T 的协方差矩阵，参数个数是 T(T+1)/2，T 一多就估不准；估不准的权重会放大噪声，反而比等权更差。这就是金融里“<b>估计误差 > 模型优势</b>”的经典教训，和你 5.7 学的“多重检验 / 数据窥探”是同一个病根：<b>参数越多，过拟合的机会越多</b>。
+</div>
+
+<div class="tr">
+  <span class="lab">原书第 3 段 · p.152</span>
+  <p><b>集成学习</b>。如前所述，把多个预测（分类器）合成为一个，是许多决策者长期以来的目标。<b>当在不同市场状态下各自成功的方法恰好互补时，这件事尤其重要</b>。<b>集成方法有两类：bagging 与 boosting</b>，我们在此讨论。假设目标是依据当时可得的信息决定是否进场。想出一批简单规则相对容易，但要找到一条高准确率的规则就难多了。<b>在 boosting 下，我们研究如何把这些简单规则一致地组合成一条“更强”的规则。</b>其思路是：<b>把注意力集中在那些用简单规则最难预测的样本上</b>，再对这些规则取<b>加权多数票</b>，从而得到更强的规则。</p>
+</div>
+
+<div class="why">
+  <span class="h">“互补”两个字是集成的全部理由</span>
+  两个模型如果总是同对同错，集成毫无价值（等于一个模型）。<b>价值来自“你错我对”的那些时刻</b>。放到市场上：趋势策略在单边市赚钱、均值回复策略在震荡市赚钱——它们在不同 regime 下互补，这才是集成的真实收益来源。这也解释了为什么“多模型平均”在金融里常比在图像识别里更有效：<b>金融的 regime 切换特别频繁</b>。
+</div>
+
+<div class="tr">
+  <span class="lab">原书第 4 段 · p.152</span>
+  <p>为便于说明，假定我们要判断某资产价格会上涨还是下跌。<b>在随机游走模型下，随机猜测的错误率是 0.5</b>。而任何规则都应使错误率低于 0.5。我们从一个训练集开始：S = {(x<sub>i</sub>, y<sub>i</sub>), i = 1, 2, …, n}，其中 x<sub>i</sub> 是信息，y<sub>i</sub> 是一个二值变量，表示<b>是否进场</b>。假定有 T 条规则，h<sub>t</sub>(x) 为分类器，D<sub>t</sub> 为训练集上的分布，其错误率为：</p>
+</div>
+
+<div class="eq">
+  <span class="no">式 (4.69)</span>
+  <div class="body">err<sub>D</sub>(h) = Pr<sub>(x,y)∼D</sub>[ h(x) ≠ y ]</div>
+  <span class="cap">在分布 D 下随机抽一个样本，规则 h 判错的概率。注意 <b>D 是可变的</b>——这正是 boosting 的机关：它改变的不是规则，而是<b>样本的权重分布</b></span>
+</div>
+
+<div class="tr">
+  <span class="lab">原书第 5 段 · p.153</span>
+  <p>规则 h<sub>t</sub> 相对于 D<sub>t</sub> 应具有错误率 err<sub>D<sub>t</sub></sub>(h<sub>t</sub>)。<b>boosting 算法如下：</b></p>
+</div>
+
+<div class="eq">
+  <span class="no">AdaBoost 四行算法 · p.153</span>
+  <div class="body" style="text-align:left;line-height:2.4">
+    <b>初始化</b>：D<sub>t</sub>(i) = 1/n，对所有 i<br>
+    <b>迭代</b>：D<sub>t+1</sub>(i) = (D<sub>t</sub>(i) / z<sub>t</sub>) · exp[ −α<sub>t</sub> y<sub>i</sub> h<sub>t</sub>(x<sub>i</sub>) ]，<br>
+    　　　其中 α<sub>t</sub> = ½ · ln[ (1 − err<sub>D<sub>t</sub></sub>(h<sub>t</sub>)) / err<sub>D<sub>t</sub></sub>(h<sub>t</sub>) ]，z<sub>t</sub> = 归一化常数<br>
+    <b>停止</b>：当<b>验证集</b>上的误差不再改善时停止<br>
+    <b>最终规则</b>：Sign[ Σ<sub>t=1</sub><sup>T</sup> α<sub>t</sub> h<sub>t</sub>(x) ]
+  </div>
+  <span class="cap">四行里只有两个真正的想法：<b>①判错的样本下次权重变大</b>（指数更新）；<b>②每轮规则说话的分量 α<sub>t</sub> 由它有多准决定</b></span>
+</div>
+
+<div class="why">
+  <span class="h">把 exp 那一行拆成三种情况，就彻底懂了</span>
+  注意 y<sub>i</sub> ∈ {+1, −1}、h<sub>t</sub>(x<sub>i</sub>) ∈ {+1, −1}，所以乘积 y<sub>i</sub>h<sub>t</sub>(x<sub>i</sub>) 只有两种可能：<br><br>
+  · <b>判对</b> → 乘积 = +1 → 乘上 exp(−α<sub>t</sub>) <b>&lt; 1，权重变小</b><br>
+  · <b>判错</b> → 乘积 = −1 → 乘上 exp(+α<sub>t</sub>) <b>&gt; 1，权重变大</b><br><br>
+  <b>这就是“盯住难样本”的数学实现</b>：下轮训练时，那些总被判错的样本在损失函数里占的分量更重，弱学习器被迫去处理它们。<br><br>
+  再看 α<sub>t</sub> 的形状：err = 0.5（和瞎猜一样）→ ln(1) = 0 → <b>α = 0，这条规则一票也不给</b>；err → 0 → α → ∞，几乎由它定胜负。这条曲线是“<b>说得越准，嗓门越大</b>”的精确版本。
+</div>
+
+<svg viewBox="0 0 680 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="AdaBoost 权重更新示意">
+  <rect x="0" y="0" width="680" height="240" fill="#ffffff" rx="10"/>
+  <text x="24" y="28" font-size="13" font-weight="600" fill="#1a1d23">一次权重更新的几何意义：判错的柱子被“抬”起来</text>
+  <!-- round 1 -->
+  <g>
+    <text x="40" y="62" font-size="11.5" fill="#858b94">第 1 轮（等权 1/3）</text>
+    <rect x="40" y="150" width="46" height="60" fill="#cfe0d5" stroke="#9ec2b2"/>
+    <rect x="98" y="150" width="46" height="60" fill="#cfe0d5" stroke="#9ec2b2"/>
+    <rect x="156" y="150" width="46" height="60" fill="#cfe0d5" stroke="#9ec2b2"/>
+    <text x="52" y="142" font-size="11" fill="#4a5058">x₁</text>
+    <text x="110" y="142" font-size="11" fill="#4a5058">x₂</text>
+    <text x="168" y="142" font-size="11" fill="#4a5058">x₃</text>
+    <text x="46" y="226" font-size="10.5" fill="#858b94">0.33</text>
+    <text x="104" y="226" font-size="10.5" fill="#858b94">0.33</text>
+    <text x="162" y="226" font-size="10.5" fill="#858b94">0.33</text>
+  </g>
+  <path d="M226 180 L268 180" stroke="#0f6e56" stroke-width="1.6" marker-end="url(#a)"/>
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#0f6e56"/></marker></defs>
+  <text x="228" y="170" font-size="10.5" fill="#0f6e56">h₁ 判错 x₂ → ×exp(+α₁)</text>
+  <!-- round 2 -->
+  <g>
+    <text x="300" y="62" font-size="11.5" fill="#858b94">第 2 轮（x₂ 被抬高）</text>
+    <rect x="300" y="150" width="46" height="45" fill="#cfe0d5" stroke="#9ec2b2"/>
+    <rect x="358" y="150" width="46" height="90" fill="#f3c9c2" stroke="#e07a6e"/>
+    <rect x="416" y="150" width="46" height="45" fill="#cfe0d5" stroke="#9ec2b2"/>
+    <text x="312" y="142" font-size="11" fill="#4a5058">x₁</text>
+    <text x="370" y="142" font-size="11" fill="#4a5058">x₂</text>
+    <text x="428" y="142" font-size="11" fill="#4a5058">x₃</text>
+    <text x="306" y="226" font-size="10.5" fill="#858b94">0.25</text>
+    <text x="364" y="226" font-size="10.5" fill="#c0392b">0.50</text>
+    <text x="422" y="226" font-size="10.5" fill="#858b94">0.25</text>
+  </g>
+  <path d="M486 180 L528 180" stroke="#0f6e56" stroke-width="1.6" marker-end="url(#a)"/>
+  <text x="488" y="170" font-size="10.5" fill="#0f6e56">h₂ 判错 x₃</text>
+  <!-- final -->
+  <g>
+    <text x="548" y="62" font-size="11.5" fill="#858b94">最终规则</text>
+    <rect x="548" y="120" width="100" height="72" fill="#e7f6f0" stroke="#4fb08c" rx="8"/>
+    <text x="558" y="146" font-size="11" fill="#0b5c43">Sign(α₁h₁</text>
+    <text x="558" y="162" font-size="11" fill="#0b5c43">+ α₂h₂)</text>
+    <text x="558" y="182" font-size="10.5" fill="#0f6e56">加权投票</text>
+  </g>
+</svg>
+<p class="figcap">图的重点不是长度，而是<b>方向</b>：错得多 → 柱子被抬高 → 下一轮的弱学习器不得不管它</p>
+
+<div class="tr">
+  <span class="lab">原书第 6 段 · p.153</span>
+  <p>boosting <b>是有可能过拟合的</b>；它的表现显然取决于两个决策（进 / 不进）<b>能否依据历史数据被清晰分开</b>。使用<b>核方法</b>可以改善局部可分性。同时，<b>最优地提取特征 x</b>（能够区分为 y 的两个选项）也很重要。<b>由不同规则构成的集成，其主要优势在于：所有规则都犯同一个错误，是不太可能的。</b>上述算法被称为“<b>自适应 boosting 算法（AdaBoost）</b>”，由 Freund 与 Schapire（1995, 1996, 1997）提出，它会自动“适应”手头的数据。如果第 t 个分类器 h<sub>t</sub>(x) 是带参数的，整体预测器取形式</p>
+</div>
+
+<div class="eq">
+  <span class="no">式 (4.70)</span>
+  <div class="body">h(x) = Sign[ Σ<sub>t=1</sub><sup>T</sup> α<sub>t</sub> · Sign( w<sub>t</sub>′x + b<sub>t</sub> ) ]</div>
+  <span class="cap">书里原话：这<b>就是一个有 T 个隐藏单元的两层神经网络</b>——boosting 与神经网络在结构上是同一种东西</span>
+</div>
+
+<div class="callout key">
+  <span class="t">(4.70) 这句话的分量：两个看似无关的流派其实是一家人</span>
+  <b>boosting</b>（逐个加弱学习器）和<b>神经网络</b>（同时训练所有隐藏单元）最终都写成“<b>一堆基函数的加权和</b>”。差别只在训练方式：神经网络用反向传播一次性调所有参数，boosting 用贪心的前向分步一个一个加。<b>这也解释了为什么梯度提升（下一段）能自然地推广到任意损失函数——它本质上是“用函数做梯度下降”。</b>
+</div>
+
+<div class="tr">
+  <span class="lab">原书第 7 段 · p.153</span>
+  <p><b>bagging</b> 的想法来自<b>在多份“结构应当相似”的数据集上训练规则</b>。这些数据集通过<b>bootstrap 重采样</b>得到，也就是说它们不会太相似。对于资产价格数据，它们常被 AR(1) 模型表示、且<b>系数接近 1</b>，此时系数样本估计的渐近分布是<b>非正态</b>的；所以 bootstrap 样本也可用来构造合适的抽样方差。<b>bootstrap 样本通过对新息（innovation）或经验残差重采样来生成。</b>从单个数据集 S 出发，我们造出 M 个 bootstrap 样本 S<sub>1</sub>, …, S<sub>M</sub>，每个含 n 个样本；然后<b>在这些样本上分别跑 boosting，再平均</b>。正如文献所指出的，<b>bagging 倾向于降低方差，因此可作为正则化的一种替代</b>（Breiman, 1996）。</p>
+</div>
+
+<div class="callout warn">
+  <span class="t">这里藏着一个和你直接相关的技术点</span>
+  “AR(1) 系数接近 1 → 渐近分布非正态 → 所以要 bootstrap”——<b>这句话和你在 5.7 学的块 bootstrap 是同一个道理的另一面</b>：<br><br>
+  · 5.7 里的块 bootstrap（block = 21）是为了对付<b>重叠标签带来的自相关</b>，用途是<b>估置信区间</b>；<br>
+  · 这里的 bootstrap 是为了对付<b>近单位根导致的非标准分布</b>，用途是<b>造训练集 / 估方差</b>。<br><br>
+  <b>同一个工具，两种用途</b>。而且两处的“整块重抽”理由完全相同：<b>你的样本按天相关，抽单日会破坏相关结构</b>。
+</div>
+
+<div class="tr">
+  <span class="lab">原书第 8 段 · p.153–154（全节落点）</span>
+  <p>由 Breiman（1999）提出的<b>梯度提升方法</b>，以及 Friedman 等（2000）与 Friedman（2001）推广的、称为 <b>LogitBoost</b> 的程序，<b>进一步改进了 AdaBoost</b>。该方法一开始就以<b>前向分步（forward stage-wise）</b>的方式拟合一个<b>加性模型（集成）Σ<sub>t</sub> α<sub>t</sub>h<sub>t</sub>(x)</b>。在<b>每一阶段，引入一个弱学习器，去弥补现有弱学习器的短板</b>。<b>在梯度提升中，梯度被用来识别这些短板；在回归语境下，它们就是残差。</b>于是训练集变成 S* = {(x<sub>i</sub>, y<sub>i</sub> − h(x<sub>i</sub>)), i = 1, …, n}，<b>把残差当作数据</b>来对待，和 S 一样处理。<b>优化的方式是沿着函数梯度的反方向移动。</b></p>
+</div>
+
+<div class="callout info">
+  <span class="t">把“拟合残差”讲成一句人话</span>
+  第 1 轮模型 h<sub>1</sub> 做完预测，总会剩下没解释掉的部分：<b>残差 = 真实值 − 已预测值</b>。第 2 轮不去重新学整个问题，<b>只学“第 1 轮错在哪儿”</b>——用残差当新标签；第 3 轮学前两轮合起来还剩的残差……<b>每一轮都在补前面所有轮次的集体短板</b>，最后把 T 个弱模型加起来。<br><br>
+  <b>为什么叫“梯度”？</b>因为“残差”恰好是<b>平方损失对预测值的负梯度</b>：∂/∂F (y−F)² = −2(y−F)。换成别的损失（比如分类的对数损失），负梯度就不再等于残差，但“<b>沿负梯度方向补一步</b>”这个动作不变——<b>这就是 gradient boosting 比 AdaBoost 更通用的原因：它不绑定某一种损失函数</b>。
+</div>
+
+<div class="note">
+  <span class="h">脚注（原书 p.154）</span>
+  “梯度提升在开源库 XGBoost 中有现成实现。”——你用的 <code>LightGBM</code> 是同一族（直方图分裂 + leaf-wise 生长），机制与这段描述一致：<b>每棵树拟合上一轮集成模型的负梯度</b>。
+</div>
+
+<h2>三、手算：一轮权重更新，看懂 boosting 的引擎</h2>
+
+<p>三个样本、标签正负交替的设定，跑一轮 AdaBoost，把每一步的算术摊开。样本：x<sub>1</sub>=1（y=+1）、x<sub>2</sub>=2（y=−1）、x<sub>3</sub>=3（y=+1）。弱学习器 = 一条阈值规则：<b>h<sub>1</sub>：x ≤ 1.5 判 +1，否则判 −1</b>。</p>
+
+<table class="t">
+  <tr><th style="width:14%">步骤</th><th style="width:34%">计算</th><th>结果</th></tr>
+  <tr><td><b>① 初始化</b></td><td>D(i) = 1/n，n = 3</td><td>每个样本 <b>1/3</b></td></tr>
+  <tr><td><b>② 判错情况</b></td><td>h<sub>1</sub> 对 x<sub>1</sub> 判 +1 ✓、x<sub>2</sub> 判 −1 ✓、x<sub>3</sub> 判 −1 ✗</td><td>只有 <b>x<sub>3</sub></b> 错</td></tr>
+  <tr><td><b>③ 加权错误率</b></td><td>只数错的那个样本的权重：D(x<sub>3</sub>)</td><td><b>err = 1/3</b></td></tr>
+  <tr><td><b>④ 规则的话语权</b></td><td>α<sub>1</sub> = ½·ln[(1 − 1/3) ÷ (1/3)] = ½·ln 2</td><td><b>α<sub>1</sub> = 0.347</b></td></tr>
+  <tr><td><b>⑤ 权重更新</b></td><td>判对者 ×exp(−0.347) = 0.707；判错者 ×exp(+0.347) = 1.414</td><td>未归一化 <b>(0.236, 0.236, 0.471)</b></td></tr>
+  <tr><td><b>⑥ 归一化</b></td><td>三者之和 = 0.943，逐个相除</td><td><b>(0.25, 0.25, 0.50)</b></td></tr>
+</table>
+
+<div class="why">
+  <span class="h">这六个数字里，只有第 ⑥ 行值得记住</span>
+  <b>判错的样本，权重从 1/3 变成 1/2（翻倍）；判对的从 1/3 降到 1/4。</b>下一轮的弱学习器在最小化加权错误率时，<b>为了少犯错，会优先去把 x<sub>3</sub> 弄对</b>——"盯住难样本"不是一句文学修辞，它就是这一步算术的直接后果。<br><br>
+  注意 α₁ 和权重更新用的是<b>同一个 α</b>——这一个数在算法里出场两次：<b>第 ④ 行它当"票"（最终投票的话语权），第 ⑤ 行它当"力"（权重更新的幅度）。</b>α 越大，票越重，同时力气也越大。<br><br>
+  <b>"力气大"是什么意思？看乘数的两端：</b>判对者乘 exp(−α)、判错者乘 exp(+α)。α 越大，exp(−α) 越接近 0（判对的被压得越狠）、exp(+α) 越大（判错的被抬得越高）——<b>权重分布被"掰"得越厉害。</b>三个准确率不同的规则对比（判错者与判对者的乘数之比 = exp(2α)）：<br><br>
+  <table class="t">
+    <tr><th style="width:22%">规则错误率 err</th><th style="width:18%">α</th><th style="width:19%">判对者 ×</th><th style="width:19%">判错者 ×</th><th>判错 : 判对 = exp(2α) = (1−err)/err</th></tr>
+    <tr><td>1/3（本例子）</td><td>0.347</td><td>×0.707</td><td>×1.414</td><td><b>2 倍</b></td></tr>
+    <tr><td>0.25</td><td>0.549</td><td>×0.577</td><td>×1.732</td><td><b>3 倍</b></td></tr>
+    <tr><td>0.10</td><td>1.099</td><td>×0.333</td><td>×3.000</td><td><b>9 倍</b></td></tr>
+    <tr><td>0.01</td><td>2.298</td><td>×0.100</td><td>×9.950</td><td><b>99 倍</b></td></tr>
+  </table>
+  <br>
+  <b>为什么这样设计是对的？</b>因为<b>越准的规则，它的错误越"值钱"</b>：一条 99% 对的规则竟然判错了某个样本，说明这个样本极可能是真正的硬骨头（连最好的规则都栽在它身上），值得下重注去攻克；而一条 60% 对的规则本来就经常错，它的误判信息量不大，轻轻调整就行。<b>α 同时编码了"这一票多重要"和"这次改写多用力"两件事，且都与准确率挂钩——这是 AdaBoost 最精巧的设计。</b><br><br>
+  <b>一个顺手的恒等式：</b>exp(2α) = exp[ln((1−err)/err)] = <b>(1−err)/err</b>——更新之后，判错样本与判对样本的权重比恰好等于这条规则的"对错赔率"。err=1/3 → 错的比对的重 2 倍；err=0.01 → 重 99 倍。<b>规则越准，它对训练集的"改写"就越狠。</b>
+</div>
+
+<h3>α 的形状：把"嗓门大小"画成一张表</h3>
+
+<table class="t">
+  <tr><th style="width:22%">规则错误率 err</th><th style="width:22%">α = ½ln((1−err)/err)</th><th>含义</th></tr>
+  <tr><td>0.50（等于瞎猜）</td><td><b>0.000</b></td><td><b>一票也不给</b>——这条规则被彻底忽略</td></tr>
+  <tr><td>0.40</td><td>0.203</td><td>略好于瞎猜，小声说话</td></tr>
+  <tr><td>0.333（本例子）</td><td><b>0.347</b></td><td>三分之二准确</td></tr>
+  <tr><td>0.25</td><td>0.549</td><td>明显更准，票数更重</td></tr>
+  <tr><td>0.10</td><td>1.099</td><td>很准</td></tr>
+  <tr><td>0.01</td><td>2.298</td><td>几乎由它定胜负</td></tr>
+</table>
+
+<p>这张表解释了两件事：<b>①为什么算法要求弱学习器必须好于 0.5</b>——err ≥ 0.5 时 α ≤ 0，这条规则不但没用还会倒扣；<b>②为什么 boosting 不能无限加轮次</b>——一旦某轮在某批样本上做到 err≈0，α 会爆炸，整个模型被这一轮绑架，这就是过拟合的具体形态。</p>
+
+<div class="why">
+  <span class="h">最容易搞混的一点：AdaBoost 里有<b>两个</b>"权重"，规律正好相反</span>
+  "错误率越高 → 权重越高"这句话，对<b>样本</b>成立，对<b>规则</b>恰好相反——因为它们是两个不同的东西：<br><br>
+  <table class="t">
+    <tr><th style="width:20%"></th><th style="width:28%"><b>样本权重</b> D<sub>t</sub>(i)</th><th><b>规则话语权</b> α<sub>t</sub></th></tr>
+    <tr><td><b>挂在谁身上</b></td><td>挂在一个<b>数据点</b>上（x<sub>3</sub> 这个样本）</td><td>挂在一条<b>规则</b>上（h₁ 这条阈值）</td></tr>
+    <tr><td><b>决定它的是</b></td><td>这条规则<b>判没判错它</b>——判错的样本被抬高</td><td>这条规则<b>整体准不准</b>——err 越低票越重</td></tr>
+    <tr><td><b>走向</b></td><td><b>越难越重</b>：1/3 → 1/2（翻倍）</td><td><b>越准越重</b>：err 0.4→0.25，α 从 0.20→0.55</td></tr>
+    <tr><td><b>作用在哪</b></td><td>影响<b>下一轮训练</b>（弱学习器优先照顾谁）</td><td>影响<b>最终投票</b>（Sign 里各条的票数）</td></tr>
+  </table>
+  <br>
+  <b>为什么规则的票必须跟着准确率走、err=0.5 要归零？</b>因为最终规则是 Sign[Σα<sub>t</sub>h<sub>t</sub>]，每条规则的一票会<b>加进同一个总和</b>。一条 err=0.5 的规则，判断和抛硬币没区别——它的票是<b>纯噪声</b>，加进来只会稀释那些真有信息的规则票。给它权重不是"重视弱者"，是往池子里掺水。<br><br>
+  <b>样本就完全不同了：</b>一个难样本依然含有真实信号（它只是难，不是假），所以该被抬高、被重点照顾。<b>一个是"票"（看信息量），一个是"力"（看难度）——票按准确率分，力按难度分。</b><br><br>
+  <b>补一个细节：</b>严格说 err &gt; 0.5 的规则并非毫无价值——把它的输出<b>反号</b>就变成好规则（70% 错 → 翻过来 70% 对）。所以实现里遇到 err ≥ 0.5 的候选通常是<b>翻转或丢弃</b>，而 err = 0.5 是唯一"反不反都一样"的点——<b>零信息点恰好就是瞎猜点</b>，这也是 α 公式在此归零的深层原因。
+</div>
+
+<div class="callout info">
+  <span class="t">最终规则为什么是"符号"而不是"平均"</span>
+  Sign[Σ α<sub>t</sub>h<sub>t</sub>(x)]：每条规则投一票，票的<b>方向</b>是它的判断（+1 进 / −1 不进），票的<b>重量</b>是 α<sub>t</sub>。加起来为正就进、为负就不进。<br><br>
+  <b>和自己手算对不上的地方不要慌</b>：3 个样本、2 条阈值规则的小例子里，两条规则的信息高度重复，往往凑不出"两个弱合成全对"的效果——<b>这恰恰说明集成需要"互补"而不是"重复"</b>（原文第 3 段那句"在不同 regime 下各自成功的方法恰好互补"）。真实数据上 T 常是几百上千轮，是否收敛交给<b>验证集</b>判断，这就是算法第四行的"停止时间"。
+</div>
+
+<h2>四、三个概念一页纸速查</h2>
+
+<table class="t">
+  <tr><th style="width:16%">概念</th><th style="width:28%">一句话</th><th style="width:22%">降的是什么</th><th>金融里的直觉</th></tr>
+  <tr><td><b>加权平均</b>（表 4.1）</td><td>按协方差的逆分配权重，合成多个预测</td><td>降低“单模型误差”</td><td>多个研报观点加权，重复的观点少给权重</td></tr>
+  <tr><td><b>Bagging</b></td><td>bootstrap 造 M 份数据 → 各自训练 → 平均</td><td><b>方差</b>（≈正则化）</td><td>换个样本区间重训，结果不那么飘</td></tr>
+  <tr><td><b>Boosting</b></td><td>串行加弱学习器，每轮专攻上一轮的错</td><td><b>偏差</b>（模型太简单的那部分误差）</td><td>一条条很笨的规则（均线、动量）叠成一条强规则</td></tr>
+</table>
+
+<div class="callout key">
+  <span class="t">补一句书里没明说、但必须知道的对照</span>
+  原文只写了“bagging 降低方差”。<b>“boosting 降低偏差”是我的补充</b>（这是统计学习里的标准结论）：bagging 是<b>并行</b>、每份模型的期望相同、平均后波动变小、偏差不变；boosting 是<b>串行</b>、每一步都在减小当前集成的偏差，代价是<b>更容易过拟合</b>——所以原文在第 6 段专门提醒“boosting 可能过拟合”。
+</div>
+
+<h2>五、对照到你的项目</h2>
+
+<table class="t">
+  <tr><th style="width:26%">原文概念</th><th style="width:34%">你的代码 / 现状</th><th>可以做什么</th></tr>
+  <tr><td>表 4.1 简单平均</td><td>你现在是<b>单个</b> LGBM，没有集成</td><td>多个随机种子 / 多组超参各训一个，<b>预测取均值</b>——最便宜、最不容易出错的改进（不用估协方差）</td></tr>
+  <tr><td>(4.69) 加权错误率</td><td>LGBM 用的是 <b>logloss / 回归损失</b>，不是 0/1 错误率</td><td>报告时别只看 IC，也可报“方向命中率”，但它对阈值敏感，需固定持仓数再比</td></tr>
+  <tr><td>AdaBoost 重加权</td><td>LGBM 的梯度天然给“难样本”更大权重</td><td>理解即可：<b>难样本 ≠ 重要样本</b>，A 股里“难样本”常是噪声/异常，这也是为何要限制树深与叶子数</td></tr>
+  <tr><td>“验证集不再改善就停”</td><td>你是否设了 early stopping？</td><td><b>这一行最值钱</b>：用时间序列验证集（不能用随机切分）early stop，是防过拟合的第一道闸</td></tr>
+  <tr><td>bagging 的 bootstrap</td><td>你在 5.7 用的 block bootstrap（block=21）</td><td>同工具不同用途：那边估 CI，这边可造训练样本；<b>两边都必须整块抽</b></td></tr>
+  <tr><td>AR(1) 系数≈1 → 非正态</td><td>你的 20 日重叠标签 = 强自相关</td><td>这就是 block=21 的由来；也意味着<b>任何按天独立的重抽都是错的</b></td></tr>
+  <tr><td>“最优地提取特征 x”</td><td>Alpha158 + 你的 cut 因子</td><td>原文把特征工程放在和算法同等的位置——这正好支持你“因子切割”这条研究线</td></tr>
+  <tr><td>(4.70) 与神经网络同构</td><td>—</td><td>答辩备用知识：被问“为什么不用深度学习”时，可以说<b>boosting 本身就是一种加性神经网络，且在表格型金融特征上通常更稳</b></td></tr>
+</table>
+
+<div class="callout warn">
+  <span class="t">两条诚实边界</span>
+  <b>① 书里缺了现代 GBDT 的三个关键旋钮</b>：学习率（shrinkage）、树深/叶子数、行/列采样。这三样才是决定你 LGBM 好坏的主因，原文写在 2019 年之前、未覆盖 LightGBM 的 leaf-wise 生长与直方图算法。<br><br>
+  <b>② AdaBoost 的指数损失对标签噪声极其敏感</b>：错标样本的权重会指数级膨胀。金融标签（未来 20 日涨跌）噪声极大，<b>这也是 GBDT 采用对数损失而非指数损失的现实理由</b>——这一点原文没讲，但对你的场景很关键。
+</div>
+
+<h2>六、术语对照</h2>
+
+<table class="t">
+  <tr><th style="width:34%">原文</th><th>说明</th></tr>
+  <tr><td>Combined forecast</td><td>组合预测——多个模型的预测合成一个</td></tr>
+  <tr><td>Covariance matrix Σ<sub>f</sub></td><td>各模型预测（误差）之间的协方差矩阵，决定权重分配</td></tr>
+  <tr><td>Simple average estimator</td><td>简单平均——等权，实践中常因估计误差小而胜出</td></tr>
+  <tr><td>Ensemble learning</td><td>集成学习——把多个模型合成一个更强的</td></tr>
+  <tr><td>Bagging</td><td>bootstrap aggregating：重采样造多份数据、并行训练、平均，降方差</td></tr>
+  <tr><td>Boosting</td><td>串行训练，每轮针对上一轮的错，降偏差</td></tr>
+  <tr><td>AdaBoost</td><td>自适应 boosting，Freund &amp; Schapire，指数损失 + 样本重加权</td></tr>
+  <tr><td>Gradient boosting</td><td>梯度提升——用负梯度（回归时为残差）当下一轮的学习目标</td></tr>
+  <tr><td>LogitBoost</td><td>Friedman 等提出，用对数损失的 boosting 变体</td></tr>
+  <tr><td>Forward stage-wise</td><td>前向分步——一次只加一个基学习器，不回头改已加的</td></tr>
+  <tr><td>Weak learner / classifier</td><td>弱学习器——只比随机猜略好的规则</td></tr>
+  <tr><td>Regime</td><td>市场状态（牛/熊/震荡），切换会让参数估计失效</td></tr>
+</table>
+
+<h2>七、关键文献</h2>
+<ul>
+  <li>Freund, Y. &amp; Schapire, R. (1995, 1996, 1997)：AdaBoost 三篇原始论文（书中标注 [145][146][147]）</li>
+  <li>Breiman, L. (1996)：Bagging predictors —— “bagging 降方差、可替代正则化”的出处 [57]</li>
+  <li>Breiman, L. (1999)：Gradient boosting 的提出 [58]</li>
+  <li>Friedman, J. (2001)；Friedman, Hastie, Tibshirani (2000)：Gradient Boosting / LogitBoost [148][149]</li>
+  <li>书中脚注：XGBoost 是梯度提升的现成实现（你的 LightGBM 同族）</li>
+</ul>
+
+<footer>
+  译注基于原书 pp.152–154 逐段翻译；<b>标注“我的观察/我的补充”的内容非原文</b>；表 4.1 的公式按标准形式补全并已注明；文中手算数字为教学示例，非书中数据。
+</footer>
+
+</div>
+</body>
+</html>
