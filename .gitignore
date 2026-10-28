@@ -1,0 +1,9 @@
+# WorkBuddy 本地数据（记忆、会话、缓存）
+.workbuddy/
+*.genie
+
+# 临时脚本与系统文件
+_*.py
+.DS_Store
+Thumbs.db
+desktop.ini
